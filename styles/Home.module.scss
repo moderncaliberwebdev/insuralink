@@ -208,4 +208,67 @@
       }
     }
   }
+
+  &__faq {
+    width: 100vw;
+    margin-left: -6rem;
+    background-color: $secondary;
+    padding: 3rem 6rem;
+    margin-top: 5rem;
+
+    &__header {
+      position: relative;
+      h2 {
+        font-size: $font-med-head;
+        font-weight: 400;
+      }
+      img {
+        position: absolute;
+        top: 0rem;
+        left: 50rem;
+        height: 2rem;
+      }
+    }
+
+    &__subhead {
+      font-size: $font-text;
+      width: 60rem;
+    }
+
+    &__qs {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 4rem;
+
+      &__item {
+        width: 30%;
+        font-size: $font-text;
+      }
+    }
+
+    &__cta {
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-top: 3rem;
+      font-size: $font-text;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      a {
+        color: #fff;
+        background-color: #000;
+        padding: 1.5rem 2rem;
+        border-radius: 15px;
+        font-size: $font-text;
+        text-decoration: none;
+        display: inline-block;
+      }
+    }
+  }
 }

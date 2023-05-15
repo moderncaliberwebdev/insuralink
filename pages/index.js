@@ -147,6 +147,75 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <section className={styles.home__faq}>
+          <div className={styles.home__faq__header}>
+            <h2>Frequently Asked Questions</h2>
+            <img src='/home/sparkle.png' alt='Sparkle' />
+          </div>
+          <p className={styles.home__faq__subhead}>
+            Everything you need to know to get a seamless switch to your new
+            insurance provider.
+          </p>
+          <div className={styles.home__faq__qs}>
+            <div className={styles.home__faq__qs__item}>
+              <h4>Is InsuraLink free?</h4>
+              <p>
+                Yes! InsuraLink is free for all clients of participating
+                insurance companies. Just fill out the simple form and click
+                send, and we’ll handle the rest!
+              </p>
+            </div>
+            <div className={styles.home__faq__qs__item}>
+              <h4>Is InsuraLink free?</h4>
+              <p>
+                Yes! InsuraLink is free for all clients of participating
+                insurance companies. Just fill out the simple form and click
+                send, and we’ll handle the rest!
+              </p>
+            </div>
+            <div className={styles.home__faq__qs__item}>
+              <h4>Is InsuraLink free?</h4>
+              <p>
+                Yes! InsuraLink is free for all clients of participating
+                insurance companies. Just fill out the simple form and click
+                send, and we’ll handle the rest!
+              </p>
+            </div>
+            <div className={styles.home__faq__qs__item}>
+              <h4>Is InsuraLink free?</h4>
+              <p>
+                Yes! InsuraLink is free for all clients of participating
+                insurance companies. Just fill out the simple form and click
+                send, and we’ll handle the rest!
+              </p>
+            </div>
+            <div className={styles.home__faq__qs__item}>
+              <h4>Is InsuraLink free?</h4>
+              <p>
+                Yes! InsuraLink is free for all clients of participating
+                insurance companies. Just fill out the simple form and click
+                send, and we’ll handle the rest!
+              </p>
+            </div>
+            <div className={styles.home__faq__qs__item}>
+              <h4>Is InsuraLink free?</h4>
+              <p>
+                Yes! InsuraLink is free for all clients of participating
+                insurance companies. Just fill out the simple form and click
+                send, and we’ll handle the rest!
+              </p>
+            </div>
+          </div>
+          <div className={styles.home__faq__cta}>
+            <div className={styles.home__faq__cta__left}>
+              <h3>Ready to make a switch?</h3>
+              <p>Go to the Switch Insurance page and get started!</p>
+            </div>
+            <div className={styles.home__faq__cta__right}>
+              <Link href='/start-your-switch'>Start Your Switch</Link>
+            </div>
+          </div>
+        </section>
       </div>
     </Layout>
   )
