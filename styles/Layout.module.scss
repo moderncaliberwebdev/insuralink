@@ -1,0 +1,49 @@
+@import 'variables';
+@import 'mixins';
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: $font-small;
+
+  ul {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 3rem;
+    list-style-type: none;
+
+    a {
+      color: #000;
+      text-decoration: none;
+    }
+  }
+
+  &__left {
+  }
+
+  &__center {
+    font-size: $font-big-text;
+    font-weight: bold;
+    a {
+      color: #000;
+      text-decoration: none;
+
+      span {
+        color: $primary;
+      }
+    }
+  }
+
+  &__right {
+    &__switch {
+      color: $primary;
+      padding: 1rem;
+      border-radius: 20px;
+      border: 2px solid $primary;
+    }
+  }
+}

@@ -7,9 +7,20 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "cors": "^2.8.5",
+    "eslint": "^8.40.0",
+    "eslint-config-next": "^13.4.2",
     "next": "latest",
+    "next-redux-wrapper": "^8.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.1",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.2",
+    "sass": "^1.62.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.15.0"

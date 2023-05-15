@@ -1,0 +1,86 @@
+@import 'variables';
+@import 'mixins';
+
+.home {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    width: 100vw;
+    margin-left: -6rem;
+
+    @include respond(tab-land) {
+      align-items: center;
+      margin-top: 6rem;
+    }
+
+    &__left {
+      width: 50%;
+      margin: 10rem 0 0 6rem;
+      position: relative;
+
+      @include respond(tab-land) {
+        margin: 0 0 0 6rem;
+      }
+
+      h1 {
+        font-size: $font-big-head;
+        position: relative;
+        width: 60rem;
+
+        span {
+          position: relative;
+
+          p {
+            display: inline;
+            position: relative;
+            z-index: 2;
+            margin: 0 2rem;
+            font-size: $font-big-head;
+          }
+          img {
+            position: absolute;
+            bottom: 1rem;
+            left: 2rem;
+            width: 40rem;
+            z-index: 1;
+          }
+        }
+      }
+
+      p {
+        font-size: $font-text;
+        margin: 2rem 0;
+      }
+
+      a {
+        font-size: $font-text;
+        font-weight: bold;
+        color: #000;
+        text-decoration: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        span {
+          margin-right: 1rem;
+        }
+      }
+    }
+
+    &__right {
+      width: 50%;
+
+      img {
+        height: 60rem;
+        width: 100%;
+        object-fit: contain;
+        object-position: left top;
+
+        @include respond(tab-land) {
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
