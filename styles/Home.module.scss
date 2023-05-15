@@ -5,6 +5,7 @@
   &__header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     gap: 2rem;
     width: 100vw;
     margin-left: -6rem;
@@ -72,13 +73,137 @@
       width: 50%;
 
       img {
-        height: 60rem;
+        height: auto;
         width: 100%;
         object-fit: contain;
         object-position: left top;
 
         @include respond(tab-land) {
           object-fit: cover;
+          height: 60rem;
+        }
+      }
+    }
+  }
+
+  &__protection {
+    width: 100vw;
+    margin-left: -6rem;
+    padding: 4rem 6rem;
+    background-color: $secondary;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 4rem;
+    align-items: center;
+
+    &__left {
+      width: 40%;
+
+      img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+    &__right {
+      width: 60%;
+
+      h2 {
+        font-size: $font-med-head;
+        font-weight: 400;
+      }
+      p {
+        font-size: $font-text;
+        margin: 2rem 0;
+
+        span {
+          margin: 0 0 0 1rem;
+
+          span {
+            color: $primary;
+            margin: 0;
+          }
+        }
+      }
+      &__accent {
+        padding: 1rem 1rem 1rem 2rem;
+        border-left: 3px solid $primary;
+      }
+      a {
+        color: #fff;
+        background-color: #000;
+        padding: 1.5rem 2rem;
+        border-radius: 15px;
+        font-size: $font-text;
+        text-decoration: none;
+        display: inline-block;
+      }
+    }
+  }
+
+  &__how {
+    margin-top: 5rem;
+
+    h2 {
+      font-size: $font-med-head;
+      text-align: center;
+    }
+    p {
+      font-size: $font-text;
+      text-align: center;
+      color: $grey;
+    }
+
+    &__graphics {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      margin-left: -6rem;
+      margin-top: 5rem;
+
+      .item__right {
+        justify-content: flex-end;
+      }
+
+      &__item {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 4rem;
+
+        &__line {
+          width: 40rem;
+        }
+
+        &__card {
+          padding: 5rem 2rem;
+          background-color: $secondary;
+          border-radius: 15px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 35rem;
+          text-align: center;
+          box-shadow: 0 10px 15px rgba($color: #000, $alpha: 0.1);
+
+          img {
+            width: 10rem;
+          }
+          h4 {
+            font-size: $font-text;
+            margin: 2rem;
+          }
+          p {
+            color: #000;
+          }
+        }
+        h3 {
+          font-size: $font-small-head;
+          color: $grey;
+          margin-left: 3rem;
+          font-weight: 400;
+          width: 20rem;
         }
       }
     }
