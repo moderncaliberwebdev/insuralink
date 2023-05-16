@@ -9,6 +9,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "cors": "^2.8.5",
+    "emailjs-com": "^3.2.0",
     "eslint": "^8.40.0",
     "eslint-config-next": "^13.4.2",
     "next": "latest",
