@@ -1,26 +1,10 @@
 import Layout from '../Components/Layout'
 import styles from '../styles/Home.module.scss'
-import { selectAuthState, setAuthState } from '../store/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
 
 export default function Home() {
-  const authState = useSelector(selectAuthState)
-  const dispatch = useDispatch()
-
   return (
-    // <div>
-    //   <div>{authState ? 'Logged in' : 'Not Logged In'}</div>
-    //   <button
-    //     onClick={() =>
-    //       authState
-    //         ? dispatch(setAuthState(false))
-    //         : dispatch(setAuthState(true))
-    //     }
-    //   >
-    //     {authState ? 'Logout' : 'LogIn'}
-    //   </button>
-    // </div>
     <Layout>
       <div className={styles.home}>
         <header className={styles.home__header}>

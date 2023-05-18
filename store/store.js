@@ -1,12 +1,12 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import { authSlice } from './authSlice'
+import { insuralinkSlice } from './insuralinkSlice'
 import { createWrapper } from 'next-redux-wrapper'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from './createNoopStorage'
 import thunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
-  [authSlice.name]: authSlice.reducer,
+  [insuralinkSlice.name]: insuralinkSlice.reducer,
 })
 
 const makeConfiguredStore = () =>
@@ -23,7 +23,7 @@ export const makeStore = () => {
     // we need it only on client side
     const persistConfig = {
       key: 'nextjs',
-      whitelist: ['auth'],
+      whitelist: ['insuralink'],
       storage,
     }
     const persistedReducer = persistReducer(persistConfig, rootReducer)

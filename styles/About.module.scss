@@ -81,6 +81,12 @@
       width: 70%;
       font-size: $font-text;
 
+      p {
+        span {
+          color: $primary;
+        }
+      }
+
       a {
         color: #fff;
         background-color: #000;
