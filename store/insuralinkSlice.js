@@ -11,7 +11,7 @@ const initialState = {
     idCard: '',
     eSig: '',
     newAgentName: '',
-    newAgemtCompany: '',
+    newAgentCompany: '',
     newAgentEmail: '',
     newNumber: '',
   },

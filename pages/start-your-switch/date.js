@@ -12,40 +12,35 @@ import { format, parseISO } from 'date-fns'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
 
-export default function Date() {
+export default function SwitchDate() {
   const dispatch = useDispatch()
 
   const insuralinkState = useSelector(selectInsuralinkState)
 
   const [selected, setSelected] = useState('')
 
-  const [initialStateLoaded, setInitialStateLoaded] = useState(false)
-
   useEffect(() => {
-    console.log('string of selected time >>> ', selected)
-    console.log('type of selected >>>> ', typeof selected)
-
     //send selected date to redux when selected date is updated
     dispatch(updateInsuralink({ date: selected }))
+    console.log(selected)
   }, [selected])
-
-  useEffect(() => {
-    console.log('redux state >>>>  ', insuralinkState.date)
-  }, [insuralinkState])
 
   useEffect(() => {
     //on page load, when insuralinkState loads, set initial state of selected to value from redux
     if (insuralinkState.date) {
-      console.log('setting selected on load >>>', insuralinkState.date)
-      setInitialStateLoaded(true)
-      setSelected(insuralinkState.date)
+      setSelected(new Date(insuralinkState.date.toString()).toISOString())
     }
   }, [])
 
   return (
     <Layout>
       <Link href='/start-your-switch/current-number'>
-        <img src='/switch/back.png' alt='Back Arrow' className={styles.back} />
+        <img
+          src='/switch/back.png'
+          alt='Back Arrow'
+          className={styles.back}
+          id='backArrow'
+        />
       </Link>
       <main className={styles.switch}>
         <p className={styles.switch__number}>
@@ -63,20 +58,13 @@ export default function Date() {
             <div className={styles.switch__main__answer__item}>
               <DayPicker
                 mode='single'
-                selected={initialStateLoaded ? parseISO(selected) : selected}
+                selected={parseISO(selected)}
                 onSelect={(value) => {
-                  setInitialStateLoaded(false)
-                  setSelected(value)
+                  setSelected(new Date(value.toString()).toISOString())
                 }}
                 footer={
                   selected ? (
-                    <p>
-                      You picked{' '}
-                      {initialStateLoaded
-                        ? format(parseISO(selected), 'PP')
-                        : format(selected, 'PP')}
-                      .
-                    </p>
+                    <p>You picked {format(parseISO(selected), 'PP')}.</p>
                   ) : (
                     <p>Please pick a day.</p>
                   )
@@ -85,7 +73,7 @@ export default function Date() {
             </div>
           </div>
         </div>
-        {selected && <Link href='/start-your-switch/date'>Next</Link>}
+        {selected && <Link href='/start-your-switch/id-card'>Next</Link>}
       </main>
     </Layout>
   )

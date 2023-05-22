@@ -34,7 +34,8 @@
 
     &__question {
       color: #fff;
-      width: 40rem;
+      min-width: 35rem;
+      max-width: 40rem;
 
       h1 {
         font-size: $font-med-head;
@@ -48,6 +49,7 @@
       display: flex;
       flex-direction: column;
       gap: 2rem;
+      min-width: 30rem;
 
       &__radios {
         display: flex;
@@ -62,6 +64,11 @@
           display: flex;
           flex-direction: row;
           align-items: center;
+          cursor: pointer;
+
+          label {
+            cursor: pointer;
+          }
         }
       }
 
@@ -73,9 +80,10 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+
         input {
           margin-left: 2rem;
-          width: 30rem;
+          width: 60%;
           height: 3rem;
           background: transparent;
           border-radius: 0;
@@ -85,6 +93,23 @@
 
           &:focus {
             outline: none;
+          }
+        }
+
+        label {
+          width: 100%;
+          cursor: pointer;
+
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          img {
+            width: 4rem;
+          }
+
+          input[type='file'] {
+            display: none;
           }
         }
       }
@@ -101,5 +126,19 @@
     display: inline-block;
     width: 15rem;
     align-self: flex-end;
+  }
+  .black__button {
+    color: #fff;
+    background-color: #000;
+    padding: 1rem 0;
+    text-align: center;
+    border-radius: 15px;
+    font-size: $font-text;
+    text-decoration: none;
+    display: inline-block;
+    width: 25rem;
+    cursor: pointer;
+    align-self: flex-end;
+    border-style: none;
   }
 }

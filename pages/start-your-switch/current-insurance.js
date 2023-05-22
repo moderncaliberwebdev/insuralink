@@ -40,7 +40,12 @@ export default function CurrentInsurance() {
   return (
     <Layout>
       <Link href='/start-your-switch'>
-        <img src='/switch/back.png' alt='Back Arrow' className={styles.back} />
+        <img
+          src='/switch/back.png'
+          alt='Back Arrow'
+          className={styles.back}
+          id='backArrow'
+        />
       </Link>
       <main className={styles.switch}>
         <p className={styles.switch__number}>
