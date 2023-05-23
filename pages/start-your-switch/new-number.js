@@ -8,20 +8,20 @@ import {
   updateInsuralink,
 } from '../../store/insuralinkSlice'
 
-export default function CurrentNumber() {
+export default function NewNumber() {
   const dispatch = useDispatch()
 
   const insuralinkState = useSelector(selectInsuralinkState)
 
-  const [input, setInput] = useState(insuralinkState.currentNumber)
+  const [input, setInput] = useState(insuralinkState.newNumber)
 
   useEffect(() => {
-    dispatch(updateInsuralink({ currentNumber: input }))
+    dispatch(updateInsuralink({ newNumber: input }))
   }, [input])
 
   return (
     <Layout>
-      <Link href='/start-your-switch/current-insurance'>
+      <Link href='/start-your-switch/new-insurance'>
         <img
           src='/switch/back.png'
           alt='Back Arrow'
@@ -31,14 +31,14 @@ export default function CurrentNumber() {
       </Link>
       <main className={styles.switch}>
         <p className={styles.switch__number}>
-          <span>03</span> of 08
+          <span>08</span> of 08
         </p>
         <div className={styles.switch__main}>
           <div className={styles.switch__main__question}>
-            <h1>What is your current insurance policy number?</h1>
+            <h1>What is your new insurance policy number?</h1>
             <p>
-              This can be found on your insurance card. It may be referred to as
-              the Subscriber ID or Member ID.
+              This number can be found on your new insurance card. It may be
+              referred to as Subscriber ID or Member ID.
             </p>
           </div>
           <div className={styles.switch__main__answer}>
@@ -52,7 +52,7 @@ export default function CurrentNumber() {
             </div>
           </div>
         </div>
-        {input.length > 0 && <Link href='/start-your-switch/date'>Next</Link>}
+        {input.length > 0 && <Link href='/start-your-switch/send'>Next</Link>}
       </main>
     </Layout>
   )

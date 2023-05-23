@@ -56,6 +56,7 @@ export default function NewInsurance() {
                 type='text'
                 onChange={(e) => setAgentName(e.target.value)}
                 value={agentName}
+                id='agentName'
               />
             </div>
             <div className={styles.switch__main__answer__item}>
@@ -64,6 +65,7 @@ export default function NewInsurance() {
                 type='text'
                 onChange={(e) => setAgentCompany(e.target.value)}
                 value={agentCompany}
+                id='agentCompany'
               />
             </div>
             <div className={styles.switch__main__answer__item}>
@@ -72,6 +74,7 @@ export default function NewInsurance() {
                 type='text'
                 onChange={(e) => setAgentEmail(e.target.value)}
                 value={agentEmail}
+                id='agentEmail'
               />
             </div>
           </div>
@@ -79,7 +82,7 @@ export default function NewInsurance() {
         {agentName.length > 0 &&
           agentCompany.length > 0 &&
           agentEmail.length > 0 && (
-            <Link href='/start-your-switch/current-number'>Next</Link>
+            <Link href='/start-your-switch/new-number'>Next</Link>
           )}
       </main>
     </Layout>

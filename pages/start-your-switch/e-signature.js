@@ -30,6 +30,8 @@ export default function CurrentNumber() {
     const URL = sigCanvas.current.getCanvas().toDataURL('image/png')
     setImageURL(URL)
     dispatch(updateInsuralink({ eSig: URL }))
+
+    window.location.href = '/start-your-switch/new-insurance'
   }
 
   const clear = () => {
@@ -72,18 +74,15 @@ export default function CurrentNumber() {
                 ref={sigCanvas}
               />
             </div>
-            <button onClick={clear} className={styles.black__button}>
+            <button onClick={clear} className={styles.small__button}>
               Clear Signature
             </button>
           </div>
         </div>
-        {imageURL ? (
-          <Link href='/start-your-switch/new-insurance'>Next</Link>
-        ) : (
-          <button onClick={create} className={styles.black__button}>
-            Create Signature
-          </button>
-        )}
+
+        <button onClick={create} className={styles.black__button}>
+          Create Signature
+        </button>
       </main>
     </Layout>
   )

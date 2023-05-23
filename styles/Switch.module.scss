@@ -141,4 +141,10 @@
     align-self: flex-end;
     border-style: none;
   }
+  .small__button {
+    background-color: transparent;
+    border-style: none;
+    cursor: pointer;
+    text-align: right;
+  }
 }

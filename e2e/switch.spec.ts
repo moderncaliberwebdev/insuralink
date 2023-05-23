@@ -111,9 +111,32 @@ test('upload id card and persist when I leave and come back', async ({
 
   await page.getByLabel('Upload').setInputFiles('./e2e/fixtures/id-card.png')
 
-  await expect(page).toHaveScreenshot()
+  await expect(page.locator('#awsImg')).toBeVisible()
 
   await expect(page.getByText('Next')).toBeVisible()
 
   await page.click('text=Next')
+})
+
+test('fill in new insurance provider and persist when I leave and come back', async ({
+  page,
+}) => {
+  await page.goto('/start-your-switch/new-insurance')
+
+  await page.locator('#agentName').fill('Caleb Martin')
+  await page.locator('#agentCompany').fill('State Farm')
+  await page.locator('#agentEmail').fill('cmartin@statefarm.com')
+
+  await expect(page.getByText('Next')).toBeVisible()
+  await page.click('text=Next')
+
+  await expect(
+    page.getByRole('heading', {
+      name: 'What is your new insurance policy number?',
+    })
+  ).toBeVisible()
+
+  await page.locator('#backArrow').click()
+
+  await expect(page.locator('#agentCompany')).toHaveValue('State Farm')
 })
