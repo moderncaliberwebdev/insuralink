@@ -15,6 +15,7 @@ router.get(async (req, res) => {
     const client = await clientPromise
     const db = client.db('insuralink')
     const users = db.collection('users')
+    console.log('users >>>', users)
 
     const user = await users.findOne({ email: req.query.email })
     res.json({ user })

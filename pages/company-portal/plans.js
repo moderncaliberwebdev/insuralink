@@ -23,6 +23,7 @@ export default function Plans() {
         const config = {
           headers: { Authorization: `Bearer ${user.accessToken}` },
         }
+
         const clientData = await axios.get(
           `/api/client?email=${user.email}`,
           config

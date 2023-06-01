@@ -26,6 +26,7 @@ export default function CompanyPortal() {
         const config = {
           headers: { Authorization: `Bearer ${user.accessToken}` },
         }
+        console.log(user.accessToken)
         const clientData = await axios.get(
           `/api/client?email=${user.email}`,
           config
