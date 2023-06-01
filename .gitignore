@@ -33,3 +33,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+insuralink-a8e58-firebase-adminsdk-rev7u-f5557c1a37.json

@@ -9,7 +9,7 @@ export default function WhoWeAre() {
       <main className={styles.who}>
         <header className={styles.who__h1}>
           <h1>Who We Are</h1>
-          <img src='home/underline.png' alt='Underline Graphic' />
+          <img src='/home/underline.png' alt='Underline Graphic' />
         </header>
         <section className={styles.who__intro}>
           <h2>

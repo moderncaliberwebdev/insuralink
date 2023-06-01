@@ -89,7 +89,7 @@ test('fill in date and persist when I leave and come back', async ({
 
   await page.click('text=24')
 
-  await expect(page.getByText('You picked May 24, 2023')).toBeVisible()
+  await expect(page.getByText('You picked Jun 24, 2023')).toBeVisible()
 
   await page.click('text=Next')
 
@@ -101,7 +101,7 @@ test('fill in date and persist when I leave and come back', async ({
 
   await page.locator('#backArrow').click()
 
-  await expect(page.getByText('You picked May 24, 2023')).toBeVisible()
+  await expect(page.getByText('You picked Jun 24, 2023')).toBeVisible()
 })
 
 test('upload id card and persist when I leave and come back', async ({

@@ -1,0 +1,76 @@
+@import 'variables';
+@import 'mixins';
+
+.plans {
+  &__h1 {
+    position: relative;
+
+    h1 {
+      position: relative;
+      z-index: 2;
+      font-size: $font-big-head;
+    }
+    img {
+      position: absolute;
+      bottom: 0.5rem;
+      z-index: 1;
+      left: 0;
+      width: 65rem;
+    }
+  }
+
+  &__subhead {
+    font-size: $font-text;
+
+    span {
+      color: $primary;
+    }
+  }
+
+  &__plans {
+    &__plan {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2rem 0;
+      padding: 1rem 2rem;
+      border: 1px solid #000;
+      border-radius: 15px;
+
+      h2 {
+        font-size: $font-med-head;
+
+        span {
+          font-size: $font-big-text;
+        }
+      }
+
+      &__clients {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        font-size: $font-text;
+
+        p {
+          margin-left: 1.5rem;
+        }
+      }
+
+      a {
+        padding: 0.5rem 5rem;
+        border-radius: 5px;
+        font-size: $font-text;
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__note {
+    background-color: $secondary;
+    padding: 2rem;
+    border-radius: 10px;
+    font-size: $font-text;
+  }
+}

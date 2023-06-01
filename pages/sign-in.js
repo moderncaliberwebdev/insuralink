@@ -68,6 +68,8 @@ export default function SignIn() {
           const errorMessage = error.message.replace('Firebase: ', '')
           if (errorMessage == 'Error (auth/user-not-found).') {
             setErrorMsg('User Not Found')
+          } else if (errorMessage == 'Error (auth/wrong-password).') {
+            setErrorMsg('Incorrect email or password')
           } else setErrorMsg(errorMessage)
         })
     }

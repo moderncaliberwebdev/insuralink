@@ -26,10 +26,6 @@ export default function Layout({ children }) {
     })
   }, [auth])
 
-  useEffect(() => {
-    console.log(currentUser)
-  }, [currentUser])
-
   const firebaseSignOut = () => {
     signOut(auth)
       .then(() => {

@@ -51,6 +51,7 @@ export default function SignUp() {
             email: email.toLowerCase(),
             clients: [],
             admin: false,
+            subscribed: false,
           })
 
           setSuccessMsg('Successfully created user')
