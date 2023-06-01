@@ -16,7 +16,6 @@ const auth = getAuth()
 export default function CompanyPortal() {
   const [currentUser, setCurrentUser] = useState()
   const [userFromDB, setUserFromDB] = useState()
-  const [listings, setListings] = useState()
   const [loading, setLoading] = useState(true)
   const [openPopup, setOpenPopup] = useState(false)
 
