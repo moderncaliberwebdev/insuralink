@@ -15,59 +15,59 @@ const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_TEST_KEY)
 const auth = getAuth()
 
 export default function Plans() {
-  const [currentUser, setCurrentUser] = useState()
-  const [userFromDB, setUserFromDB] = useState()
-  const [loading, setLoading] = useState(true)
-  const [subscriptionInfo, setSubscriptionInfo] = useState()
-  const [productInfo, setProductInfo] = useState()
-  const [invoices, setInvoices] = useState()
+  //   const [currentUser, setCurrentUser] = useState()
+  //   const [userFromDB, setUserFromDB] = useState()
+  //   const [loading, setLoading] = useState(true)
+  //   const [subscriptionInfo, setSubscriptionInfo] = useState()
+  //   const [productInfo, setProductInfo] = useState()
+  //   const [invoices, setInvoices] = useState()
 
-  useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setCurrentUser(user)
-        const config = {
-          headers: { Authorization: `Bearer ${user.accessToken}` },
-        }
+  //   useEffect(() => {
+  //     onAuthStateChanged(auth, async (user) => {
+  //       if (user) {
+  //         setCurrentUser(user)
+  //         const config = {
+  //           headers: { Authorization: `Bearer ${user.accessToken}` },
+  //         }
 
-        const clientData = await axios.get(
-          `/api/client?email=${user.email}`,
-          config
-        )
+  //         const clientData = await axios.get(
+  //           `/api/client?email=${user.email}`,
+  //           config
+  //         )
 
-        clientData && setLoading(false)
+  //         clientData && setLoading(false)
 
-        setUserFromDB(clientData.data.user)
+  //         setUserFromDB(clientData.data.user)
 
-        //retrieve subscription info
-        const subscription = await stripe.subscriptions.retrieve(
-          clientData.data.user.subscriptionID
-        )
+  //         //retrieve subscription info
+  //         const subscription = await stripe.subscriptions.retrieve(
+  //           clientData.data.user.subscriptionID
+  //         )
 
-        setSubscriptionInfo(subscription)
+  //         setSubscriptionInfo(subscription)
 
-        console.log('subscription >>>> ', subscription)
-        const product = await stripe.products.retrieve(
-          clientData.data.user.productID
-        )
+  //         console.log('subscription >>>> ', subscription)
+  //         const product = await stripe.products.retrieve(
+  //           clientData.data.user.productID
+  //         )
 
-        setProductInfo(product)
-        console.log('product >>>> ', product)
+  //         setProductInfo(product)
+  //         console.log('product >>>> ', product)
 
-        const invoices = await stripe.invoices.list({
-          customer: subscription.customer,
-        })
-        setInvoices(invoices.data)
-        console.log('invoices >>>> ', invoices.data)
-      } else {
-        window.location.href = '/'
-      }
-    })
-  }, [auth])
+  //         const invoices = await stripe.invoices.list({
+  //           customer: subscription.customer,
+  //         })
+  //         setInvoices(invoices.data)
+  //         console.log('invoices >>>> ', invoices.data)
+  //       } else {
+  //         window.location.href = '/'
+  //       }
+  //     })
+  //   }, [auth])
 
   return (
     <Layout>
-      <main className={styles.subscription}>
+      {/* <main className={styles.subscription}>
         <PortalSidebar clientInfo={userFromDB} />
         <section className={styles.subscription__right}>
           <h1>Subscription Info</h1>
@@ -233,7 +233,7 @@ export default function Plans() {
             </>
           )}
         </section>
-      </main>
+      </main> */}
     </Layout>
   )
 }
