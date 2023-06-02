@@ -10,6 +10,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import ProgressBar from '@ramonak/react-progress-bar'
 import { Stripe } from 'stripe'
+import Link from 'next/link'
 const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_TEST_KEY)
 
 const auth = getAuth()
@@ -82,7 +83,7 @@ export default function Subscription() {
                       Insura<span>Link</span>
                     </h2>
                     <div>
-                      <a href='/company-portal/plans'>Upgrade</a>
+                      <Link href='/company-portal/plans'>Upgrade</Link>
                       <img src='/portal/settings.png' alt='Settings' />
                     </div>
                   </section>

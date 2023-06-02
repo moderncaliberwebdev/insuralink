@@ -264,7 +264,9 @@ export default function CompanyPortal() {
                         month: 'long',
                       })} ${currentPeriodEnd.getDate()}, ${currentPeriodEnd.getFullYear()} `}
                     </p>
-                    <a href='/company-portal/subscription'>Subscription Info</a>
+                    <Link href='/company-portal/subscription'>
+                      Subscription Info
+                    </Link>
                   </div>
                 </>
               ) : (
