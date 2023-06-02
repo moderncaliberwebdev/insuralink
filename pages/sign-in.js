@@ -112,6 +112,7 @@ export default function SignIn() {
               type='email'
               className={styles.signin__left__form__input}
               onChange={(e) => setEmail(e.target.value)}
+              id='email'
             />
             <div className={styles.signin__left__form__honeypot}>
               <input type='text' id='honeypot' />

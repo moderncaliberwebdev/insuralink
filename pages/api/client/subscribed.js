@@ -1,4 +1,4 @@
-// /api/client
+// /api/client/subscribed
 
 import { createRouter } from 'next-connect'
 import cors from 'cors'
@@ -10,13 +10,16 @@ const router = createRouter()
 // use connect based middleware
 router.use(cors())
 
-router.get(async (req, res) => {
+router.put(async (req, res) => {
   try {
     const client = await clientPromise
     const db = client.db('insuralink')
     const users = db.collection('users')
 
-    const user = await users.findOne({ email: req.query.email })
+    const user = await users.updateOne(
+      { email: req.body.email },
+      { $set: { subscribed: req.body.subscribed } }
+    )
     res.json({ user })
   } catch (e) {
     console.error(e)

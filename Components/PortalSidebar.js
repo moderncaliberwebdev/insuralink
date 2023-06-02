@@ -43,7 +43,7 @@ export default function PortalSidebar({ clientInfo }) {
               </Link>
               <Link
                 href={
-                  clientInfo.subscription == true
+                  clientInfo.subscribed == true
                     ? '/company-portal/subscription'
                     : '/company-portal/plans'
                 }

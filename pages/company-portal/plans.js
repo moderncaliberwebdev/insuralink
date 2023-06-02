@@ -31,7 +31,6 @@ export default function Plans() {
 
         clientData && setLoading(false)
 
-        console.log(clientData.data.user)
         setUserFromDB(clientData.data.user)
       } else {
         window.location.href = '/'
@@ -70,7 +69,7 @@ export default function Plans() {
                 color='white'
                 price='3,000'
                 clients='500+'
-                payment='https://buy.stripe.com/test_4gwcNlgKhbLHaA05kk'
+                payment='https://buy.stripe.com/test_8wMeVtalTaHDgYo28a'
               />
             </section>
             <p className={styles.plans__note}>

@@ -18,7 +18,6 @@ export function withAuth(handler) {
     let decodedToken
     try {
       decodedToken = await auth.verifyIdToken(token)
-      console.log('auth >>>', email, decodedToken.email)
       if (!decodedToken || !decodedToken.uid)
         return res.status(401).end('Not authenticated')
       if (email.length > 0 && decodedToken.email != email)
