@@ -4,6 +4,7 @@ import PortalSidebar from '../../Components/PortalSidebar'
 import styles from '../../styles/CompanyPortal.module.scss'
 import Popup from '../../Components/Popup'
 import { useRouter } from 'next/router'
+import emailjs from 'emailjs-com'
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -84,8 +85,41 @@ export default function CompanyPortal() {
           const subscription = await stripe.subscriptions.retrieve(
             clientData.data.user.subscriptionID
           )
-
           setCurrentPeriodEnd(new Date(1000 * subscription.current_period_end))
+
+          //send code to company via email
+          if (router.query.session && clientData.data.user.sentCode == false) {
+            const templateParams = {
+              code: clientData.data.user.code,
+              client: clientData.data.user.name,
+              client_email: clientData.data.user.email,
+            }
+
+            emailjs
+              .send(
+                process.env.NEXT_PUBLIC_SERVICE_ID,
+                process.env.NEXT_PUBLIC_TEMPLATE_ID,
+                templateParams,
+                process.env.NEXT_PUBLIC_EMAIL_KEY
+              )
+              .then(
+                (result) => {
+                  console.log(result.text)
+                },
+                (error) => {
+                  setResponse(error.text)
+                }
+              )
+
+            //sets sentCode to false so it doens't send if the user refreshes their page
+            const sentCode = await axios.put(
+              `/api/client/sent-code`,
+              {
+                email: user.email,
+              },
+              config
+            )
+          }
 
           //if the user is not subscribed, then open the notification popup
           if (clientData.data.user.subscribed == false) {

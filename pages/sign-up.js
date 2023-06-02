@@ -65,6 +65,7 @@ export default function SignUp() {
               '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
             ),
             subscriptionID: '',
+            sentCode: false,
           })
 
           setSuccessMsg('Successfully created user')
