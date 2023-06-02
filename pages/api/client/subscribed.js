@@ -16,12 +16,16 @@ router.put(async (req, res) => {
     const db = client.db('insuralink')
     const users = db.collection('users')
 
+    const { email, subscribed, subscriptionID, customerID } = req.body
+
     const user = await users.updateOne(
-      { email: req.body.email },
+      { email },
       {
         $set: {
-          subscribed: req.body.subscribed,
-          subscriptionID: req.body.subscriptionID,
+          subscribed,
+          subscriptionID,
+          customerID,
+          productID,
         },
       }
     )

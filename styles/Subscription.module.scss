@@ -1,0 +1,203 @@
+@import 'variables';
+@import 'mixins';
+
+.subscription {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 4rem;
+  margin: 3rem 0;
+  min-height: 60rem;
+
+  &__right {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    h1 {
+      font-size: $font-small-head;
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: row;
+      gap: 3rem;
+
+      &__plan {
+        width: 70%;
+        border: 2px solid $primary;
+        border-radius: 15px;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &__top {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          h2 {
+            font-size: $font-big-text;
+
+            span {
+              color: $primary;
+            }
+          }
+
+          div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            a {
+              color: #fff;
+              background-color: #000;
+              border-radius: 10px;
+              padding: 0.5rem 1rem;
+              text-decoration: none;
+              font-size: $font-small;
+            }
+            img {
+              width: 3rem;
+              height: 3rem;
+              cursor: pointer;
+              margin-left: 1rem;
+            }
+          }
+        }
+
+        &__mid {
+          margin: 2rem 0;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+
+          div {
+            span {
+              color: #979797;
+              font-size: $font-text;
+            }
+            h3 {
+              font-size: $font-big-text;
+            }
+            ul {
+              li {
+                margin-left: 3rem;
+                font-size: $font-small;
+              }
+            }
+          }
+          p {
+            font-size: $font-big-text;
+            font-weight: 700;
+
+            span {
+              font-size: $font-small;
+              font-weight: 400;
+              color: #979797;
+            }
+          }
+        }
+
+        &__bottom {
+          div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            font-size: $font-small;
+            color: #979797;
+          }
+        }
+      }
+
+      &__bill {
+        width: 35%;
+        border: 2px solid $primary;
+        border-radius: 15px;
+        padding: 2rem 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &__top {
+          padding: 0 2rem 2rem 2rem;
+          border-bottom: 2px solid $primary;
+
+          h2 {
+            font-size: $font-big-text;
+          }
+        }
+
+        &__mid {
+          padding: 2rem;
+          border-bottom: 2px solid $primary;
+
+          span {
+            font-size: $font-small;
+            color: #979797;
+          }
+
+          div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            p {
+              font-size: $font-small;
+              font-weight: 700;
+            }
+            span {
+              color: #000;
+            }
+          }
+        }
+
+        &__bottom {
+          padding: 2rem;
+          font-size: $font-small;
+
+          div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          }
+
+          span {
+            color: #979797;
+          }
+        }
+      }
+    }
+
+    &__invoices {
+      border: 2px solid $primary;
+      border-radius: 15px;
+      padding: 2rem;
+
+      h2 {
+        font-size: $font-big-text;
+      }
+
+      h3 {
+        font-size: $font-small;
+        color: #979797;
+        font-weight: 400;
+      }
+      p {
+        font-size: $font-small;
+        max-width: 15rem;
+        overflow-x: scroll;
+      }
+
+      &__data {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+  }
+}

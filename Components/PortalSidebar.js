@@ -50,7 +50,8 @@ export default function PortalSidebar({ clientInfo }) {
               >
                 <li
                   className={
-                    router.pathname == '/company-portal/subscription'
+                    router.pathname == '/company-portal/subscription' ||
+                    router.pathname == '/company-portal/plans'
                       ? `${styles.highlight}`
                       : ''
                   }

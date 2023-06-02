@@ -14,8 +14,8 @@ import app from '../../firebase/clientApp'
 import axios from 'axios'
 
 import { Stripe } from 'stripe'
-import Link from 'next/link'
 const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_TEST_KEY)
+import Link from 'next/link'
 
 const auth = getAuth()
 
@@ -64,6 +64,8 @@ export default function CompanyPortal() {
                   email: user.email,
                   subscribed: true,
                   subscriptionID: subscription.id,
+                  customerID: subscription.customer,
+                  productID: subscription.items.data[0].plan.product,
                 },
                 config
               )

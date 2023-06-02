@@ -66,6 +66,8 @@ export default function SignUp() {
             ),
             subscriptionID: '',
             sentCode: false,
+            customerID: '',
+            productID: '',
           })
 
           setSuccessMsg('Successfully created user')
