@@ -39,6 +39,7 @@ export default function CompanyPortal() {
             headers: { Authorization: `Bearer ${user.accessToken}` },
           }
 
+          //actions if the user just came from checkout
           if (router.query.session) {
             //get checkout session after checking out
             const session = await stripe.checkout.sessions.retrieve(
@@ -58,7 +59,11 @@ export default function CompanyPortal() {
             if (subscription.status == 'active') {
               const clientSubscribed = await axios.put(
                 `/api/client/subscribed`,
-                { email: user.email, subscribed: true },
+                {
+                  email: user.email,
+                  subscribed: true,
+                  subscriptionID: subscription.id,
+                },
                 config
               )
             }
@@ -72,7 +77,15 @@ export default function CompanyPortal() {
 
           clientData && setLoading(false)
 
+          //set user data to state
           setUserFromDB(clientData.data.user)
+
+          //retrieve subscription if the user isn't coming from checkout
+          const subscription = await stripe.subscriptions.retrieve(
+            clientData.data.user.subscriptionID
+          )
+
+          setCurrentPeriodEnd(new Date(1000 * subscription.current_period_end))
 
           //if the user is not subscribed, then open the notification popup
           if (clientData.data.user.subscribed == false) {

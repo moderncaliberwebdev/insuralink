@@ -18,7 +18,12 @@ router.put(async (req, res) => {
 
     const user = await users.updateOne(
       { email: req.body.email },
-      { $set: { subscribed: req.body.subscribed } }
+      {
+        $set: {
+          subscribed: req.body.subscribed,
+          subscriptionID: req.body.subscriptionID,
+        },
+      }
     )
     res.json({ user })
   } catch (e) {
