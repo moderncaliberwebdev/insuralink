@@ -30,19 +30,43 @@ router.post(async (req, res) => {
     //   console.log(subscription)
     //   break
     // }
+
+    //set info in database after a checkout session is completed
     case 'checkout.session.completed': {
       const checkoutSession = event.data.object
-      const sessionId = checkoutSession.id
       const email = checkoutSession.metadata.uid
-      const customer = checkoutSession.customer
-      const subscription = checkoutSession.subscription
-
-      const subscriptionData = await stripe.subscriptions.retrieve(subscription)
+      const customerID = checkoutSession.customer
+      const subscriptionID = checkoutSession.subscription
+      const subscriptionData = await stripe.subscriptions.retrieve(
+        subscriptionID
+      )
 
       const paymentMethod = subscriptionData.default_payment_method
-      const productId = subscriptionData.plan.product
+      const productID = subscriptionData.plan.product
+      const priceID = subscriptionData.plan.id
 
-      // console.log(checkoutSession)
+      try {
+        const client = await clientPromise
+        const db = client.db('insuralink')
+        const users = db.collection('users')
+
+        const user = await users.updateOne(
+          { email },
+          {
+            $set: {
+              subscribed: true,
+              subscriptionID,
+              customerID,
+              productID,
+              paymentMethod,
+              priceID,
+            },
+          }
+        )
+        res.json({ user })
+      } catch (e) {
+        console.error(e)
+      }
       break
     }
     case 'invoice.payment_failed': {

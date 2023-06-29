@@ -36,14 +36,16 @@ function Popup({
         >
           {renew ? (
             <>
-              <button
-                onClick={() => (!input ? next() : next(inputText))}
-                style={{
-                  backgroundColor: color == 'red' ? '#c9a596' : '#72a59c',
-                }}
-              >
-                {answer}
-              </button>
+              {answer && (
+                <button
+                  onClick={() => (!input ? next() : next(inputText))}
+                  style={{
+                    backgroundColor: color == 'red' ? '#c9a596' : '#72a59c',
+                  }}
+                >
+                  {answer}
+                </button>
+              )}
               <button onClick={cancel}>{no}</button>
             </>
           ) : (

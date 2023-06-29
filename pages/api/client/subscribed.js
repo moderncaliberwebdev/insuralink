@@ -23,6 +23,7 @@ router.put(async (req, res) => {
       customerID,
       paymentMethod,
       productID,
+      priceID,
     } = req.body
 
     const user = await users.updateOne(
@@ -34,6 +35,7 @@ router.put(async (req, res) => {
           customerID,
           productID,
           paymentMethod,
+          priceID,
         },
       }
     )

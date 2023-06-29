@@ -14,16 +14,22 @@ const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_TEST_KEY)
 import Link from 'next/link'
 
 import { loadStripe } from '@stripe/stripe-js'
+import Popup from '../../Components/Popup'
+import { useRouter } from 'next/router'
 
 const auth = getAuth()
 
 export default function Subscription() {
+  const router = useRouter()
+
   const [currentUser, setCurrentUser] = useState()
   const [userFromDB, setUserFromDB] = useState()
   const [loading, setLoading] = useState(true)
   const [subscriptionInfo, setSubscriptionInfo] = useState()
   const [productInfo, setProductInfo] = useState()
   const [invoices, setInvoices] = useState()
+
+  const [openPopup, setOpenPopup] = useState(false)
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -49,30 +55,33 @@ export default function Subscription() {
 
         setSubscriptionInfo(subscription)
 
-        console.log('subscription >>>> ', subscription)
         const product = await stripe.products.retrieve(
           clientData.data.user.productID
         )
 
         setProductInfo(product)
-        console.log('product >>>> ', product)
 
         const invoices = await stripe.invoices.list({
           customer: subscription.customer,
         })
         setInvoices(invoices.data)
-        console.log('invoices >>>> ', invoices.data)
 
         const paymentMethod = await stripe.paymentMethods.retrieve(
           subscription.default_payment_method
         )
-        console.log('paymentMethod >>>> ', paymentMethod)
+
+        if (router.isReady && router.query.upgrade == 'true') {
+          setOpenPopup(true)
+        }
       } else {
         window.location.href = '/'
       }
     })
-  }, [auth])
+  }, [auth, router.isReady])
 
+  const closePopup = () => {
+    setOpenPopup(false)
+  }
   const updatePaymentDetails = async () => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -95,13 +104,20 @@ export default function Subscription() {
     clientStripe.redirectToCheckout({
       sessionId: session.id,
     })
-
-    console.log(session)
   }
 
   return (
     <Layout>
       <main className={styles.subscription}>
+        <Popup
+          question='Your Plan Has Been Successfully Updated'
+          desc=''
+          no='Close'
+          cancel={closePopup}
+          openPopup={openPopup}
+          color='blue'
+          renew={true}
+        />
         <PortalSidebar clientInfo={userFromDB} />
         <section className={styles.subscription__right}>
           <h1>Subscription Info</h1>
@@ -116,7 +132,7 @@ export default function Subscription() {
                       Insura<span>Link</span>
                     </h2>
                     <div>
-                      <Link href='/company-portal/plans'>Upgrade</Link>
+                      <Link href='/company-portal/upgrade'>Upgrade</Link>
                       <img src='/portal/settings.png' alt='Settings' />
                     </div>
                   </section>
@@ -126,9 +142,9 @@ export default function Subscription() {
                     <div>
                       <span>Your Current Plan</span>
                       <h3>{productInfo.name}</h3>
-                      <ul>
+                      {/* <ul>
                         <li>{productInfo.description}</li>
-                      </ul>
+                      </ul> */}
                     </div>
                     <p>
                       $

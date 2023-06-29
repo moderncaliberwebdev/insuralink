@@ -32,11 +32,6 @@ export default function Plans() {
         clientData && setLoading(false)
 
         setUserFromDB(clientData.data.user)
-
-        //if already subscribed, redirect to upgrade page
-        if (clientData.data.user.subscribed == true) {
-          window.location.href = '/company-portal/upgrade'
-        }
       } else {
         window.location.href = '/'
       }
@@ -46,16 +41,15 @@ export default function Plans() {
   return (
     <Layout>
       <main className={styles.plans}>
-        {currentUser && userFromDB && userFromDB.subscribed == false ? (
+        {currentUser && userFromDB ? (
           <>
             <header className={styles.plans__h1}>
-              <h1>Start Your Subscription</h1>
+              <h1>Upgrade Your Subscription</h1>
               <img src='/home/underline.png' alt='Underline Graphic' />
             </header>
             <p className={styles.plans__subhead}>
-              To complete the sign up process and register your company with
-              Insura
-              <span>Link</span>, please select a plan
+              To upgrade your Insura
+              <span>Link</span>, plan please select a new plan
             </p>
             <section className={styles.plans__plans}>
               <SubscriptionPlan
@@ -64,13 +58,17 @@ export default function Plans() {
                 clients='0-100'
                 payment='price_1NO3KQBAb1nKRDOxNetLeWWT'
                 user={currentUser}
+                currentPlan={userFromDB && userFromDB.priceID}
+                subscriptionID={userFromDB && userFromDB.subscriptionID}
               />
               <SubscriptionPlan
-                color='teal'
+                color='white'
                 price='2,000'
                 clients='100-500'
                 payment='price_1NO3KQBAb1nKRDOx2SaZQzNs'
                 user={currentUser}
+                currentPlan={userFromDB && userFromDB.priceID}
+                subscriptionID={userFromDB && userFromDB.subscriptionID}
               />
               <SubscriptionPlan
                 color='white'
@@ -78,13 +76,10 @@ export default function Plans() {
                 clients='500+'
                 payment='price_1NO3KQBAb1nKRDOx5eFFSAQN'
                 user={currentUser}
+                currentPlan={userFromDB && userFromDB.priceID}
+                subscriptionID={userFromDB && userFromDB.subscriptionID}
               />
             </section>
-            <p className={styles.plans__note}>
-              You will receive a code via email that you can give to all of your
-              new clients. Your new clients will then be able to use this code
-              to access the Switch Your Insurance form.
-            </p>
           </>
         ) : (
           <>

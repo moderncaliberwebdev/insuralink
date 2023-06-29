@@ -40,41 +40,6 @@ export default function CompanyPortal() {
             headers: { Authorization: `Bearer ${user.accessToken}` },
           }
 
-          //actions if the user just came from checkout
-          if (router.query.session) {
-            //get checkout session after checking out
-            const session = await stripe.checkout.sessions.retrieve(
-              router.query.session
-            )
-
-            //retrieve subscription
-            const subscription = await stripe.subscriptions.retrieve(
-              session.subscription
-            )
-
-            console.log(subscription)
-
-            setCurrentPeriodEnd(
-              new Date(1000 * subscription.current_period_end)
-            )
-
-            //if the subscription is active, set subscribed to true
-            if (subscription.status == 'active') {
-              const clientSubscribed = await axios.put(
-                `/api/client/subscribed`,
-                {
-                  email: user.email,
-                  subscribed: true,
-                  subscriptionID: subscription.id,
-                  customerID: subscription.customer,
-                  productID: subscription.items.data[0].plan.product,
-                  paymentMethod: subscription.default_payment_method,
-                },
-                config
-              )
-            }
-          }
-
           //retrieve client data
           const clientData = await axios.get(
             `/api/client?email=${user.email}`,
@@ -93,7 +58,10 @@ export default function CompanyPortal() {
           setCurrentPeriodEnd(new Date(1000 * subscription.current_period_end))
 
           //send code to company via email
-          if (router.query.session && clientData.data.user.sentCode == false) {
+          if (
+            clientData.data.user.subscribed == true &&
+            clientData.data.user.sentCode == false
+          ) {
             const templateParams = {
               code: clientData.data.user.code,
               client: clientData.data.user.name,

@@ -69,6 +69,7 @@ export default function SignUp() {
             customerID: '',
             productID: '',
             paymentMethod: '',
+            priceID: '',
           })
 
           setSuccessMsg('Successfully created user')
