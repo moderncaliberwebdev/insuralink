@@ -57,19 +57,22 @@ export default function Plans() {
                 color='white'
                 price='1,000'
                 clients='0-100'
-                payment='https://buy.stripe.com/test_4gwcNlgKhbLHaA05kk'
+                payment='price_1NEAdJBAb1nKRDOxL7DtiJSq'
+                user={currentUser}
               />
               <SubscriptionPlan
                 color='teal'
                 price='2,000'
                 clients='100-500'
-                payment='https://buy.stripe.com/test_5kA4gP3Xv7vr7nOdQR'
+                payment='price_1NEBMABAb1nKRDOxkh8cpHeo'
+                user={currentUser}
               />
               <SubscriptionPlan
                 color='white'
                 price='3,000'
                 clients='500+'
-                payment='https://buy.stripe.com/test_8wMeVtalTaHDgYo28a'
+                payment='price_1NEBMXBAb1nKRDOxz4p5CZCT'
+                user={currentUser}
               />
             </section>
             <p className={styles.plans__note}>

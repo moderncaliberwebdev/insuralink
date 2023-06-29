@@ -58,11 +58,13 @@
         }
       }
 
-      a {
+      button {
         padding: 0.5rem 5rem;
         border-radius: 5px;
         font-size: $font-text;
         text-decoration: none;
+        border-style: none;
+        cursor: pointer;
       }
     }
   }

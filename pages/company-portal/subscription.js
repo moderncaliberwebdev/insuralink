@@ -10,8 +10,10 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import ProgressBar from '@ramonak/react-progress-bar'
 import { Stripe } from 'stripe'
-import Link from 'next/link'
 const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_TEST_KEY)
+import Link from 'next/link'
+
+import { loadStripe } from '@stripe/stripe-js'
 
 const auth = getAuth()
 
@@ -60,11 +62,42 @@ export default function Subscription() {
         })
         setInvoices(invoices.data)
         console.log('invoices >>>> ', invoices.data)
+
+        const paymentMethod = await stripe.paymentMethods.retrieve(
+          subscription.default_payment_method
+        )
+        console.log('paymentMethod >>>> ', paymentMethod)
       } else {
         window.location.href = '/'
       }
     })
   }, [auth])
+
+  const updatePaymentDetails = async () => {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'setup',
+      customer: subscriptionInfo.customer,
+      setup_intent_data: {
+        metadata: {
+          customer_id: subscriptionInfo.customer,
+          subscription_id: subscriptionInfo.id,
+        },
+      },
+      success_url: `https://insuralink.vercel.app/company-portal/subscription?paymentMethodSession={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://insuralink.vercel.app/company-portal/subscription`,
+    })
+
+    const clientStripe = await loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_PUBLIC_TEST_KEY
+    )
+
+    clientStripe.redirectToCheckout({
+      sessionId: session.id,
+    })
+
+    console.log(session)
+  }
 
   return (
     <Layout>
@@ -223,7 +256,31 @@ export default function Subscription() {
                   </section>
                 </div>
               </div>
-              <div className={styles.subscription__right__details}></div>
+
+              <div className={styles.subscription__right__payment}>
+                <div className={styles.subscription__right__payment__left}>
+                  <div
+                    className={styles.subscription__right__payment__left__top}
+                  >
+                    <div
+                      className={
+                        styles.subscription__right__payment__left__top__header
+                      }
+                    >
+                      <h2>Payment Method</h2>
+                      <button onClick={updatePaymentDetails}>Edit</button>
+                    </div>
+                  </div>
+                  <div
+                    className={
+                      styles.subscription__right__payment__left__bottom
+                    }
+                  ></div>
+                </div>
+                <div
+                  className={styles.subscription__right__payment__right}
+                ></div>
+              </div>
             </>
           ) : (
             <>

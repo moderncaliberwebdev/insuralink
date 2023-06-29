@@ -1,7 +1,14 @@
 import React from 'react'
 import styles from '../styles/Plans.module.scss'
+import axios from 'axios'
 
-export default function SubscriptionPlan({ color, price, clients, payment }) {
+export default function SubscriptionPlan({
+  color,
+  price,
+  clients,
+  payment,
+  user,
+}) {
   return (
     <div
       className={styles.plans__plans__plan}
@@ -26,15 +33,21 @@ export default function SubscriptionPlan({ color, price, clients, payment }) {
         />
         <p>{clients} New Clients</p>
       </div>
-      <a
-        href={payment}
+      <button
+        onClick={async () => {
+          const responseUrl = await axios.post('/api/create-checkout-session', {
+            price: payment,
+            uid: user,
+          })
+          window.location.href = responseUrl.data.url
+        }}
         style={{
           backgroundColor: color == 'white' ? '#72A59C' : '#fff',
           color: color == 'white' ? '#fff' : '#72A59C',
         }}
       >
         Proceed to Payment
-      </a>
+      </button>
     </div>
   )
 }

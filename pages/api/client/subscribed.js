@@ -16,7 +16,14 @@ router.put(async (req, res) => {
     const db = client.db('insuralink')
     const users = db.collection('users')
 
-    const { email, subscribed, subscriptionID, customerID } = req.body
+    const {
+      email,
+      subscribed,
+      subscriptionID,
+      customerID,
+      paymentMethod,
+      productID,
+    } = req.body
 
     const user = await users.updateOne(
       { email },
@@ -26,6 +33,7 @@ router.put(async (req, res) => {
           subscriptionID,
           customerID,
           productID,
+          paymentMethod,
         },
       }
     )

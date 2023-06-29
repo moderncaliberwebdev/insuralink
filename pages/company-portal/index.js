@@ -52,6 +52,8 @@ export default function CompanyPortal() {
               session.subscription
             )
 
+            console.log(subscription)
+
             setCurrentPeriodEnd(
               new Date(1000 * subscription.current_period_end)
             )
@@ -66,6 +68,7 @@ export default function CompanyPortal() {
                   subscriptionID: subscription.id,
                   customerID: subscription.customer,
                   productID: subscription.items.data[0].plan.product,
+                  paymentMethod: subscription.default_payment_method,
                 },
                 config
               )
