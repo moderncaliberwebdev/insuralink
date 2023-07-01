@@ -28,6 +28,7 @@ export default function CompanyPortal() {
   const [loading, setLoading] = useState(true)
   const [openPopup, setOpenPopup] = useState(false)
   const [currentPeriodEnd, setCurrentPeriodEnd] = useState('')
+  const [cancelled, setCancelled] = useState(false)
 
   useEffect(() => {
     if (router.isReady) {
@@ -51,11 +52,18 @@ export default function CompanyPortal() {
           //set user data to state
           setUserFromDB(clientData.data.user)
 
-          //retrieve subscription if the user isn't coming from checkout
-          const subscription = await stripe.subscriptions.retrieve(
-            clientData.data.user.subscriptionID
-          )
-          setCurrentPeriodEnd(new Date(1000 * subscription.current_period_end))
+          if (clientData.data.user.subscribed == true) {
+            //retrieve subscription if the user has one
+            const subscription = await stripe.subscriptions.retrieve(
+              clientData.data.user.subscriptionID
+            )
+            setCurrentPeriodEnd(
+              new Date(1000 * subscription.current_period_end)
+            )
+            if (subscription.cancel_at) {
+              setCancelled(true)
+            }
+          }
 
           //send code to company via email
           if (
@@ -229,12 +237,21 @@ export default function CompanyPortal() {
                       styles.portal__right__blocks__subscription__bottom
                     }
                   >
-                    <p>
-                      {`Next month due on
+                    {cancelled ? (
+                      <p>
+                        {`Subscription cancelling on 
                       ${currentPeriodEnd.toLocaleString('en-US', {
                         month: 'long',
                       })} ${currentPeriodEnd.getDate()}, ${currentPeriodEnd.getFullYear()} `}
-                    </p>
+                      </p>
+                    ) : (
+                      <p>
+                        {`Next month due on
+                      ${currentPeriodEnd.toLocaleString('en-US', {
+                        month: 'long',
+                      })} ${currentPeriodEnd.getDate()}, ${currentPeriodEnd.getFullYear()} `}
+                      </p>
+                    )}
                     <Link href='/company-portal/subscription'>
                       Subscription Info
                     </Link>

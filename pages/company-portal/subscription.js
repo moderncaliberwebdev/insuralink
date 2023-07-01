@@ -28,8 +28,12 @@ export default function Subscription() {
   const [subscriptionInfo, setSubscriptionInfo] = useState()
   const [productInfo, setProductInfo] = useState()
   const [invoices, setInvoices] = useState()
+  const [cancelled, setCancelled] = useState(false)
 
+  const [openUnSubPopup, setOpenUnSubPopup] = useState(false)
+  const [unSubOpen, setUnSubOpen] = useState(false)
   const [openPopup, setOpenPopup] = useState(false)
+  const [openRenewPopup, setOpenRenewPopup] = useState(false)
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -48,27 +52,38 @@ export default function Subscription() {
 
         setUserFromDB(clientData.data.user)
 
-        //retrieve subscription info
-        const subscription = await stripe.subscriptions.retrieve(
-          clientData.data.user.subscriptionID
-        )
+        if (clientData.data.user.subscribed) {
+          //retrieve subscription info
+          const subscription = await stripe.subscriptions.retrieve(
+            clientData.data.user.subscriptionID
+          )
 
-        setSubscriptionInfo(subscription)
+          setSubscriptionInfo(subscription)
 
-        const product = await stripe.products.retrieve(
-          clientData.data.user.productID
-        )
+          if (subscription.cancel_at) {
+            setCancelled(true)
+          }
 
-        setProductInfo(product)
+          const product = await stripe.products.retrieve(
+            clientData.data.user.productID
+          )
 
-        const invoices = await stripe.invoices.list({
-          customer: subscription.customer,
-        })
-        setInvoices(invoices.data)
+          setProductInfo(product)
 
-        const paymentMethod = await stripe.paymentMethods.retrieve(
-          subscription.default_payment_method
-        )
+          const invoices = await stripe.invoices.list({
+            customer: subscription.customer,
+          })
+          setInvoices(invoices.data)
+
+          const upcomingInvoice = await stripe.invoices.retrieveUpcoming({
+            customer: subscription.customer,
+          })
+          console.log('upcoming invoice >>>>>>>', upcomingInvoice)
+
+          const paymentMethod = await stripe.paymentMethods.retrieve(
+            subscription.default_payment_method
+          )
+        } else window.location.href = '/company-portal/plans'
 
         if (router.isReady && router.query.upgrade == 'true') {
           setOpenPopup(true)
@@ -82,6 +97,14 @@ export default function Subscription() {
   const closePopup = () => {
     setOpenPopup(false)
   }
+
+  const closeUnSubPopup = () => {
+    setOpenUnSubPopup(false)
+  }
+  const closeRenewPopup = () => {
+    setOpenRenewPopup(false)
+  }
+
   const updatePaymentDetails = async () => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -106,15 +129,58 @@ export default function Subscription() {
     })
   }
 
+  const unsubscribe = async () => {
+    const subscription = await stripe.subscriptions.update(
+      subscriptionInfo.id,
+      {
+        cancel_at_period_end: true,
+      }
+    )
+
+    const config = {
+      headers: { Authorization: `Bearer ${currentUser.accessToken}` },
+    }
+    console.log(config)
+    window.location.href = '/company-portal/subscription?upgrade=true'
+  }
+
+  const renew = async () => {}
+
   return (
     <Layout>
       <main className={styles.subscription}>
+        {/* Popup for after a subscription has been updated */}
         <Popup
           question='Your Plan Has Been Successfully Updated'
           desc=''
           no='Close'
           cancel={closePopup}
           openPopup={openPopup}
+          color='blue'
+          renew={true}
+        />
+        {/* Popup for if a customer clicks Unsubscribe */}
+        <Popup
+          question='Are You Sure You Want to Unsubscribe?'
+          desc='You will be unsubscribed at the end of the billing period. You can reactivate the subscription at any point up to the end of the period.'
+          no='Cancel'
+          answer='Unsubscribe'
+          cancel={closeUnSubPopup}
+          openPopup={openUnSubPopup}
+          next={unsubscribe}
+          color='blue'
+          renew={true}
+        />
+        {/* Popup for renewing subscription */}
+        <Popup
+          question='
+          Would you like to renew your subscription?'
+          desc='You will be unsubscribed at the end of the billing period. You can reactivate the subscription at any point up to the end of the period.'
+          no='Cancel'
+          answer='Unsubscribe'
+          cancel={closeRenewPopup}
+          openPopup={openRenewPopup}
+          next={renew}
           color='blue'
           renew={true}
         />
@@ -133,7 +199,17 @@ export default function Subscription() {
                     </h2>
                     <div>
                       <Link href='/company-portal/upgrade'>Upgrade</Link>
-                      <img src='/portal/settings.png' alt='Settings' />
+                      <img
+                        src='/portal/settings.png'
+                        alt='Settings'
+                        onClick={() => setUnSubOpen(!unSubOpen)}
+                        style={{ background: unSubOpen && '#bedbd6' }}
+                      />
+                      {unSubOpen && (
+                        <p onClick={() => setOpenUnSubPopup(!openUnSubPopup)}>
+                          Unsubscribe
+                        </p>
+                      )}
                     </div>
                   </section>
                   <section

@@ -37,9 +37,15 @@ router.post(async (req, res) => {
       const email = checkoutSession.metadata.uid
       const customerID = checkoutSession.customer
       const subscriptionID = checkoutSession.subscription
+
       const subscriptionData = await stripe.subscriptions.retrieve(
         subscriptionID
       )
+      const customer = await stripe.customers.update(customerID, {
+        metadata: {
+          uid: email,
+        },
+      })
 
       const paymentMethod = subscriptionData.default_payment_method
       const productID = subscriptionData.plan.product
@@ -69,9 +75,41 @@ router.post(async (req, res) => {
       }
       break
     }
+    //webhook if payment fails
     case 'invoice.payment_failed': {
       const invoice = event.data.object
       console.log(invoice)
+      break
+    }
+    //webhook for when a subscription is deleted
+    case 'customer.subscription.deleted': {
+      const subscription = event.data.object
+      const customerID = subscription.customer
+
+      const customer = await stripe.customers.retrieve(customerID)
+
+      try {
+        const client = await clientPromise
+        const db = client.db('insuralink')
+        const users = db.collection('users')
+
+        const user = await users.updateOne(
+          { email: customer.metadata.uid },
+          {
+            $set: {
+              subscribed: false,
+              subscriptionID: '',
+              productID: '',
+              priceID: '',
+            },
+          }
+        )
+        res.json({ user })
+      } catch (e) {
+        console.error(e)
+      }
+
+      console.log(subscription)
       break
     }
     // ... handle other event types
