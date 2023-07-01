@@ -34,6 +34,7 @@ export default function Subscription() {
   const [unSubOpen, setUnSubOpen] = useState(false)
   const [openPopup, setOpenPopup] = useState(false)
   const [openRenewPopup, setOpenRenewPopup] = useState(false)
+  const [upcomingInvoiceDetails, setUpcomingInvoiceDetails] = useState(0)
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -78,7 +79,8 @@ export default function Subscription() {
           const upcomingInvoice = await stripe.invoices.retrieveUpcoming({
             customer: subscription.customer,
           })
-          console.log('upcoming invoice >>>>>>>', upcomingInvoice)
+          console.log(upcomingInvoice)
+          setUpcomingInvoiceDetails(upcomingInvoice)
 
           const paymentMethod = await stripe.paymentMethods.retrieve(
             subscription.default_payment_method
@@ -263,9 +265,7 @@ export default function Subscription() {
                       <p>{productInfo.name}</p>
                       <span>
                         $
-                        {(
-                          subscriptionInfo.items.data[0].price.unit_amount / 100
-                        )
+                        {(upcomingInvoiceDetails.amount_due / 100)
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       </span>
@@ -275,17 +275,29 @@ export default function Subscription() {
                     className={styles.subscription__right__info__bill__bottom}
                   >
                     <div>
-                      <p>Estimated Total</p>{' '}
+                      <p>Estimated Total</p>
                       <p>
                         $
-                        {(
-                          subscriptionInfo.items.data[0].price.unit_amount / 100
-                        )
+                        {(upcomingInvoiceDetails.amount_due / 100)
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       </p>
                     </div>
-                    <span>Autopay every month</span>
+                    <span>
+                      Autopays on{' '}
+                      {new Date(
+                        upcomingInvoiceDetails.next_payment_attempt * 1000
+                      ).toLocaleString('en-US', {
+                        month: 'long',
+                      })}{' '}
+                      {new Date(
+                        upcomingInvoiceDetails.next_payment_attempt * 1000
+                      ).getDate()}
+                      ,{' '}
+                      {new Date(
+                        upcomingInvoiceDetails.next_payment_attempt * 1000
+                      ).getFullYear()}
+                    </span>
                   </section>
                 </div>
               </div>
