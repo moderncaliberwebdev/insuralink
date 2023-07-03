@@ -34,7 +34,7 @@ export default function Subscription() {
   const [unSubOpen, setUnSubOpen] = useState(false)
   const [openPopup, setOpenPopup] = useState(false)
   const [openRenewPopup, setOpenRenewPopup] = useState(false)
-  const [upcomingInvoiceDetails, setUpcomingInvoiceDetails] = useState(0)
+  const [upcomingInvoiceDetails, setUpcomingInvoiceDetails] = useState({})
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -60,6 +60,8 @@ export default function Subscription() {
           )
 
           setSubscriptionInfo(subscription)
+
+          console.log(subscription)
 
           if (subscription.cancel_at) {
             setCancelled(true)
@@ -98,6 +100,7 @@ export default function Subscription() {
 
   const closePopup = () => {
     setOpenPopup(false)
+    router.push('/company-portal/subscription')
   }
 
   const closeUnSubPopup = () => {
@@ -146,7 +149,20 @@ export default function Subscription() {
     window.location.href = '/company-portal/subscription?upgrade=true'
   }
 
-  const renew = async () => {}
+  const renew = async () => {
+    const subscription = await stripe.subscriptions.update(
+      subscriptionInfo.id,
+      {
+        cancel_at_period_end: false,
+      }
+    )
+
+    const config = {
+      headers: { Authorization: `Bearer ${currentUser.accessToken}` },
+    }
+    console.log(config)
+    window.location.href = '/company-portal/subscription?upgrade=true'
+  }
 
   return (
     <Layout>
@@ -164,7 +180,7 @@ export default function Subscription() {
         {/* Popup for if a customer clicks Unsubscribe */}
         <Popup
           question='Are You Sure You Want to Unsubscribe?'
-          desc='You will be unsubscribed at the end of the billing period. You can reactivate the subscription at any point up to the end of the period.'
+          desc='You will be unsubscribed at the end of the billing period and your outstanding balance will be charged (if applicable).You can reactivate the subscription at any point up to the end of the period.'
           no='Cancel'
           answer='Unsubscribe'
           cancel={closeUnSubPopup}
@@ -177,9 +193,9 @@ export default function Subscription() {
         <Popup
           question='
           Would you like to renew your subscription?'
-          desc='You will be unsubscribed at the end of the billing period. You can reactivate the subscription at any point up to the end of the period.'
+          desc='Your subscription will be renewed and will no longer be cancelled at the end of the billing period'
           no='Cancel'
-          answer='Unsubscribe'
+          answer='Renew'
           cancel={closeRenewPopup}
           openPopup={openRenewPopup}
           next={renew}
@@ -199,20 +215,26 @@ export default function Subscription() {
                     <h2>
                       Insura<span>Link</span>
                     </h2>
-                    <div>
-                      <Link href='/company-portal/upgrade'>Upgrade</Link>
-                      <img
-                        src='/portal/settings.png'
-                        alt='Settings'
-                        onClick={() => setUnSubOpen(!unSubOpen)}
-                        style={{ background: unSubOpen && '#bedbd6' }}
-                      />
-                      {unSubOpen && (
-                        <p onClick={() => setOpenUnSubPopup(!openUnSubPopup)}>
-                          Unsubscribe
-                        </p>
-                      )}
-                    </div>
+                    {cancelled ? (
+                      <button onClick={() => setOpenRenewPopup(true)}>
+                        Renew Subscription
+                      </button>
+                    ) : (
+                      <div>
+                        <Link href='/company-portal/upgrade'>Upgrade</Link>
+                        <img
+                          src='/portal/settings.png'
+                          alt='Settings'
+                          onClick={() => setUnSubOpen(!unSubOpen)}
+                          style={{ background: unSubOpen && '#bedbd6' }}
+                        />
+                        {unSubOpen && (
+                          <p onClick={() => setOpenUnSubPopup(!openUnSubPopup)}>
+                            Unsubscribe
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </section>
                   <section
                     className={styles.subscription__right__info__plan__mid}
@@ -265,9 +287,11 @@ export default function Subscription() {
                       <p>{productInfo.name}</p>
                       <span>
                         $
-                        {(upcomingInvoiceDetails.amount_due / 100)
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        {cancelled
+                          ? 0
+                          : (upcomingInvoiceDetails.amount_due / 100)
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       </span>
                     </div>
                   </section>
@@ -278,25 +302,48 @@ export default function Subscription() {
                       <p>Estimated Total</p>
                       <p>
                         $
-                        {(upcomingInvoiceDetails.amount_due / 100)
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        {cancelled
+                          ? 0
+                          : (upcomingInvoiceDetails.amount_due / 100)
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       </p>
                     </div>
                     <span>
-                      Autopays on{' '}
-                      {new Date(
-                        upcomingInvoiceDetails.next_payment_attempt * 1000
-                      ).toLocaleString('en-US', {
-                        month: 'long',
-                      })}{' '}
-                      {new Date(
-                        upcomingInvoiceDetails.next_payment_attempt * 1000
-                      ).getDate()}
-                      ,{' '}
-                      {new Date(
-                        upcomingInvoiceDetails.next_payment_attempt * 1000
-                      ).getFullYear()}
+                      {cancelled ? (
+                        <>
+                          Subscription cancelling on{' '}
+                          {new Date(
+                            subscriptionInfo.cancel_at * 1000
+                          ).toLocaleString('en-US', {
+                            month: 'long',
+                          })}{' '}
+                          {new Date(
+                            subscriptionInfo.cancel_at * 1000
+                          ).getDate()}
+                          ,{' '}
+                          {new Date(
+                            subscriptionInfo.cancel_at * 1000
+                          ).getFullYear()}
+                        </>
+                      ) : (
+                        <>
+                          Autopays on{' '}
+                          {new Date(
+                            upcomingInvoiceDetails.next_payment_attempt * 1000
+                          ).toLocaleString('en-US', {
+                            month: 'long',
+                          })}{' '}
+                          {new Date(
+                            upcomingInvoiceDetails.next_payment_attempt * 1000
+                          ).getDate()}
+                          ,{' '}
+                          {new Date(
+                            upcomingInvoiceDetails.next_payment_attempt * 1000
+                          ).getFullYear()}
+                          {cancelled && ', then subscription cancels'}
+                        </>
+                      )}
                     </span>
                   </section>
                 </div>

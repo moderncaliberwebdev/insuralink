@@ -7,6 +7,7 @@ import {
   selectInsuralinkState,
   updateInsuralink,
 } from '../../store/insuralinkSlice'
+import axios from 'axios'
 
 export default function StartYourSwitch() {
   const dispatch = useDispatch()
@@ -14,9 +15,18 @@ export default function StartYourSwitch() {
   const insuralinkState = useSelector(selectInsuralinkState)
 
   const [input, setInput] = useState(insuralinkState.code)
+  const [clientExists, setClientExists] = useState(false)
 
   useEffect(() => {
     dispatch(updateInsuralink({ code: input }))
+
+    const checkCode = async () => {
+      const codeMatch = await axios.get(`/api/code-match?code=${input}`)
+      if (codeMatch.data.user) {
+        setClientExists(true)
+      } else setClientExists(false)
+    }
+    checkCode()
   }, [input])
 
   return (
@@ -44,7 +54,7 @@ export default function StartYourSwitch() {
             </div>
           </div>
         </div>
-        {input.length > 0 && (
+        {clientExists && (
           <Link href='/start-your-switch/current-insurance'>Next</Link>
         )}
       </main>
