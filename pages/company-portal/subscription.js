@@ -29,6 +29,7 @@ export default function Subscription() {
   const [productInfo, setProductInfo] = useState()
   const [invoices, setInvoices] = useState()
   const [cancelled, setCancelled] = useState(false)
+  const [paymentMethodInfo, setPaymentMethodInfo] = useState()
 
   const [openUnSubPopup, setOpenUnSubPopup] = useState(false)
   const [unSubOpen, setUnSubOpen] = useState(false)
@@ -61,8 +62,6 @@ export default function Subscription() {
 
           setSubscriptionInfo(subscription)
 
-          console.log(subscription)
-
           if (subscription.cancel_at) {
             setCancelled(true)
           }
@@ -81,12 +80,14 @@ export default function Subscription() {
           const upcomingInvoice = await stripe.invoices.retrieveUpcoming({
             customer: subscription.customer,
           })
-          console.log(upcomingInvoice)
+
           setUpcomingInvoiceDetails(upcomingInvoice)
 
           const paymentMethod = await stripe.paymentMethods.retrieve(
             subscription.default_payment_method
           )
+          console.log(paymentMethod)
+          setPaymentMethodInfo(paymentMethod)
         } else window.location.href = '/company-portal/plans'
 
         if (router.isReady && router.query.upgrade == 'true') {
@@ -145,7 +146,7 @@ export default function Subscription() {
     const config = {
       headers: { Authorization: `Bearer ${currentUser.accessToken}` },
     }
-    console.log(config)
+
     window.location.href = '/company-portal/subscription?upgrade=true'
   }
 
@@ -160,7 +161,7 @@ export default function Subscription() {
     const config = {
       headers: { Authorization: `Bearer ${currentUser.accessToken}` },
     }
-    console.log(config)
+
     window.location.href = '/company-portal/subscription?upgrade=true'
   }
 
@@ -409,28 +410,20 @@ export default function Subscription() {
               </div>
 
               <div className={styles.subscription__right__payment}>
-                <div className={styles.subscription__right__payment__left}>
-                  <div
-                    className={styles.subscription__right__payment__left__top}
-                  >
-                    <div
-                      className={
-                        styles.subscription__right__payment__left__top__header
-                      }
-                    >
-                      <h2>Payment Method</h2>
-                      <button onClick={updatePaymentDetails}>Edit</button>
-                    </div>
-                  </div>
-                  <div
-                    className={
-                      styles.subscription__right__payment__left__bottom
-                    }
-                  ></div>
+                <div className={styles.subscription__right__payment__top}>
+                  <h2>Payment Method</h2>
+                  <button onClick={updatePaymentDetails}>Edit</button>
                 </div>
-                <div
-                  className={styles.subscription__right__payment__right}
-                ></div>
+                <div className={styles.subscription__right__payment__bottom}>
+                  {paymentMethodInfo && paymentMethodInfo.type == 'link' ? (
+                    <p>Link Payment</p>
+                  ) : (
+                    <>
+                      <p>Card</p>
+                      <span>Card Ending in {paymentMethodInfo.last4}</span>
+                    </>
+                  )}
+                </div>
               </div>
             </>
           ) : (

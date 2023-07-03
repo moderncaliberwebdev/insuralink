@@ -223,5 +223,41 @@
         justify-content: space-between;
       }
     }
+
+    &__payment {
+      border: 2px solid $primary;
+      border-radius: 15px;
+      padding: 2rem;
+
+      &__top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        h2 {
+          font-size: $font-big-text;
+        }
+
+        button {
+          color: #fff;
+          background-color: #000;
+          border-radius: 10px;
+          padding: 0.5rem 3rem;
+          text-decoration: none;
+          font-size: $font-small;
+          border-style: none;
+          cursor: pointer;
+        }
+      }
+      &__bottom {
+        p {
+          font-size: $font-small;
+        }
+        span {
+          font-size: $font-small;
+          color: #979797;
+        }
+      }
+    }
   }
 }
