@@ -415,14 +415,18 @@ export default function Subscription() {
                   <button onClick={updatePaymentDetails}>Edit</button>
                 </div>
                 <div className={styles.subscription__right__payment__bottom}>
-                  {paymentMethodInfo && paymentMethodInfo.type == 'link' ? (
-                    <p>Link Payment</p>
-                  ) : (
-                    <>
-                      <p>Card</p>
-                      <span>Card Ending in {paymentMethodInfo.last4}</span>
-                    </>
-                  )}
+                  {paymentMethodInfo &&
+                    paymentMethodInfo.type &&
+                    (paymentMethodInfo.type == 'link' ? (
+                      <p>Link Payment</p>
+                    ) : (
+                      paymentMethodInfo.type == 'card' && (
+                        <>
+                          <p>Card</p>
+                          <span>Card Ending in {paymentMethodInfo.last4}</span>
+                        </>
+                      )
+                    ))}
                 </div>
               </div>
             </>

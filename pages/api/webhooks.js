@@ -25,12 +25,6 @@ router.post(async (req, res) => {
 
   // Handle the event
   switch (event.type) {
-    // case 'customer.subscription.updated': {
-    //   const subscription = event.data.object
-    //   console.log(subscription)
-    //   break
-    // }
-
     //set info in database after a checkout session is completed
     case 'checkout.session.completed': {
       const checkoutSession = event.data.object
