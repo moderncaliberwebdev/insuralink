@@ -7,6 +7,8 @@ const initialState = {
     code: '',
     currentIns: [],
     currentNumber: '',
+    currentInsEmail: '',
+    yourEmail: '',
     date: '',
     idCard: '',
     eSig: '',

@@ -9,6 +9,9 @@ import {
 } from '../../store/insuralinkSlice'
 import axios from 'axios'
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 export default function CurrentNumber() {
   const dispatch = useDispatch()
 
@@ -16,6 +19,13 @@ export default function CurrentNumber() {
 
   const [createObjectURL, setCreateObjectURL] = useState(null)
   const [imageError, setImageError] = useState('')
+
+  //redirect to start if there is no code
+  useEffect(() => {
+    if (insuralinkState.code.length == 0) {
+      window.location.href = '/start-your-switch'
+    }
+  }, [insuralinkState])
 
   const uploadToClient = async (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -71,56 +81,62 @@ export default function CurrentNumber() {
 
   return (
     <Layout>
-      <Link href='/start-your-switch/date'>
-        <img
-          src='/switch/back.png'
-          alt='Back Arrow'
-          className={styles.back}
-          id='backArrow'
-        />
-      </Link>
-      <main className={styles.switch}>
-        <p className={styles.switch__number}>
-          <span>05</span> of 08
-        </p>
-        <div className={styles.switch__main}>
-          <div className={styles.switch__main__question}>
-            <h1>Identification Card</h1>
-            <p>
-              Provide a copy of your identification to help confirm your
-              cancellation with your current insurance provider. (Driver’s
-              License, Passport, etc.)
+      {insuralinkState.code ? (
+        <>
+          <Link href='/start-your-switch/date'>
+            <img
+              src='/switch/back.png'
+              alt='Back Arrow'
+              className={styles.back}
+              id='backArrow'
+            />
+          </Link>
+          <main className={styles.switch}>
+            <p className={styles.switch__number}>
+              <span>07</span> of 10
             </p>
-          </div>
-          <div className={styles.switch__main__answer}>
-            <div className={styles.switch__main__answer__item}>
-              <label>
-                <span>Upload</span>
-                {insuralinkState.idCard ? (
-                  <img
-                    src={`https://insuralink.s3.amazonaws.com/${insuralinkState.idCard}`}
-                    alt='preview '
-                    id='awsImg'
-                  />
-                ) : (
-                  <img src='/switch/upload.png' alt='Upload Icon' />
-                )}
-                <input
-                  type='file'
-                  name='file'
-                  id='fileUpload'
-                  accept='image/png,image/gif,image/jpeg'
-                  onChange={uploadToClient}
-                />
-              </label>
-              {imageError && <p>{imageError}</p>}
+            <div className={styles.switch__main}>
+              <div className={styles.switch__main__question}>
+                <h1>Identification Card</h1>
+                <p>
+                  Provide a copy of your identification to help confirm your
+                  cancellation with your current insurance provider. (Driver’s
+                  License, Passport, etc.)
+                </p>
+              </div>
+              <div className={styles.switch__main__answer}>
+                <div className={styles.switch__main__answer__item}>
+                  <label>
+                    <span>Upload</span>
+                    {insuralinkState.idCard ? (
+                      <img
+                        src={`https://insuralink.s3.amazonaws.com/${insuralinkState.idCard}`}
+                        alt='preview '
+                        id='awsImg'
+                      />
+                    ) : (
+                      <img src='/switch/upload.png' alt='Upload Icon' />
+                    )}
+                    <input
+                      type='file'
+                      name='file'
+                      id='fileUpload'
+                      accept='image/png,image/gif,image/jpeg'
+                      onChange={uploadToClient}
+                    />
+                  </label>
+                  {imageError && <p>{imageError}</p>}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        {insuralinkState.idCard.length > 0 && (
-          <Link href='/start-your-switch/e-signature'>Next</Link>
-        )}
-      </main>
+            {insuralinkState.idCard.length > 0 && (
+              <Link href='/start-your-switch/e-signature'>Next</Link>
+            )}
+          </main>
+        </>
+      ) : (
+        <Skeleton height={500} borderRadius={15} />
+      )}
     </Layout>
   )
 }

@@ -65,7 +65,7 @@ export default function SubscriptionPlan({
     >
       <Popup
         question='Confirm your plan change'
-        desc='You will be charged at the end of the current billing periodes '
+        desc='You will be charged at the end of the current billing period '
         answer='Change Your Plan'
         no='Cancel'
         cancel={closePopup}

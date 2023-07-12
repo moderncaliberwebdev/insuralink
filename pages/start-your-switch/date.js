@@ -11,6 +11,8 @@ import {
 import { format, parseISO } from 'date-fns'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function SwitchDate() {
   const dispatch = useDispatch()
@@ -25,6 +27,13 @@ export default function SwitchDate() {
     console.log(selected)
   }, [selected])
 
+  //redirect to start if there is no code
+  useEffect(() => {
+    if (insuralinkState.code.length == 0) {
+      window.location.href = '/start-your-switch'
+    }
+  }, [insuralinkState])
+
   useEffect(() => {
     //on page load, when insuralinkState loads, set initial state of selected to value from redux
     if (insuralinkState.date) {
@@ -34,47 +43,55 @@ export default function SwitchDate() {
 
   return (
     <Layout>
-      <Link href='/start-your-switch/current-number'>
-        <img
-          src='/switch/back.png'
-          alt='Back Arrow'
-          className={styles.back}
-          id='backArrow'
-        />
-      </Link>
-      <main className={styles.switch}>
-        <p className={styles.switch__number}>
-          <span>04</span> of 08
-        </p>
-        <div className={styles.switch__main}>
-          <div className={styles.switch__main__question}>
-            <h1>When would you like this insurance policy to be cancelled?</h1>
-            <p>
-              Overlapping insurance policies can cost you unnecessarily. Please
-              make sure to select the most exact date possible.
+      {insuralinkState.code ? (
+        <>
+          <Link href='/start-your-switch/your-email'>
+            <img
+              src='/switch/back.png'
+              alt='Back Arrow'
+              className={styles.back}
+              id='backArrow'
+            />
+          </Link>
+          <main className={styles.switch}>
+            <p className={styles.switch__number}>
+              <span>06</span> of 10
             </p>
-          </div>
-          <div className={styles.switch__main__answer}>
-            <div className={styles.switch__main__answer__item}>
-              <DayPicker
-                mode='single'
-                selected={parseISO(selected)}
-                onSelect={(value) => {
-                  setSelected(new Date(value.toString()).toISOString())
-                }}
-                footer={
-                  selected ? (
-                    <p>You picked {format(parseISO(selected), 'PP')}.</p>
-                  ) : (
-                    <p>Please pick a day.</p>
-                  )
-                }
-              />
+            <div className={styles.switch__main}>
+              <div className={styles.switch__main__question}>
+                <h1>
+                  When would you like this insurance policy to be cancelled?
+                </h1>
+                <p>
+                  Overlapping insurance policies can cost you unnecessarily.
+                  Please make sure to select the most exact date possible.
+                </p>
+              </div>
+              <div className={styles.switch__main__answer}>
+                <div className={styles.switch__main__answer__item}>
+                  <DayPicker
+                    mode='single'
+                    selected={parseISO(selected)}
+                    onSelect={(value) => {
+                      setSelected(new Date(value.toString()).toISOString())
+                    }}
+                    footer={
+                      selected ? (
+                        <p>You picked {format(parseISO(selected), 'PP')}.</p>
+                      ) : (
+                        <p>Please pick a day.</p>
+                      )
+                    }
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        {selected && <Link href='/start-your-switch/id-card'>Next</Link>}
-      </main>
+            {selected && <Link href='/start-your-switch/id-card'>Next</Link>}
+          </main>
+        </>
+      ) : (
+        <Skeleton height={500} borderRadius={15} />
+      )}
     </Layout>
   )
 }

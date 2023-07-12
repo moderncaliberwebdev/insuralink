@@ -16,7 +16,7 @@ router.get(async (req, res) => {
     const users = db.collection('users')
 
     const user = await users.findOne({ code: req.query.code })
-    res.json({ user: user.customerID })
+    res.json({ user: user.code })
   } catch (e) {
     res.json({ message: 'No User' })
   }

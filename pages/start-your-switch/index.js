@@ -18,12 +18,12 @@ export default function StartYourSwitch() {
   const [clientExists, setClientExists] = useState(false)
 
   useEffect(() => {
-    dispatch(updateInsuralink({ code: input }))
-
     const checkCode = async () => {
+      //returns the code if it finds a match in the database
       const codeMatch = await axios.get(`/api/code-match?code=${input}`)
       if (codeMatch.data.user) {
         setClientExists(true)
+        dispatch(updateInsuralink({ code: input }))
       } else setClientExists(false)
     }
     checkCode()
@@ -33,7 +33,7 @@ export default function StartYourSwitch() {
     <Layout>
       <main className={styles.switch}>
         <p className={styles.switch__number}>
-          <span>01</span> of 08
+          <span>01</span> of 10
         </p>
         <div className={styles.switch__main}>
           <div className={styles.switch__main__question}>

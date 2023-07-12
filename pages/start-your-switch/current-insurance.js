@@ -8,6 +8,9 @@ import {
   updateInsuralink,
 } from '../../store/insuralinkSlice'
 import SwitchRadio from '../../Components/SwitchRadio'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import axios from 'axios'
 
 export default function CurrentInsurance() {
   const dispatch = useDispatch()
@@ -26,6 +29,24 @@ export default function CurrentInsurance() {
       : ''
   )
 
+  useEffect(() => {
+    const codeConfirmation = async () => {
+      if (insuralinkState.code.length == 0) {
+        window.location.href = '/start-your-switch'
+      } else {
+        //secondary confirmation that the code has to match exactly
+        const codeMatch = await axios.get(
+          `/api/code-match?code=${insuralinkState.code}`
+        )
+        console.log(codeMatch)
+        if (codeMatch.data.message) {
+          window.location.href = '/start-your-switch'
+        }
+      }
+    }
+    codeConfirmation()
+  }, [insuralinkState])
+
   const onInputChange = (e) => {
     setInput(e.target.value)
     setCurrentIns('')
@@ -39,62 +60,68 @@ export default function CurrentInsurance() {
 
   return (
     <Layout>
-      <Link href='/start-your-switch'>
-        <img
-          src='/switch/back.png'
-          alt='Back Arrow'
-          className={styles.back}
-          id='backArrow'
-        />
-      </Link>
-      <main className={styles.switch}>
-        <p className={styles.switch__number}>
-          <span>02</span> of 08
-        </p>
-        <div className={styles.switch__main}>
-          <div className={styles.switch__main__question}>
-            <h1>
-              Who is your current insurance provider that you would like to
-              cancel with?
-            </h1>
-          </div>
-          <div className={styles.switch__main__answer}>
-            <div className={styles.switch__main__answer__radios}>
-              <SwitchRadio
-                label='State Farm'
-                radioChange={radioChange}
-                currentIns={currentIns}
-              />
-              <SwitchRadio
-                label='Berkshire Hathaway'
-                radioChange={radioChange}
-                currentIns={currentIns}
-              />
-              <SwitchRadio
-                label='Progressive'
-                radioChange={radioChange}
-                currentIns={currentIns}
-              />
-              <SwitchRadio
-                label='Allstate'
-                radioChange={radioChange}
-                currentIns={currentIns}
-              />
+      {insuralinkState.code ? (
+        <>
+          <Link href='/start-your-switch'>
+            <img
+              src='/switch/back.png'
+              alt='Back Arrow'
+              className={styles.back}
+              id='backArrow'
+            />
+          </Link>
+          <main className={styles.switch}>
+            <p className={styles.switch__number}>
+              <span>02</span> of 10
+            </p>
+            <div className={styles.switch__main}>
+              <div className={styles.switch__main__question}>
+                <h1>
+                  Who is your current insurance provider that you would like to
+                  cancel with?
+                </h1>
+              </div>
+              <div className={styles.switch__main__answer}>
+                <div className={styles.switch__main__answer__radios}>
+                  <SwitchRadio
+                    label='State Farm'
+                    radioChange={radioChange}
+                    currentIns={currentIns}
+                  />
+                  <SwitchRadio
+                    label='Berkshire Hathaway'
+                    radioChange={radioChange}
+                    currentIns={currentIns}
+                  />
+                  <SwitchRadio
+                    label='Progressive'
+                    radioChange={radioChange}
+                    currentIns={currentIns}
+                  />
+                  <SwitchRadio
+                    label='Allstate'
+                    radioChange={radioChange}
+                    currentIns={currentIns}
+                  />
+                </div>
+                <div className={styles.switch__main__answer__item}>
+                  <label>Other:</label>
+                  <input
+                    type='text'
+                    onChange={(e) => onInputChange(e)}
+                    value={input}
+                  />
+                </div>
+              </div>
             </div>
-            <div className={styles.switch__main__answer__item}>
-              <label>Other:</label>
-              <input
-                type='text'
-                onChange={(e) => onInputChange(e)}
-                value={input}
-              />
-            </div>
-          </div>
-        </div>
-        {(input.length > 0 || currentIns.length > 0) && (
-          <Link href='/start-your-switch/current-number'>Next</Link>
-        )}
-      </main>
+            {(input.length > 0 || currentIns.length > 0) && (
+              <Link href='/start-your-switch/current-number'>Next</Link>
+            )}
+          </main>
+        </>
+      ) : (
+        <Skeleton height={500} borderRadius={15} />
+      )}
     </Layout>
   )
 }

@@ -66,4 +66,11 @@
     cursor: pointer;
     border-style: none;
   }
+
+  &__response {
+    font-size: $font-text;
+    margin: 1rem 0;
+    font-weight: 700;
+    color: #fff;
+  }
 }

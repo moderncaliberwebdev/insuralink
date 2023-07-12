@@ -8,6 +8,8 @@ import {
   updateInsuralink,
 } from '../../store/insuralinkSlice'
 import SignatureCanvas from 'react-signature-canvas'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function CurrentNumber() {
   const dispatch = useDispatch()
@@ -26,6 +28,13 @@ export default function CurrentNumber() {
     }
   }, [savedURL])
 
+  //redirect to start if there is no code
+  useEffect(() => {
+    if (insuralinkState.code.length == 0) {
+      window.location.href = '/start-your-switch'
+    }
+  }, [insuralinkState])
+
   const create = () => {
     const URL = sigCanvas.current.getCanvas().toDataURL('image/png')
     setImageURL(URL)
@@ -42,48 +51,54 @@ export default function CurrentNumber() {
 
   return (
     <Layout>
-      <Link href='/start-your-switch/id-card'>
-        <img
-          src='/switch/back.png'
-          alt='Back Arrow'
-          className={styles.back}
-          id='backArrow'
-        />
-      </Link>
-      <main className={styles.switch}>
-        <p className={styles.switch__number}>
-          <span>06</span> of 08
-        </p>
-        <div className={styles.switch__main}>
-          <div className={styles.switch__main__question}>
-            <h1>E-Signature</h1>
-            <p>
-              Your e-signature confirms your cancellation with your current
-              insurance provider.
+      {insuralinkState.code ? (
+        <>
+          <Link href='/start-your-switch/id-card'>
+            <img
+              src='/switch/back.png'
+              alt='Back Arrow'
+              className={styles.back}
+              id='backArrow'
+            />
+          </Link>
+          <main className={styles.switch}>
+            <p className={styles.switch__number}>
+              <span>08</span> of 10
             </p>
-          </div>
-          <div className={styles.switch__main__answer}>
-            <div className={styles.switch__main__answer__item}>
-              <SignatureCanvas
-                penColor='black'
-                canvasProps={{
-                  width: 400,
-                  height: 200,
-                  className: 'sigCanvas',
-                }}
-                ref={sigCanvas}
-              />
+            <div className={styles.switch__main}>
+              <div className={styles.switch__main__question}>
+                <h1>E-Signature</h1>
+                <p>
+                  Your e-signature confirms your cancellation with your current
+                  insurance provider.
+                </p>
+              </div>
+              <div className={styles.switch__main__answer}>
+                <div className={styles.switch__main__answer__item}>
+                  <SignatureCanvas
+                    penColor='black'
+                    canvasProps={{
+                      width: 400,
+                      height: 200,
+                      className: 'sigCanvas',
+                    }}
+                    ref={sigCanvas}
+                  />
+                </div>
+                <button onClick={clear} className={styles.small__button}>
+                  Clear Signature
+                </button>
+              </div>
             </div>
-            <button onClick={clear} className={styles.small__button}>
-              Clear Signature
-            </button>
-          </div>
-        </div>
 
-        <button onClick={create} className={styles.black__button}>
-          Create Signature
-        </button>
-      </main>
+            <button onClick={create} className={styles.black__button}>
+              Create Signature
+            </button>
+          </main>
+        </>
+      ) : (
+        <Skeleton height={500} borderRadius={15} />
+      )}
     </Layout>
   )
 }
