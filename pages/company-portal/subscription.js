@@ -61,6 +61,7 @@ export default function Subscription() {
           )
 
           setSubscriptionInfo(subscription)
+          console.log('subscription >>>>>', subscription)
 
           if (subscription.cancel_at) {
             setCancelled(true)
@@ -98,6 +99,10 @@ export default function Subscription() {
       }
     })
   }, [auth, router.isReady])
+
+  useEffect(() => {
+    console.log(productInfo)
+  }, [productInfo])
 
   const closePopup = () => {
     setOpenPopup(false)
@@ -242,7 +247,7 @@ export default function Subscription() {
                   >
                     <div>
                       <span>Your Current Plan</span>
-                      <h3>{productInfo.name}</h3>
+                      <h3>{subscriptionInfo.items.data[0].price.nickname}</h3>
                       {/* <ul>
                         <li>{productInfo.description}</li>
                       </ul> */}
@@ -262,11 +267,26 @@ export default function Subscription() {
                       <p>Current Clients</p>
                       <p>
                         {userFromDB.clients.length}/
-                        {productInfo.id == 'prod_O0AzcnWmMjVY33' ? '100' : '!!'}
+                        {subscriptionInfo.items.data[0].price.nickname ==
+                        'Premium Plan'
+                          ? '500+'
+                          : subscriptionInfo.items.data[0].price.nickname ==
+                            'Pro Plan'
+                          ? '500'
+                          : '100'}
                       </p>
                     </div>
                     <ProgressBar
                       completed={userFromDB.clients.length}
+                      maxCompleted={
+                        subscriptionInfo.items.data[0].price.nickname ==
+                        'Premium Plan'
+                          ? 500
+                          : subscriptionInfo.items.data[0].price.nickname ==
+                            'Pro Plan'
+                          ? 500
+                          : 100
+                      }
                       customLabel=' '
                       bgColor='#72A59C'
                       baseBgColor='#D9D9D9'
@@ -285,7 +305,7 @@ export default function Subscription() {
                   >
                     <span>InsuraLink</span>
                     <div>
-                      <p>{productInfo.name}</p>
+                      <p>{subscriptionInfo.items.data[0].price.nickname}</p>
                       <span>
                         $
                         {cancelled

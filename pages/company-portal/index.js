@@ -5,6 +5,7 @@ import styles from '../../styles/CompanyPortal.module.scss'
 import Popup from '../../Components/Popup'
 import { useRouter } from 'next/router'
 import emailjs from 'emailjs-com'
+import { parseISO } from 'date-fns'
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -29,6 +30,8 @@ export default function CompanyPortal() {
   const [openPopup, setOpenPopup] = useState(false)
   const [currentPeriodEnd, setCurrentPeriodEnd] = useState('')
   const [cancelled, setCancelled] = useState(false)
+  const [clientsSwitched, setClientsSwitched] = useState(0)
+  const [clientsNotSwitched, setClientsNotSwitched] = useState(0)
 
   useEffect(() => {
     if (router.isReady) {
@@ -113,6 +116,16 @@ export default function CompanyPortal() {
     }
   }, [auth, router.isReady])
 
+  useEffect(() => {
+    userFromDB &&
+      userFromDB.clients.forEach((client) => {
+        const currentDate = new Date().getTime()
+        if (currentDate > new Date(client.date).getTime()) {
+          setClientsSwitched(clientsSwitched + 1)
+        } else setClientsNotSwitched(clientsNotSwitched + 1)
+      })
+  }, [userFromDB])
+
   const closePopup = () => {
     setOpenPopup(false)
   }
@@ -142,7 +155,19 @@ export default function CompanyPortal() {
                     <h2>Clients</h2>
                     <Link href='/company-portal/clients'>More</Link>
                   </div>
-                  <div className={styles.portal__right__blocks__clients__mid}>
+                  <div
+                    className={styles.portal__right__blocks__clients__mid}
+                    style={{
+                      background: `radial-gradient(
+              closest-side,
+              #72a59c 85%,
+              transparent 80% 100%
+            ),
+            conic-gradient(#fff ${
+              (clientsSwitched / (clientsSwitched + clientsNotSwitched)) * 100
+            }%, #bedbd6 0)`,
+                    }}
+                  >
                     {userFromDB && userFromDB.clients.length}
                   </div>
                   <div
@@ -155,7 +180,12 @@ export default function CompanyPortal() {
                     >
                       <div></div>
                       <p>Insurance Switched</p>
-                      <span>23%</span>
+                      <span>
+                        {(clientsSwitched /
+                          (clientsSwitched + clientsNotSwitched)) *
+                          100}
+                        %
+                      </span>
                     </div>
                     <div
                       className={
@@ -164,7 +194,12 @@ export default function CompanyPortal() {
                     >
                       <div></div>
                       <p>Insurance Not Yet Switched</p>
-                      <span>77%</span>
+                      <span>
+                        {(clientsNotSwitched /
+                          (clientsSwitched + clientsNotSwitched)) *
+                          100}
+                        %
+                      </span>
                     </div>
                   </div>
                 </>
