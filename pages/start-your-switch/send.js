@@ -83,11 +83,11 @@ export default function Send() {
             newAgentCompany,
             newAgentEmail,
             newNumber,
+            currentDate: new Date().getTime(),
           })
 
           dispatch(
             updateInsuralink({
-              code: '',
               currentIns: [],
               currentNumber: '',
               currentInsEmail: '',

@@ -100,10 +100,6 @@ export default function Subscription() {
     })
   }, [auth, router.isReady])
 
-  useEffect(() => {
-    console.log(productInfo)
-  }, [productInfo])
-
   const closePopup = () => {
     setOpenPopup(false)
     router.push('/company-portal/subscription')

@@ -2,10 +2,43 @@ import Layout from '../Components/Layout'
 import styles from '../styles/Home.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { updateInsuralink } from '../store/insuralinkSlice'
+import Popup from '../Components/Popup'
 
 export default function Home() {
+  const router = useRouter()
+  const dispatch = useDispatch()
+
+  const [openPopup, setOpenPopup] = useState(false)
+
+  useEffect(() => {
+    if (router.isReady && router.query.sent == 'true') {
+      setOpenPopup(true)
+    }
+  }, [router.isReady])
+
+  const closePopup = () => {
+    setOpenPopup(false)
+    dispatch(
+      updateInsuralink({
+        code: '',
+      })
+    )
+  }
+
   return (
     <Layout>
+      <Popup
+        question='Your Cancellation Request Has Been Sent'
+        desc=''
+        no='Close'
+        cancel={closePopup}
+        openPopup={openPopup}
+        color='blue'
+        renew={true}
+      />
       <div className={styles.home}>
         <header className={styles.home__header}>
           <div className={styles.home__header__left}>

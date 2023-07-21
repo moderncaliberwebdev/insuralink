@@ -28,6 +28,7 @@ router.post(async (req, res) => {
       newAgentCompany,
       newAgentEmail,
       newNumber,
+      currentDate,
     } = req.body
 
     const user = await users.updateOne(
@@ -46,6 +47,7 @@ router.post(async (req, res) => {
             newAgentCompany,
             newAgentEmail,
             newNumber,
+            currentDate,
           },
         },
       }

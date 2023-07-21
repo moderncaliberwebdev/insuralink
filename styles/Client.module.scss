@@ -1,0 +1,81 @@
+@import 'variables';
+@import 'mixins';
+
+.client {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 4rem;
+  margin: 3rem 0;
+  min-height: 60rem;
+
+  &__right {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    h1 {
+      font-size: $font-small-head;
+    }
+
+    &__clients {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      overflow-y: scroll;
+
+      div {
+        padding: 0 1rem;
+        // white-space: nowrap;
+        flex: 0 0 auto;
+
+        p {
+          font-size: $font-text;
+          font-weight: 700;
+          margin: 1rem 0;
+          padding: 0.5rem;
+          border-radius: 5px;
+        }
+        h3 {
+          color: #979797;
+          font-size: $font-text;
+          font-weight: 300;
+          display: flex;
+          flex-direction: row;
+
+          span {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+
+            img {
+              width: 2rem;
+              margin: 0 0.5rem;
+            }
+
+            p {
+              font-size: $font-small;
+              font-weight: 400;
+              width: 30rem;
+              display: none;
+              position: absolute;
+              right: 0;
+              top: -1rem;
+              background-color: $secondary;
+              padding: 1rem;
+            }
+          }
+          &:hover {
+            p {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+}
