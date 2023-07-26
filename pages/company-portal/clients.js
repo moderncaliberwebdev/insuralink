@@ -71,7 +71,9 @@ export default function Clients() {
                 userFromDB.clients.map((client) => {
                   const formattedDate = new Date(client.currentDate)
                   return (
-                    <p>{`${formattedDate.toLocaleString('en-US', {
+                    <p
+                      key={client.currentDate}
+                    >{`${formattedDate.toLocaleString('en-US', {
                       month: 'long',
                     })} ${formattedDate.getDate()}, ${formattedDate.getFullYear()}`}</p>
                   )
@@ -92,9 +94,12 @@ export default function Clients() {
                 userFromDB.clients.map((client) => {
                   const formattedDate = new Date(client.date)
                   return (
-                    <p>{`${formattedDate.toLocaleString('en-US', {
-                      month: 'long',
-                    })} ${formattedDate.getDate()}, ${formattedDate.getFullYear()}`}</p>
+                    <p key={client.date}>{`${formattedDate.toLocaleString(
+                      'en-US',
+                      {
+                        month: 'long',
+                      }
+                    )} ${formattedDate.getDate()}, ${formattedDate.getFullYear()}`}</p>
                   )
                 })
               ) : (
@@ -122,7 +127,9 @@ export default function Clients() {
                 userFromDB.clients.map((client) => {
                   const unixTime = new Date(client.date).getTime()
                   const today = new Date().getTime()
-                  return <p>{unixTime < today ? 'Yes' : 'No'}</p>
+                  return (
+                    <p key={client.date}>{unixTime < today ? 'Yes' : 'No'}</p>
+                  )
                 })
               ) : (
                 <>

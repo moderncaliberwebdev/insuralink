@@ -106,7 +106,10 @@ export default function CompanyPortal() {
           }
 
           //if the user is not subscribed, then open the notification popup
-          if (clientData.data.user.subscribed == false) {
+          if (
+            clientData.data.user.subscribed == false &&
+            clientData.data.user.admin == false
+          ) {
             setOpenPopup(true)
           }
         } else {

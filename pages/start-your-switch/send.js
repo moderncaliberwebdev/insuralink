@@ -77,7 +77,7 @@ export default function Send() {
             currentInsEmail,
             yourEmail,
             date,
-            idCard,
+            idCard: `https://insuralink.s3.amazonaws.com/${idCard}`,
             eSig,
             newAgentName,
             newAgentCompany,
