@@ -4,8 +4,8 @@ export function withAuth(handler) {
   return async (req, res) => {
     const authHeader = req.headers.authorization
     const email =
-      req.body.newEmail ||
       req.body.email ||
+      req.body.newEmail ||
       req.query.email ||
       req.body.user ||
       ''

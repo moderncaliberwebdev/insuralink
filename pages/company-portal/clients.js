@@ -53,7 +53,7 @@ export default function Clients() {
               <h3>Clients</h3>
               {userFromDB ? (
                 userFromDB.clients.map((client) => {
-                  return <p>{client.yourEmail}</p>
+                  return <p key={client.yourEmail}>{client.yourEmail}</p>
                 })
               ) : (
                 <>

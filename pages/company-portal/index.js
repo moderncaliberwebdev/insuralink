@@ -117,14 +117,31 @@ export default function CompanyPortal() {
   }, [auth, router.isReady])
 
   useEffect(() => {
-    userFromDB &&
+    if (userFromDB) {
+      //sets temp vars for switched and not switched
+      let tempSwitched = 0
+      let tempNotSwitched = 0
+
+      //sorts users by if their expiration date is up or not
       userFromDB.clients.forEach((client) => {
         const currentDate = new Date().getTime()
         if (currentDate > new Date(client.date).getTime()) {
-          setClientsSwitched(clientsSwitched + 1)
-        } else setClientsNotSwitched(clientsNotSwitched + 1)
+          tempSwitched = tempSwitched + 1
+          console.log('client switched')
+        } else {
+          console.log('client not switched')
+          tempNotSwitched = tempNotSwitched + 1
+        }
       })
+
+      setClientsSwitched(tempSwitched)
+      setClientsNotSwitched(tempNotSwitched)
+    }
   }, [userFromDB])
+
+  useEffect(() => {
+    console.log(clientsSwitched, clientsNotSwitched)
+  }, [clientsSwitched, clientsNotSwitched])
 
   const closePopup = () => {
     setOpenPopup(false)
@@ -181,9 +198,11 @@ export default function CompanyPortal() {
                       <div></div>
                       <p>Insurance Switched</p>
                       <span>
-                        {(clientsSwitched /
-                          (clientsSwitched + clientsNotSwitched)) *
-                          100}
+                        {Math.round(
+                          (clientsSwitched /
+                            (clientsSwitched + clientsNotSwitched)) *
+                            100
+                        )}
                         %
                       </span>
                     </div>
@@ -195,9 +214,11 @@ export default function CompanyPortal() {
                       <div></div>
                       <p>Insurance Not Yet Switched</p>
                       <span>
-                        {(clientsNotSwitched /
-                          (clientsSwitched + clientsNotSwitched)) *
-                          100}
+                        {Math.round(
+                          (clientsNotSwitched /
+                            (clientsSwitched + clientsNotSwitched)) *
+                            100
+                        )}
                         %
                       </span>
                     </div>

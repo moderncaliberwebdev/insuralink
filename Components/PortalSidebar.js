@@ -13,7 +13,16 @@ export default function PortalSidebar({ clientInfo }) {
       {clientInfo ? (
         <>
           <h2>{clientInfo.name}</h2>
-          <Link href='/company-portal/edit'>Edit</Link>
+          <Link
+            href='/company-portal/edit'
+            style={{
+              color: router.pathname == '/company-portal/edit' && '#fff',
+              backgroundColor:
+                router.pathname == '/company-portal/edit' && '#72a59c',
+            }}
+          >
+            Edit
+          </Link>
 
           <div className={styles.portal__sidebar__tabs}>
             <ul>
