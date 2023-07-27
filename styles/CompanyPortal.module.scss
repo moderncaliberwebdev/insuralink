@@ -198,6 +198,26 @@
           gap: 2rem;
           margin: 3rem 0;
 
+          &__notsubbed {
+            text-align: center;
+            p {
+              font-size: $font-small;
+            }
+            a {
+              display: block;
+              font-size: $font-small;
+              background-color: #000;
+              color: #fff;
+              text-decoration: none;
+              border-radius: 15px;
+              padding: 1rem;
+              margin-left: 1rem;
+              text-align: center;
+              width: 80%;
+              margin: 2rem auto;
+            }
+          }
+
           &__date {
             padding: 1rem 1.5rem;
             border: 1px solid #000;

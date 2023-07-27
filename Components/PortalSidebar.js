@@ -38,37 +38,54 @@ export default function PortalSidebar({ clientInfo }) {
                   <span>Dashboard</span>
                 </li>
               </Link>
-              <Link href={'/company-portal/clients'}>
-                <li
-                  className={
-                    router.pathname == '/company-portal/clients'
-                      ? `${styles.highlight}`
-                      : ''
-                  }
-                >
-                  <img src='/portal/clients.png' alt='clients' />
-                  <span>Clients</span>
-                </li>
-              </Link>
-              <Link
-                href={
-                  clientInfo.subscribed == true
-                    ? '/company-portal/subscription'
-                    : '/company-portal/plans'
-                }
-              >
-                <li
-                  className={
-                    router.pathname == '/company-portal/subscription' ||
-                    router.pathname == '/company-portal/plans'
-                      ? `${styles.highlight}`
-                      : ''
-                  }
-                >
-                  <img src='/portal/subscription.png' alt='Subscription' />
-                  <span>Subscription</span>
-                </li>
-              </Link>
+              {clientInfo.admin ? (
+                <Link href={'/company-portal/companies'}>
+                  <li
+                    className={
+                      router.pathname == '/company-portal/companies'
+                        ? `${styles.highlight}`
+                        : ''
+                    }
+                  >
+                    <img src='/portal/clients.png' alt='companies' />
+                    <span>Companies</span>
+                  </li>
+                </Link>
+              ) : (
+                <>
+                  <Link href={'/company-portal/clients'}>
+                    <li
+                      className={
+                        router.pathname == '/company-portal/clients'
+                          ? `${styles.highlight}`
+                          : ''
+                      }
+                    >
+                      <img src='/portal/clients.png' alt='clients' />
+                      <span>Clients</span>
+                    </li>
+                  </Link>
+                  <Link
+                    href={
+                      clientInfo.subscribed == true
+                        ? '/company-portal/subscription'
+                        : '/company-portal/plans'
+                    }
+                  >
+                    <li
+                      className={
+                        router.pathname == '/company-portal/subscription' ||
+                        router.pathname == '/company-portal/plans'
+                          ? `${styles.highlight}`
+                          : ''
+                      }
+                    >
+                      <img src='/portal/subscription.png' alt='Subscription' />
+                      <span>Subscription</span>
+                    </li>
+                  </Link>
+                </>
+              )}
             </ul>
           </div>
         </>

@@ -1,0 +1,54 @@
+@import 'variables';
+@import 'mixins';
+
+.companies {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 4rem;
+  margin: 3rem 0;
+  min-height: 60rem;
+
+  &__right {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    h1 {
+      font-size: $font-small-head;
+    }
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+
+      &__item {
+        font-size: $font-small;
+
+        &__visible {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+          padding: 1rem;
+          border: 2px solid $primary;
+          border-radius: 15px;
+
+          &__name {
+            font-size: $font-small;
+          }
+
+          &__clients {
+            color: #979797;
+          }
+
+          &__expand {
+            width: 2rem;
+            object-fit: contain;
+          }
+        }
+      }
+    }
+  }
+}

@@ -32,6 +32,8 @@ export default function CompanyPortal() {
   const [cancelled, setCancelled] = useState(false)
   const [clientsSwitched, setClientsSwitched] = useState(0)
   const [clientsNotSwitched, setClientsNotSwitched] = useState(0)
+  const [allClientsState, setAllClientsState] = useState([])
+  const [companiesNumber, setCompaniesNumber] = useState(0)
 
   useEffect(() => {
     if (router.isReady) {
@@ -112,6 +114,22 @@ export default function CompanyPortal() {
           ) {
             setOpenPopup(true)
           }
+
+          //collect admin data
+          if (clientData.data.user.admin == true) {
+            const config = {
+              headers: { Authorization: `Bearer ${user.accessToken}` },
+            }
+
+            //retrieve client data
+            const allClients = await axios.get(
+              `/api/client/all-clients?admin=true`,
+              config
+            )
+            console.log(allClients)
+            setAllClientsState(allClients.data.clients)
+            setCompaniesNumber(allClients.data.companies)
+          }
         } else {
           window.location.href = '/'
         }
@@ -125,14 +143,18 @@ export default function CompanyPortal() {
       let tempSwitched = 0
       let tempNotSwitched = 0
 
+      const clientsToSort = userFromDB.admin
+        ? allClientsState
+        : userFromDB.clients
+
+      console.log(clientsToSort)
+
       //sorts users by if their expiration date is up or not
-      userFromDB.clients.forEach((client) => {
+      clientsToSort.forEach((client) => {
         const currentDate = new Date().getTime()
         if (currentDate > new Date(client.date).getTime()) {
           tempSwitched = tempSwitched + 1
-          console.log('client switched')
         } else {
-          console.log('client not switched')
           tempNotSwitched = tempNotSwitched + 1
         }
       })
@@ -140,11 +162,7 @@ export default function CompanyPortal() {
       setClientsSwitched(tempSwitched)
       setClientsNotSwitched(tempNotSwitched)
     }
-  }, [userFromDB])
-
-  useEffect(() => {
-    console.log(clientsSwitched, clientsNotSwitched)
-  }, [clientsSwitched, clientsNotSwitched])
+  }, [userFromDB, allClientsState])
 
   const closePopup = () => {
     setOpenPopup(false)
@@ -167,18 +185,237 @@ export default function CompanyPortal() {
         <PortalSidebar clientInfo={userFromDB} />
         <section className={styles.portal__right}>
           <h1>Company Dashboard</h1>
-          <div className={styles.portal__right__blocks}>
-            <div className={styles.portal__right__blocks__clients}>
-              {userFromDB ? (
+
+          {userFromDB ? (
+            <div className={styles.portal__right__blocks}>
+              {userFromDB.admin == false ? (
+                currentPeriodEnd ? (
+                  <>
+                    <div className={styles.portal__right__blocks__clients}>
+                      <div
+                        className={styles.portal__right__blocks__clients__top}
+                      >
+                        <h2>Clients</h2>
+
+                        <Link href='/company-portal/clients'>More</Link>
+                      </div>
+                      <div
+                        className={styles.portal__right__blocks__clients__mid}
+                        style={{
+                          background: `radial-gradient(
+                  closest-side,
+                  #72a59c 85%,
+                  transparent 80% 100%
+                ),
+                conic-gradient(#fff ${
+                  (clientsSwitched / (clientsSwitched + clientsNotSwitched)) *
+                  100
+                }%, #bedbd6 0)`,
+                        }}
+                      >
+                        {userFromDB && userFromDB.clients.length}
+                      </div>
+                      <div
+                        className={
+                          styles.portal__right__blocks__clients__bottom
+                        }
+                      >
+                        <div
+                          className={
+                            styles.portal__right__blocks__clients__bottom__switched
+                          }
+                        >
+                          <div></div>
+                          <p>Insurance Switched</p>
+                          <span>
+                            {Math.round(
+                              (clientsSwitched /
+                                (clientsSwitched + clientsNotSwitched)) *
+                                100
+                            ) || 0}
+                            %
+                          </span>
+                        </div>
+                        <div
+                          className={
+                            styles.portal__right__blocks__clients__bottom__notswitched
+                          }
+                        >
+                          <div></div>
+                          <p>Insurance Not Yet Switched</p>
+                          <span>
+                            {Math.round(
+                              (clientsNotSwitched /
+                                (clientsSwitched + clientsNotSwitched)) *
+                                100
+                            ) || 0}
+                            %
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.portal__right__blocks__subscription}>
+                      {userFromDB.subscribed == true ? (
+                        <>
+                          <div
+                            className={
+                              styles.portal__right__blocks__subscription__top
+                            }
+                          >
+                            <h2>Subscription</h2>
+                          </div>
+                          <div
+                            className={
+                              styles.portal__right__blocks__subscription__mid
+                            }
+                          >
+                            <div
+                              className={
+                                styles.portal__right__blocks__subscription__mid__date
+                              }
+                            >
+                              <p>
+                                {new Date(
+                                  (currentPeriodEnd.getTime() / 1000 - 86400) *
+                                    1000
+                                ).toLocaleString('default', {
+                                  weekday: 'short',
+                                })}
+                              </p>
+                              <span>
+                                {new Date(
+                                  (currentPeriodEnd.getTime() / 1000 - 86400) *
+                                    1000
+                                ).getDate()}
+                              </span>
+                            </div>
+                            <div
+                              className={
+                                styles.portal__right__blocks__subscription__mid__date
+                              }
+                            >
+                              <p>
+                                {currentPeriodEnd.toLocaleString('default', {
+                                  weekday: 'short',
+                                })}
+                              </p>
+                              <span>{currentPeriodEnd.getDate()}</span>
+                            </div>
+                            <div
+                              className={
+                                styles.portal__right__blocks__subscription__mid__date
+                              }
+                            >
+                              <p>
+                                {new Date(
+                                  (currentPeriodEnd.getTime() / 1000 + 86400) *
+                                    1000
+                                ).toLocaleString('default', {
+                                  weekday: 'short',
+                                })}
+                              </p>
+                              <span>
+                                {new Date(
+                                  (currentPeriodEnd.getTime() / 1000 + 86400) *
+                                    1000
+                                ).getDate()}
+                              </span>
+                            </div>
+                          </div>
+                          <div
+                            className={
+                              styles.portal__right__blocks__subscription__bottom
+                            }
+                          >
+                            {cancelled ? (
+                              <p>
+                                {`Subscription cancelling on 
+                          ${currentPeriodEnd.toLocaleString('en-US', {
+                            month: 'long',
+                          })} ${currentPeriodEnd.getDate()}, ${currentPeriodEnd.getFullYear()} `}
+                              </p>
+                            ) : (
+                              <p>
+                                {`Next month due on
+                          ${currentPeriodEnd.toLocaleString('en-US', {
+                            month: 'long',
+                          })} ${currentPeriodEnd.getDate()}, ${currentPeriodEnd.getFullYear()} `}
+                              </p>
+                            )}
+                            <Link href='/company-portal/subscription'>
+                              Subscription Info
+                            </Link>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div
+                            className={
+                              styles.portal__right__blocks__subscription__top
+                            }
+                          >
+                            <h2>Subscription</h2>
+                          </div>
+                          <div
+                            className={
+                              styles.portal__right__blocks__subscription__mid
+                            }
+                          >
+                            <div
+                              className={
+                                styles.portal__right__blocks__subscription__mid__notsubbed
+                              }
+                            >
+                              <p>You are not yet subscribed to any plan</p>
+                              <Link href='/company-portal/plans'>
+                                Find Your Plan
+                              </Link>
+                            </div>
+                          </div>
+                          <div
+                            className={
+                              styles.portal__right__blocks__subscription__bottom
+                            }
+                          ></div>
+                        </>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <Skeleton height={350} borderRadius={15} />
+                )
+              ) : (
                 <>
-                  <div className={styles.portal__right__blocks__clients__top}>
-                    <h2>Clients</h2>
-                    <Link href='/company-portal/clients'>More</Link>
+                  <div className={styles.portal__right__blocks__clients}>
+                    <div className={styles.portal__right__blocks__clients__top}>
+                      <h2>Companies</h2>
+                      <Link href='/company-portal/companies'>More</Link>
+                    </div>
+                    <div
+                      className={styles.portal__right__blocks__clients__mid}
+                      style={{
+                        background: `radial-gradient(
+              closest-side,
+              #72a59c 85%,
+              transparent 80% 100%
+            ),
+            conic-gradient(#fff 100%, #bedbd6 0)`,
+                      }}
+                    >
+                      {companiesNumber}
+                    </div>
+                    <div
+                      className={styles.portal__right__blocks__clients__bottom}
+                    ></div>
                   </div>
-                  <div
-                    className={styles.portal__right__blocks__clients__mid}
-                    style={{
-                      background: `radial-gradient(
+                  <div className={styles.portal__right__blocks__clients}>
+                    <div className={styles.portal__right__blocks__clients__top}>
+                      <h2>Clients</h2>
+                    </div>
+                    <div
+                      className={styles.portal__right__blocks__clients__mid}
+                      style={{
+                        background: `radial-gradient(
               closest-side,
               #72a59c 85%,
               transparent 80% 100%
@@ -186,141 +423,55 @@ export default function CompanyPortal() {
             conic-gradient(#fff ${
               (clientsSwitched / (clientsSwitched + clientsNotSwitched)) * 100
             }%, #bedbd6 0)`,
-                    }}
-                  >
-                    {userFromDB && userFromDB.clients.length}
-                  </div>
-                  <div
-                    className={styles.portal__right__blocks__clients__bottom}
-                  >
-                    <div
-                      className={
-                        styles.portal__right__blocks__clients__bottom__switched
-                      }
+                      }}
                     >
-                      <div></div>
-                      <p>Insurance Switched</p>
-                      <span>
-                        {Math.round(
-                          (clientsSwitched /
-                            (clientsSwitched + clientsNotSwitched)) *
-                            100
-                        )}
-                        %
-                      </span>
+                      {allClientsState && allClientsState.length}
                     </div>
                     <div
-                      className={
-                        styles.portal__right__blocks__clients__bottom__notswitched
-                      }
+                      className={styles.portal__right__blocks__clients__bottom}
                     >
-                      <div></div>
-                      <p>Insurance Not Yet Switched</p>
-                      <span>
-                        {Math.round(
-                          (clientsNotSwitched /
-                            (clientsSwitched + clientsNotSwitched)) *
-                            100
-                        )}
-                        %
-                      </span>
+                      <div
+                        className={
+                          styles.portal__right__blocks__clients__bottom__switched
+                        }
+                      >
+                        <div></div>
+                        <p>Insurance Switched</p>
+                        <span>
+                          {Math.round(
+                            (clientsSwitched /
+                              (clientsSwitched + clientsNotSwitched)) *
+                              100
+                          ) || 0}
+                          %
+                        </span>
+                      </div>
+                      <div
+                        className={
+                          styles.portal__right__blocks__clients__bottom__notswitched
+                        }
+                      >
+                        <div></div>
+                        <p>Insurance Not Yet Switched</p>
+                        <span>
+                          {Math.round(
+                            (clientsNotSwitched /
+                              (clientsSwitched + clientsNotSwitched)) *
+                              100
+                          ) || 0}
+                          %
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </>
-              ) : (
-                <Skeleton height={200} borderRadius={15} />
               )}
             </div>
-            <div className={styles.portal__right__blocks__subscription}>
-              {currentPeriodEnd ? (
-                <>
-                  <div
-                    className={styles.portal__right__blocks__subscription__top}
-                  >
-                    <h2>Subscription</h2>
-                  </div>
-                  <div
-                    className={styles.portal__right__blocks__subscription__mid}
-                  >
-                    <div
-                      className={
-                        styles.portal__right__blocks__subscription__mid__date
-                      }
-                    >
-                      <p>
-                        {new Date(
-                          (currentPeriodEnd.getTime() / 1000 - 86400) * 1000
-                        ).toLocaleString('default', {
-                          weekday: 'short',
-                        })}
-                      </p>
-                      <span>
-                        {new Date(
-                          (currentPeriodEnd.getTime() / 1000 - 86400) * 1000
-                        ).getDate()}
-                      </span>
-                    </div>
-                    <div
-                      className={
-                        styles.portal__right__blocks__subscription__mid__date
-                      }
-                    >
-                      <p>
-                        {currentPeriodEnd.toLocaleString('default', {
-                          weekday: 'short',
-                        })}
-                      </p>
-                      <span>{currentPeriodEnd.getDate()}</span>
-                    </div>
-                    <div
-                      className={
-                        styles.portal__right__blocks__subscription__mid__date
-                      }
-                    >
-                      <p>
-                        {new Date(
-                          (currentPeriodEnd.getTime() / 1000 + 86400) * 1000
-                        ).toLocaleString('default', {
-                          weekday: 'short',
-                        })}
-                      </p>
-                      <span>
-                        {new Date(
-                          (currentPeriodEnd.getTime() / 1000 + 86400) * 1000
-                        ).getDate()}
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    className={
-                      styles.portal__right__blocks__subscription__bottom
-                    }
-                  >
-                    {cancelled ? (
-                      <p>
-                        {`Subscription cancelling on 
-                      ${currentPeriodEnd.toLocaleString('en-US', {
-                        month: 'long',
-                      })} ${currentPeriodEnd.getDate()}, ${currentPeriodEnd.getFullYear()} `}
-                      </p>
-                    ) : (
-                      <p>
-                        {`Next month due on
-                      ${currentPeriodEnd.toLocaleString('en-US', {
-                        month: 'long',
-                      })} ${currentPeriodEnd.getDate()}, ${currentPeriodEnd.getFullYear()} `}
-                      </p>
-                    )}
-                    <Link href='/company-portal/subscription'>
-                      Subscription Info
-                    </Link>
-                  </div>
-                </>
-              ) : (
-                <Skeleton height={200} borderRadius={15} />
-              )}
+          ) : (
+            <div className={styles.portal__right__skeleton}>
+              <Skeleton height={350} borderRadius={15} />
             </div>
-          </div>
+          )}
         </section>
       </main>
     </Layout>

@@ -8,6 +8,7 @@ import app from '../../firebase/clientApp'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const auth = getAuth()
 
