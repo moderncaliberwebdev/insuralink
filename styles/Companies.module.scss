@@ -25,15 +25,17 @@
 
       &__item {
         font-size: $font-small;
+        padding: 1rem;
+        border: 2px solid $primary;
+        border-radius: 15px;
+        margin: 1rem 0;
 
         &__visible {
           display: flex;
           flex-direction: row;
-          justify-content: space-around;
-          align-items: center;
+          justify-content: space-between;
           padding: 1rem;
-          border: 2px solid $primary;
-          border-radius: 15px;
+          align-items: center;
 
           &__name {
             font-size: $font-small;
@@ -46,6 +48,65 @@
           &__expand {
             width: 2rem;
             object-fit: contain;
+            cursor: pointer;
+          }
+        }
+
+        &__hidden {
+          flex-direction: row;
+          width: 100%;
+          justify-content: space-between;
+          flex-wrap: nowrap;
+          overflow-y: scroll;
+          padding-top: 2rem;
+
+          div {
+            padding: 0 1rem;
+            flex: 0 0 auto;
+
+            p {
+              font-size: $font-small;
+              font-weight: 700;
+              margin: 1rem 0;
+              padding: 0.5rem 0;
+              border-radius: 5px;
+            }
+            h3 {
+              color: #979797;
+              font-size: $font-small;
+              font-weight: 300;
+              display: flex;
+              flex-direction: row;
+
+              span {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                position: relative;
+
+                img {
+                  width: 2rem;
+                  margin: 0 0.5rem;
+                }
+
+                p {
+                  font-size: $font-small;
+                  font-weight: 400;
+                  width: 30rem;
+                  display: none;
+                  position: absolute;
+                  right: 0;
+                  top: -1rem;
+                  background-color: $secondary;
+                  padding: 1rem;
+                }
+              }
+              &:hover {
+                p {
+                  display: block;
+                }
+              }
+            }
           }
         }
       }
