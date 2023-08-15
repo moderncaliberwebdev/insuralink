@@ -14,6 +14,10 @@
   display: flex;
   flex-direction: column;
 
+  @include respond(phone) {
+    padding: 2rem;
+  }
+
   &__number {
     color: #fff;
     font-size: $font-tiny;
@@ -32,13 +36,29 @@
     gap: 2rem;
     align-items: center;
 
+    @include respond(tab-port) {
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 4rem 0 5rem 0;
+    }
+
     &__question {
       color: #fff;
       min-width: 35rem;
       max-width: 40rem;
 
+      @include respond(tab-port) {
+        min-width: none;
+        max-width: none;
+        width: 100%;
+      }
+
       h1 {
         font-size: $font-med-head;
+
+        @include respond(phone) {
+          font-size: $font-small-head;
+        }
       }
       p {
         font-size: $font-text;
@@ -50,6 +70,11 @@
       flex-direction: column;
       gap: 2rem;
       min-width: 30rem;
+
+      @include respond(tab-port) {
+        min-width: none;
+        width: 100%;
+      }
 
       &__radios {
         display: flex;
@@ -82,6 +107,10 @@
         align-items: center;
         justify-content: space-between;
 
+        @include respond(tab-port) {
+          justify-content: center;
+        }
+
         input {
           margin-left: 2rem;
           width: 70rem;
@@ -92,22 +121,34 @@
           border-bottom: 2px solid #000;
           font-size: $font-text;
 
+          @include respond(tab-port) {
+            width: 100%;
+          }
+
           &:focus {
             outline: none;
           }
         }
 
         label {
-          // width: 100%;
           cursor: pointer;
 
           display: flex;
           flex-direction: row;
           justify-content: space-between;
           align-items: center;
+
+          @include respond(phone) {
+            width: 100%;
+          }
+
           img {
             width: 4rem;
             margin-left: 100%;
+
+            @include respond(phone) {
+              margin-left: 0;
+            }
           }
 
           input[type='file'] {

@@ -17,6 +17,10 @@
   h1 {
     color: #fff;
     font-size: $font-med-head;
+
+    @include respond(phone) {
+      font-size: $font-small-head;
+    }
   }
   &__subhead {
     color: #fff;
@@ -35,13 +39,28 @@
       margin: 2rem 0;
       border-radius: 10px;
 
+      @include respond(phone) {
+        flex-direction: column;
+      }
+
       a {
         text-decoration: underline;
         margin-right: 1rem;
         color: #000;
+        white-space: nowrap;
+
+        @include respond(phone) {
+          white-space: normal;
+          text-align: center;
+        }
       }
       p {
         color: #000;
+        overflow-x: scroll;
+        @include respond(phone) {
+          width: 100%;
+          text-align: center;
+        }
       }
       img {
         height: 5rem;

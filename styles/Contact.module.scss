@@ -14,6 +14,10 @@
   &__left {
     h1 {
       font-size: $font-big-head;
+
+      @include respond(phone) {
+        font-size: $font-med-head;
+      }
     }
     p {
       font-size: $font-text;
