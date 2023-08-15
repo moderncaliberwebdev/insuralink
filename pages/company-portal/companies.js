@@ -351,7 +351,7 @@ export default function Companies() {
           <div className={styles.companies__right__list}>
             {allCompanies ? (
               allCompanies.map((company) => {
-                return <CompanyItem company={company} />
+                return <CompanyItem company={company} key={company.name} />
               })
             ) : (
               <>
