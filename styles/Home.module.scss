@@ -345,6 +345,12 @@
         top: 0rem;
         left: 50rem;
         height: 2rem;
+
+        @include respond(phone) {
+          left: -1rem;
+          top: -0.5rem;
+          transform: rotate(270deg);
+        }
       }
     }
 
