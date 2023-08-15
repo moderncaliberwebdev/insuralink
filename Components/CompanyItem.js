@@ -7,15 +7,17 @@ function CompanyItem({ company }) {
   return (
     <div className={styles.companies__right__list__item} key={company.code}>
       <div className={styles.companies__right__list__item__visible}>
-        <h2 className={styles.companies__right__list__item__visible__name}>
-          {company.name}
-        </h2>
-        <p className={styles.companies__right__list__item__visible__location}>
-          {company.location}
-        </p>
-        <p className={styles.companies__right__list__item__visible__clients}>
-          {company.clients.length} clients
-        </p>
+        <div>
+          <h2 className={styles.companies__right__list__item__visible__name}>
+            {company.name}
+          </h2>
+          <p className={styles.companies__right__list__item__visible__location}>
+            {company.location}
+          </p>
+          <p className={styles.companies__right__list__item__visible__clients}>
+            {company.clients.length} clients
+          </p>
+        </div>
         <img
           src='/companies/expand.png'
           alt='Expand Arrow'

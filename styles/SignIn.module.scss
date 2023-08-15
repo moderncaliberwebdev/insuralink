@@ -12,6 +12,10 @@
   &__left {
     padding: 4rem;
     width: 50%;
+
+    @include respond(tab-port) {
+      width: 100%;
+    }
     h2 {
       font-size: $font-med-head;
     }
@@ -98,6 +102,10 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
+    @include respond(tab-port) {
+      display: none;
+    }
 
     h2 {
       font-size: $font-small-head;

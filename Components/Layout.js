@@ -113,20 +113,26 @@ export default function Layout({ children }) {
                     <Link href='/'>Home</Link>
                   </li>
                   <li>
-                    <Link href='/start-your-switch'>Switch Your Insurance</Link>
-                  </li>
-                  <li>
                     <Link href='/who-we-are'>Who We Are</Link>
                   </li>
                   <li>
                     <Link href='/our-service'>Our Service</Link>
                   </li>
                   <li>
-                    <Link href='/company-portal'>Company Portal</Link>
-                  </li>
-                  <li>
                     <Link href='/contact-us'>Contact Us</Link>
                   </li>
+                  <li>
+                    <Link href='/start-your-switch'>Switch Your Insurance</Link>
+                  </li>
+                  {currentUser ? (
+                    <li onClick={firebaseSignOut}>Sign Out</li>
+                  ) : (
+                    <li>
+                      <Link href={currentUser ? '/company-portal' : '/sign-in'}>
+                        Company Portal
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

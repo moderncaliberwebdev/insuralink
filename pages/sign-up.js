@@ -159,7 +159,7 @@ export default function SignUp() {
               {successMsg && successMsg.length > 0 && successMsg}
             </p>
             <p className={styles.signin__left__form__noaccount}>
-              Don't have an account? <Link href='/sign-up'>Sign Up</Link>
+              Already have an account? <Link href='/sign-in'>Sign In</Link>
             </p>
           </form>
         </section>

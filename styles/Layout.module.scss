@@ -52,6 +52,10 @@
     flex-direction: row;
     justify-content: space-between;
 
+    div {
+      width: 5rem;
+    }
+
     a {
       font-size: $font-big-text;
       font-weight: bold;
@@ -69,6 +73,7 @@
       flex-direction: column;
       align-items: flex-end;
       cursor: pointer;
+      width: 5rem;
 
       img {
         margin-bottom: 0.5rem;
@@ -110,6 +115,8 @@
           display: flex;
           flex-direction: row;
           align-items: center;
+          color: #fff;
+          cursor: pointer;
 
           @include respond(phone) {
             font-size: $font-big-text;

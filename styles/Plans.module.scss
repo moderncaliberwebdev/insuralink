@@ -9,6 +9,13 @@
       position: relative;
       z-index: 2;
       font-size: $font-big-head;
+
+      @include respond(tab-port) {
+        font-size: $font-med-head;
+      }
+      @include respond(tab-port) {
+        font-size: $font-small-head;
+      }
     }
     img {
       position: absolute;
@@ -16,6 +23,13 @@
       z-index: 1;
       left: 0;
       width: 65rem;
+
+      @include respond(tab-port) {
+        width: 50rem;
+      }
+      @include respond(tab-port) {
+        display: none;
+      }
     }
   }
 
@@ -37,6 +51,10 @@
       padding: 1rem 2rem;
       border: 1px solid #000;
       border-radius: 15px;
+
+      @include respond(tab-port) {
+        flex-direction: column;
+      }
 
       h2 {
         font-size: $font-med-head;

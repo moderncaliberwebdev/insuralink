@@ -4,9 +4,12 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useMediaQuery } from 'react-responsive'
 
 export default function PortalSidebar({ clientInfo }) {
   const router = useRouter()
+
+  const isBigScreen = useMediaQuery({ query: '(min-width: 900px)' })
 
   return (
     <section className={styles.portal__sidebar}>
@@ -97,9 +100,13 @@ export default function PortalSidebar({ clientInfo }) {
             borderRadius={15}
             style={{ marginBottom: '5rem' }}
           />
-          <Skeleton height={70} borderRadius={15} />
-          <Skeleton height={70} borderRadius={15} />
-          <Skeleton height={70} borderRadius={15} />
+          {isBigScreen && (
+            <>
+              <Skeleton height={70} borderRadius={15} />
+              <Skeleton height={70} borderRadius={15} />
+              <Skeleton height={70} borderRadius={15} />
+            </>
+          )}
         </div>
       )}
     </section>
