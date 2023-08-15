@@ -43,11 +43,11 @@ export default function Home() {
         <header className={styles.home__header}>
           <div className={styles.home__header__left}>
             <h1>
-              Streamline Your Insurance Switch with
+              Streamline Your Insurance Switch with{' '}
               <span>
                 <p>Quick and Easy</p>
                 <img src='/home/underline.png' alt='Underline' />
-              </span>
+              </span>{' '}
               Policy Cancellations
             </h1>
 
@@ -110,57 +110,69 @@ export default function Home() {
               <img
                 src='/home/line.png'
                 alt='Dashed Line'
-                className={styles.home__how__graphics__item__line}
+                className={styles.home__how__graphics__item__graphic__line}
               />
-              <div className={styles.home__how__graphics__item__card}>
-                <img src='/home/form.png' alt='Form' />
-                <h4>
-                  Who is your current insurance provider? When would you like
-                  your policy to be cancelled?
-                </h4>
-                <p>
-                  Answer a couple simple questions to provide the information we
-                  need.
-                </p>
+              <div class={styles.home__how__graphics__item__graphic}>
+                <div
+                  className={styles.home__how__graphics__item__graphic__card}
+                >
+                  <img src='/home/form.png' alt='Form' />
+                  <h4>
+                    Who is your current insurance provider? When would you like
+                    your policy to be cancelled?
+                  </h4>
+                  <p>
+                    Answer a couple simple questions to provide the information
+                    we need.
+                  </p>
+                </div>
+                <h3>1. Fill in your information</h3>
               </div>
-              <h3>1. Fill in your information</h3>
             </div>
             <div
               className={`${styles.home__how__graphics__item} ${styles.item__right}`}
             >
-              <h3>2. Click Send</h3>
-              <div className={styles.home__how__graphics__item__card}>
-                <img src='/home/send.png' alt='Send graphic' />
-                <h4>Click send and that’s it!</h4>
-                <p>
-                  Once all necessary information is provided and the form is
-                  sent, we'll step in to do the rest.
-                </p>
+              <div class={styles.home__how__graphics__item__graphic}>
+                <h3>2. Click Send</h3>
+                <div
+                  className={styles.home__how__graphics__item__graphic__card}
+                >
+                  <img src='/home/send.png' alt='Send graphic' />
+                  <h4>Click send and that’s it!</h4>
+                  <p>
+                    Once all necessary information is provided and the form is
+                    sent, we'll step in to do the rest.
+                  </p>
+                </div>
               </div>
               <img
                 src='/home/line.png'
                 alt='Dashed Line'
-                className={styles.home__how__graphics__item__line}
+                className={styles.home__how__graphics__item__graphic__line}
               />
             </div>
             <div className={styles.home__how__graphics__item}>
               <img
                 src='/home/line.png'
                 alt='Dashed Line'
-                className={styles.home__how__graphics__item__line}
+                className={styles.home__how__graphics__item__graphic__line}
               />
-              <div className={styles.home__how__graphics__item__card}>
-                <img src='/home/handshake.png' alt='Handshake graphic' />
-                <h4>
-                  InsuraLink connects with your current insurance company.
-                </h4>
-                <p>
-                  We connect with your current insurance company and provide
-                  them with your information. We'll make sure your policy is
-                  cancelled on time.
-                </p>
+              <div class={styles.home__how__graphics__item__graphic}>
+                <div
+                  className={styles.home__how__graphics__item__graphic__card}
+                >
+                  <img src='/home/handshake.png' alt='Handshake graphic' />
+                  <h4>
+                    InsuraLink connects with your current insurance company.
+                  </h4>
+                  <p>
+                    We connect with your current insurance company and provide
+                    them with your information. We'll make sure your policy is
+                    cancelled on time.
+                  </p>
+                </div>
+                <h3>3. We handle the contact</h3>
               </div>
-              <h3>3. We handle the contact</h3>
             </div>
           </div>
         </section>

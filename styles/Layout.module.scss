@@ -46,6 +46,104 @@
   }
 }
 
+.mobilenav {
+  &__upper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    a {
+      font-size: $font-big-text;
+      font-weight: bold;
+
+      color: #000;
+      text-decoration: none;
+
+      span {
+        color: $primary;
+      }
+    }
+
+    &__icon {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      cursor: pointer;
+
+      img {
+        margin-bottom: 0.5rem;
+
+        &:nth-of-type(2) {
+          width: 66%;
+        }
+      }
+    }
+  }
+
+  &__lower {
+    // display: none;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100vw;
+
+    &__top {
+      height: 25vh;
+      background-color: rgba($color: #000000, $alpha: 0.3);
+      cursor: pointer;
+    }
+    &__bottom {
+      width: 100vw;
+      position: absolute;
+      top: 20vh;
+      background: $primary;
+      height: 80vh;
+      border-radius: 20px 20px 0 0;
+      padding: 4rem;
+
+      ul {
+        li {
+          list-style-type: none;
+          margin: 5rem 0;
+          font-size: $font-med-head;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          @include respond(phone) {
+            font-size: $font-big-text;
+          }
+
+          a {
+            color: #fff;
+            text-decoration: none;
+          }
+
+          img {
+            height: 4rem;
+            cursor: pointer;
+          }
+          input {
+            height: 4rem;
+            width: 100%;
+            background-color: transparent;
+            border-style: none;
+            border-bottom: 2px solid #fff;
+            margin: 0 1rem;
+            color: #fff;
+            font-size: $font-text;
+
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 .footer {
   width: 90%;
   margin: 4rem auto;
@@ -65,14 +163,16 @@
     ul {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       list-style-type: none;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
       font-size: $font-small;
       padding-bottom: 1rem;
       border-bottom: 1px solid $primary;
 
       a {
+        margin: 0 0.5rem;
         text-decoration: none;
         color: #000;
       }

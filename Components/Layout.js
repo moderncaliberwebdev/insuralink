@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 import styles from '../styles/Layout.module.scss'
 import Link from 'next/link'
@@ -10,6 +11,9 @@ const auth = getAuth()
 
 export default function Layout({ children }) {
   const [currentUser, setCurrentUser] = useState()
+  const [mobileNav, setMobileNav] = useState(false)
+
+  const isBigScreen = useMediaQuery({ query: '(min-width: 900px)' })
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -40,47 +44,95 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <nav className={styles.nav}>
-        <div className={styles.nav__left}>
-          <ul>
-            <Link href='/who-we-are'>
-              <li>Who We Are</li>
-            </Link>
-            <Link href='/our-service'>
-              <li>Our Service</li>
-            </Link>
-            <Link href='/contact-us'>
-              <li>Contact Us</li>
-            </Link>
-          </ul>
-        </div>
-        <div className={styles.nav__center}>
-          <Link href='/'>
-            Insura<span>Link</span>
-          </Link>
-        </div>
-        <div className={styles.nav__right}>
-          <ul>
-            <Link href={currentUser ? '/company-portal' : '/sign-in'}>
-              <li>Company Portal</li>
-            </Link>
-            {currentUser ? (
-              <li
-                className={styles.nav__right__switch}
-                onClick={firebaseSignOut}
-              >
-                Sign Out
-              </li>
-            ) : (
-              <Link href='/start-your-switch'>
-                <li className={styles.nav__right__switch}>
-                  Switch Your Insurance
-                </li>
+      {isBigScreen ? (
+        <nav className={styles.nav}>
+          <div className={styles.nav__left}>
+            <ul>
+              <Link href='/who-we-are'>
+                <li>Who We Are</li>
               </Link>
-            )}
-          </ul>
-        </div>
-      </nav>
+              <Link href='/our-service'>
+                <li>Our Service</li>
+              </Link>
+              <Link href='/contact-us'>
+                <li>Contact Us</li>
+              </Link>
+            </ul>
+          </div>
+          <div className={styles.nav__center}>
+            <Link href='/'>
+              Insura<span>Link</span>
+            </Link>
+          </div>
+          <div className={styles.nav__right}>
+            <ul>
+              <Link href={currentUser ? '/company-portal' : '/sign-in'}>
+                <li>Company Portal</li>
+              </Link>
+              {currentUser ? (
+                <li
+                  className={styles.nav__right__switch}
+                  onClick={firebaseSignOut}
+                >
+                  Sign Out
+                </li>
+              ) : (
+                <Link href='/start-your-switch'>
+                  <li className={styles.nav__right__switch}>
+                    Switch Your Insurance
+                  </li>
+                </Link>
+              )}
+            </ul>
+          </div>
+        </nav>
+      ) : (
+        <nav className={styles.mobilenav}>
+          <div className={styles.mobilenav__upper}>
+            <div></div>
+            <Link href='/'>
+              Insura<span>Link</span>
+            </Link>
+            <div
+              className={styles.mobilenav__upper__icon}
+              onClick={() => setMobileNav(true)}
+            >
+              <img src='/home/menu-upper.png' alt='Menu Upper' />
+              <img src='/home/menu-lower.png' alt='Menu Lower' />
+            </div>
+          </div>
+          {mobileNav && (
+            <div className={styles.mobilenav__lower}>
+              <div
+                className={styles.mobilenav__lower__top}
+                onClick={() => setMobileNav(false)}
+              ></div>
+              <div className={styles.mobilenav__lower__bottom}>
+                <ul>
+                  <li>
+                    <Link href='/'>Home</Link>
+                  </li>
+                  <li>
+                    <Link href='/start-your-switch'>Switch Your Insurance</Link>
+                  </li>
+                  <li>
+                    <Link href='/who-we-are'>Who We Are</Link>
+                  </li>
+                  <li>
+                    <Link href='/our-service'>Our Service</Link>
+                  </li>
+                  <li>
+                    <Link href='/company-portal'>Company Portal</Link>
+                  </li>
+                  <li>
+                    <Link href='/contact-us'>Contact Us</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+        </nav>
+      )}
       {children}
       <footer className={styles.footer}>
         <div className={styles.footer__top}>
