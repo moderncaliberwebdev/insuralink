@@ -54,8 +54,8 @@ export default function Plans() {
             </header>
             <p className={styles.plans__subhead}>
               To complete the sign up process and register your company with
-              Insura
-              <span>Link</span>, please select a plan
+              Policy
+              <span>Switch</span>, please select a plan
             </p>
             <section className={styles.plans__plans}>
               <SubscriptionPlan

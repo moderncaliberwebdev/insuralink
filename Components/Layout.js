@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 import app from '../firebase/clientApp'
+import Head from 'next/head'
 
 const auth = getAuth()
 
@@ -44,6 +45,9 @@ export default function Layout({ children }) {
 
   return (
     <>
+      <Head>
+        <link rel='icon' href='/home/PS.ico' sizes='any' />
+      </Head>
       {isBigScreen ? (
         <nav className={styles.nav}>
           <div className={styles.nav__left}>
@@ -61,7 +65,7 @@ export default function Layout({ children }) {
           </div>
           <div className={styles.nav__center}>
             <Link href='/'>
-              Insura<span>Link</span>
+              Policy<span>Switch</span>
             </Link>
           </div>
           <div className={styles.nav__right}>
@@ -91,7 +95,7 @@ export default function Layout({ children }) {
           <div className={styles.mobilenav__upper}>
             <div></div>
             <Link href='/'>
-              Insura<span>Link</span>
+              Policy<span>Switch</span>
             </Link>
             <div
               className={styles.mobilenav__upper__icon}
@@ -145,7 +149,7 @@ export default function Layout({ children }) {
           <ul>
             <Link href='/'>
               <li className={styles.footer__top__logo}>
-                Insura<span>Link</span>
+                Policy<span>Switch</span>
               </li>
             </Link>
             <Link href='/who-we-are'>
@@ -166,7 +170,7 @@ export default function Layout({ children }) {
           </ul>
         </div>
         <div className={styles.footer__bottom}>
-          © Copyright 2023 by InsuraLink
+          © Copyright 2023 by PolicySwitch
         </div>
       </footer>
     </>

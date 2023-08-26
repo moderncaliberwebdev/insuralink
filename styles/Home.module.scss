@@ -82,6 +82,14 @@
         font-size: $font-text;
         margin: 2rem 0;
 
+        span {
+          margin: 0 0.5rem;
+
+          span {
+            margin: 0;
+          }
+        }
+
         @include respond(phone) {
           margin: 0;
         }

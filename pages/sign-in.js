@@ -158,7 +158,7 @@ export default function SignIn() {
         </section>
         <section className={styles.signin__right}>
           <h2>
-            Insura<span>Link</span>
+            Policy<span>Switch</span>
           </h2>
         </section>
       </div>

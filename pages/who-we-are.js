@@ -33,10 +33,10 @@ export default function WhoWeAre() {
           </h2>
           <div className={styles.who__content__content}>
             <p>
-              Insura<span>Link</span> is dedicated to simplifying the insurance
-              transition process. We make it easy for customers to switch
-              providers by streamlining the policy cancellation process. Our
-              efficient cancellation system allows customers to end their
+              Policy<span>Switch</span> is dedicated to simplifying the
+              insurance transition process. We make it easy for customers to
+              switch providers by streamlining the policy cancellation process.
+              Our efficient cancellation system allows customers to end their
               existing policies quickly, making it easy for them to onboard with
               new insurance providers. Our mission is to make insurance
               transitions seamless and hassle-free, providing customers with a

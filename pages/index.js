@@ -55,7 +55,7 @@ export default function Home() {
               Getting in contact with old insurance providers is tricky.
               Cancelling your insurance doesn’t have to be.
               <span>
-                Insura<span>Link</span>
+                Policy<span>Switch</span>
               </span>
               can help you.
             </p>
@@ -84,16 +84,16 @@ export default function Home() {
               could cost hundreds of dollars.
             </p>
             <p className={styles.home__protection__right__accent}>
-              When using InsuraLink, we collect necessary information regarding
-              your current provider to aid in cancelling your policy with them
-              on time.
+              When using PolicySwitch, we collect necessary information
+              regarding your current provider to aid in cancelling your policy
+              with them on time.
             </p>
             <p>
               Switching your insurance used to be a stressful process... until
               now. Regardless of what type of insurance you have, start your
               switch today with
               <span>
-                Insura<span>Link</span>
+                Policy<span>Switch</span>
               </span>
               .
             </p>
@@ -163,7 +163,7 @@ export default function Home() {
                 >
                   <img src='/home/handshake.png' alt='Handshake graphic' />
                   <h4>
-                    InsuraLink connects with your current insurance company.
+                    PolicySwitch connects with your current insurance company.
                   </h4>
                   <p>
                     We connect with your current insurance company and provide
@@ -187,49 +187,49 @@ export default function Home() {
           </p>
           <div className={styles.home__faq__qs}>
             <div className={styles.home__faq__qs__item}>
-              <h4>Is InsuraLink free?</h4>
+              <h4>Is PolicySwitch free?</h4>
               <p>
-                Yes! InsuraLink is free for all clients of participating
+                Yes! PolicySwitch is free for all clients of participating
                 insurance companies. Just fill out the simple form and click
                 send, and we’ll handle the rest!
               </p>
             </div>
             <div className={styles.home__faq__qs__item}>
-              <h4>Is InsuraLink free?</h4>
+              <h4>Is PolicySwitch free?</h4>
               <p>
-                Yes! InsuraLink is free for all clients of participating
+                Yes! PolicySwitch isfree for all clients of participating
                 insurance companies. Just fill out the simple form and click
                 send, and we’ll handle the rest!
               </p>
             </div>
             <div className={styles.home__faq__qs__item}>
-              <h4>Is InsuraLink free?</h4>
+              <h4>Is PolicySwitch free?</h4>
               <p>
-                Yes! InsuraLink is free for all clients of participating
+                Yes! PolicySwitch isfree for all clients of participating
                 insurance companies. Just fill out the simple form and click
                 send, and we’ll handle the rest!
               </p>
             </div>
             <div className={styles.home__faq__qs__item}>
-              <h4>Is InsuraLink free?</h4>
+              <h4>Is PolicySwitch free?</h4>
               <p>
-                Yes! InsuraLink is free for all clients of participating
+                Yes! PolicySwitch isfree for all clients of participating
                 insurance companies. Just fill out the simple form and click
                 send, and we’ll handle the rest!
               </p>
             </div>
             <div className={styles.home__faq__qs__item}>
-              <h4>Is InsuraLink free?</h4>
+              <h4>Is PolicySwitch free?</h4>
               <p>
-                Yes! InsuraLink is free for all clients of participating
+                Yes! PolicySwitch isfree for all clients of participating
                 insurance companies. Just fill out the simple form and click
                 send, and we’ll handle the rest!
               </p>
             </div>
             <div className={styles.home__faq__qs__item}>
-              <h4>Is InsuraLink free?</h4>
+              <h4>Is PolicySwitch free?</h4>
               <p>
-                Yes! InsuraLink is free for all clients of participating
+                Yes! PolicySwitch isfree for all clients of participating
                 insurance companies. Just fill out the simple form and click
                 send, and we’ll handle the rest!
               </p>

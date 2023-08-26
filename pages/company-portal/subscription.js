@@ -123,8 +123,8 @@ export default function Subscription() {
           subscription_id: subscriptionInfo.id,
         },
       },
-      success_url: `https://insuralink.vercel.app/company-portal/subscription?paymentMethodSession={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://insuralink.vercel.app/company-portal/subscription`,
+      success_url: `https://www.policyswitch.co/company-portal/subscription?paymentMethodSession={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://www.policyswitch.co/company-portal/subscription`,
     })
 
     const clientStripe = await loadStripe(
@@ -215,7 +215,7 @@ export default function Subscription() {
                     className={styles.subscription__right__info__plan__top}
                   >
                     <h2>
-                      Insura<span>Link</span>
+                      Policy<span>Switch</span>
                     </h2>
                     {cancelled ? (
                       <button onClick={() => setOpenRenewPopup(true)}>
@@ -299,7 +299,7 @@ export default function Subscription() {
                   <section
                     className={styles.subscription__right__info__bill__mid}
                   >
-                    <span>InsuraLink</span>
+                    <span>PolicySwitch</span>
                     <div>
                       <p>{subscriptionInfo.items.data[0].price.nickname}</p>
                       <span>

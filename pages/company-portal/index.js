@@ -173,7 +173,7 @@ export default function CompanyPortal() {
       <main className={styles.portal}>
         <Popup
           question='You Are Not Subscribed Yet'
-          desc='To use Insuralink and finish your sign up process, you must have a subscription'
+          desc='To use PolicySwitch and finish your sign up process, you must have a subscription'
           answer='Subscription Settings'
           no='Cancel'
           cancel={closePopup}

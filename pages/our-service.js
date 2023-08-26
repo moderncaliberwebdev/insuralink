@@ -17,7 +17,7 @@ export default function OurService() {
             We make switching your insurance policy <span>quick and easy</span>
           </h2>
           <p>
-            Insura<span>Link</span> is an incredibly easy software to use. You
+            Policy<span>Switch</span> is an incredibly easy software to use. You
             just start by clicking Switch Your Insurance, and you’ll be taken to
             a form that directs you through the process of sending a
             cancellation message to your insurance provider.
@@ -32,7 +32,7 @@ export default function OurService() {
           <h2>How Does it Work?</h2>
           <div className={styles.who__content__content}>
             <p>
-              Insura<span>Link</span> is actually a very simple concept, and
+              Policy<span>Switch</span> is actually a very simple concept, and
               that’s why we love it so much. When an insurance agency signs a
               new client, they need to contact the previous insurance provider
               to process a cancellation. Oftentimes, these messages are

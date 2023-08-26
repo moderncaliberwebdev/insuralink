@@ -37,7 +37,7 @@ export default function StartYourSwitch() {
         </p>
         <div className={styles.switch__main}>
           <div className={styles.switch__main__question}>
-            <h1>What is your InsuraLink code?</h1>
+            <h1>What is your PolicySwitch code?</h1>
             <p>
               Your insurance company gave you a unique code during the sign on
               process with them.

@@ -48,8 +48,8 @@ export default function Plans() {
               <img src='/home/underline.png' alt='Underline Graphic' />
             </header>
             <p className={styles.plans__subhead}>
-              To upgrade your Insura
-              <span>Link</span>, plan please select a new plan
+              To upgrade your Policy
+              <span>Switch</span>, plan please select a new plan
             </p>
             <section className={styles.plans__plans}>
               <SubscriptionPlan

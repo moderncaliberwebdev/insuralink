@@ -17,8 +17,8 @@ export default function Contact() {
       email,
       number,
       message,
-      subject: 'New Insuralink Contact Request',
-      client: 'Insuralink',
+      subject: 'New PolicySwitch Contact Request',
+      client: 'PolicySwitch',
       client_email: 'cmartin@moderncaliber.com',
     }
 
@@ -114,11 +114,11 @@ export default function Contact() {
         <div className={styles.contact__right}>
           <img src='/contact/get-in-touch.png' alt='Get in Touch Image' />
           <div className={styles.contact__right__numbers}>
-            <h2>Call Us</h2>
+            {/* <h2>Call Us</h2>
             <p>717-777-7777</p>
-            <p>717-777-7777</p>
+            <p>717-777-7777</p> */}
             <h2>Email</h2>
-            <p>admin@gmail.com</p>
+            <p>support@policyswitch.co</p>
           </div>
         </div>
       </div>
