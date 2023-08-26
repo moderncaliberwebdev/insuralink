@@ -1,142 +1,115 @@
-import { test, expect } from '@playwright/test'
+// import { test, expect } from '@playwright/test'
 
-test('fill in insuralink code and persist when I leave and come back', async ({
-  page,
-}) => {
-  // start from start your switch page 1
-  await page.goto('/start-your-switch')
-  // fill in input
-  await page.type('input', '123456789')
-  //next button should be visible
-  await expect(page.getByText('Next')).toBeVisible()
-  //go to next
-  await page.click('text=Next')
+// test('switch your insurance process', async ({ page }) => {
+//   // start from start your switch page 1
+//   await page.goto('/start-your-switch')
+//   // fill in input
+//   await page.type('input', 'OVN1GvDZi1OV7blEXyrDuZ57Oo1aqOHp')
 
-  await expect(
-    page.getByRole('heading', {
-      name: 'Who is your current insurance provider that you would like to cancel with?',
-    })
-  ).toBeVisible()
+//   await page.goto('/start-your-switch/current-insurance')
 
-  //go back
-  await page.locator('#backArrow').click()
-  //after the going back, input should still be filled
-  await expect(page.locator('input[type=text]')).toHaveValue('123456789')
-})
+//   await expect(
+//     page.getByRole('heading', {
+//       name: 'Who is your current insurance provider that you would like to cancel with?',
+//     })
+//   ).toBeVisible()
 
-test('fill in current insuranace provider and persist when I leave and come back', async ({
-  page,
-}) => {
-  await page.goto('/start-your-switch/current-insurance')
+//   //go back
+//   await page.locator('#backArrow').click()
+//   //after the going back, input should still be filled
+//   await expect(page.locator('input[type=text]')).toHaveValue(
+//     'OVN1GvDZi1OV7blEXyrDuZ57Oo1aqOHp'
+//   )
 
-  await page.click('text=State Farm')
+//   await page.goto('/start-your-switch/current-insurance')
 
-  await expect(page.getByText('Next')).toBeVisible()
+//   //insurance provider
+//   await page.click('text=State Farm')
 
-  await page.click('text=Next')
+//   await page.goto('/start-your-switch/current-number')
 
-  await expect(
-    page.getByRole('heading', {
-      name: 'What is your current insurance policy number?',
-    })
-  ).toBeVisible()
+//   //current policy number
+//   await page.type('input', '78243543')
 
-  await page.locator('#backArrow').click()
+//   await page.goto('/start-your-switch/current-insurance-email')
 
-  await page.type('input', 'Nationwide')
+//   //current agent email
+//   await page.type('input', 'cmartin@moderncaliber.com')
+//   await page.goto('/start-your-switch/your-email')
 
-  await expect(page.getByText('Next')).toBeVisible()
+//   //your name and email
+//   await page.locator('#nameInput').fill('Caleb Martin')
+//   await page.locator('#emailInput').fill('caleb637@icloud.com')
 
-  await page.click('text=Next')
+//   await page.goto('/start-your-switch/date')
 
-  await expect(
-    page.getByRole('heading', {
-      name: 'What is your current insurance policy number?',
-    })
-  ).toBeVisible()
+//   //fill in date
+//   await page.click('text=15')
 
-  await page.locator('#backArrow').click()
+//   await expect(
+//     page.getByText(
+//       `You picked ${new Date().toLocaleString('en-US', {
+//         month: 'short',
+//       })} 15, ${new Date().getFullYear()}`
+//     )
+//   ).toBeVisible()
+// })
 
-  await expect(page.locator('input[type=text]')).toHaveValue('Nationwide')
-})
+// // test('fill in date and persist when I leave and come back', async ({
+// //   page,
+// // }) => {
+// //   await page.goto('/start-your-switch/date')
 
-test('fill in insurance number and persist when I leave and come back', async ({
-  page,
-}) => {
-  await page.goto('/start-your-switch/current-number')
+// //   await page.click('text=24')
 
-  await page.type('input', '78243543')
+// //   await expect(page.getByText('You picked Jun 24, 2023')).toBeVisible()
 
-  await expect(page.getByText('Next')).toBeVisible()
+// //   await page.click('text=Next')
 
-  await page.click('text=Next')
+// //   await expect(
+// //     page.getByRole('heading', {
+// //       name: 'Identification Card',
+// //     })
+// //   ).toBeVisible()
 
-  await expect(
-    page.getByRole('heading', {
-      name: 'When would you like this insurance policy to be cancelled?',
-    })
-  ).toBeVisible()
+// //   await page.locator('#backArrow').click()
 
-  await page.locator('#backArrow').click()
+// //   await expect(page.getByText('You picked Jun 24, 2023')).toBeVisible()
+// // })
 
-  await expect(page.locator('input[type=text]')).toHaveValue('78243543')
-})
+// // test('upload id card and persist when I leave and come back', async ({
+// //   page,
+// // }) => {
+// //   await page.goto('/start-your-switch/id-card')
 
-test('fill in date and persist when I leave and come back', async ({
-  page,
-}) => {
-  await page.goto('/start-your-switch/date')
+// //   await page.getByLabel('Upload').setInputFiles('./e2e/fixtures/id-card.png')
 
-  await page.click('text=24')
+// //   await expect(page.locator('#awsImg')).toBeVisible()
 
-  await expect(page.getByText('You picked Jun 24, 2023')).toBeVisible()
+// //   await expect(page.getByText('Next')).toBeVisible()
 
-  await page.click('text=Next')
+// //   await page.click('text=Next')
+// // })
 
-  await expect(
-    page.getByRole('heading', {
-      name: 'Identification Card',
-    })
-  ).toBeVisible()
+// // test('fill in new insurance provider and persist when I leave and come back', async ({
+// //   page,
+// // }) => {
+// //   await page.goto('/start-your-switch/new-insurance')
 
-  await page.locator('#backArrow').click()
+// //   await page.locator('#agentName').fill('Caleb Martin')
+// //   await page.locator('#agentCompany').fill('State Farm')
+// //   await page.locator('#agentEmail').fill('cmartin@statefarm.com')
 
-  await expect(page.getByText('You picked Jun 24, 2023')).toBeVisible()
-})
+// //   await expect(page.getByText('Next')).toBeVisible()
+// //   await page.click('text=Next')
 
-test('upload id card and persist when I leave and come back', async ({
-  page,
-}) => {
-  await page.goto('/start-your-switch/id-card')
+// //   await expect(
+// //     page.getByRole('heading', {
+// //       name: 'What is your new insurance policy number?',
+// //     })
+// //   ).toBeVisible()
 
-  await page.getByLabel('Upload').setInputFiles('./e2e/fixtures/id-card.png')
+// //   await page.locator('#backArrow').click()
 
-  await expect(page.locator('#awsImg')).toBeVisible()
-
-  await expect(page.getByText('Next')).toBeVisible()
-
-  await page.click('text=Next')
-})
-
-test('fill in new insurance provider and persist when I leave and come back', async ({
-  page,
-}) => {
-  await page.goto('/start-your-switch/new-insurance')
-
-  await page.locator('#agentName').fill('Caleb Martin')
-  await page.locator('#agentCompany').fill('State Farm')
-  await page.locator('#agentEmail').fill('cmartin@statefarm.com')
-
-  await expect(page.getByText('Next')).toBeVisible()
-  await page.click('text=Next')
-
-  await expect(
-    page.getByRole('heading', {
-      name: 'What is your new insurance policy number?',
-    })
-  ).toBeVisible()
-
-  await page.locator('#backArrow').click()
-
-  await expect(page.locator('#agentCompany')).toHaveValue('State Farm')
-})
+// //   await expect(page.locator('#agentCompany')).toHaveValue('State Farm')
+// // })

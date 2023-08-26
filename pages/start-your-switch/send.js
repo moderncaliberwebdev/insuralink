@@ -27,7 +27,7 @@ export default function Send() {
     }
   }, [insuralinkState])
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setResponse('Sending...')
 
     const {
@@ -36,6 +36,7 @@ export default function Send() {
       currentNumber,
       currentInsEmail,
       yourEmail,
+      yourName,
       date,
       idCard,
       eSig,
@@ -45,69 +46,72 @@ export default function Send() {
       newNumber,
     } = insuralinkState
 
-    const templateParams = {
+    const newClient = await axios.post('/api/client/new-client', {
+      code,
       currentIns,
       currentNumber,
       currentInsEmail,
       yourEmail,
+      yourName,
       date,
-      idCard,
+      idCard: `https://insuralink.s3.amazonaws.com/${idCard}`,
       eSig,
       newAgentName,
       newAgentCompany,
       newAgentEmail,
       newNumber,
-    }
+      currentDate: new Date().getTime(),
+    })
 
-    emailjs
-      .send(
-        process.env.NEXT_PUBLIC_SERVICE_ID,
-        process.env.NEXT_PUBLIC_CANCEL_TEMPLATE_ID,
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAIL_KEY
-      )
-      .then(
-        async (result) => {
-          console.log(result.text)
+    dispatch(
+      updateInsuralink({
+        currentIns: [],
+        currentNumber: '',
+        currentInsEmail: '',
+        yourEmail: '',
+        yourName: '',
+        date: '',
+        idCard: '',
+        eSig: '',
+        newAgentName: '',
+        newAgentCompany: '',
+        newAgentEmail: '',
+        newNumber: '',
+      })
+    )
 
-          const newClient = await axios.post('/api/client/new-client', {
-            code,
-            currentIns,
-            currentNumber,
-            currentInsEmail,
-            yourEmail,
-            date,
-            idCard: `https://insuralink.s3.amazonaws.com/${idCard}`,
-            eSig,
-            newAgentName,
-            newAgentCompany,
-            newAgentEmail,
-            newNumber,
-            currentDate: new Date().getTime(),
-          })
+    window.location.href = '/?sent=true'
 
-          // dispatch(
-          //   updateInsuralink({
-          //     currentIns: [],
-          //     currentNumber: '',
-          //     currentInsEmail: '',
-          //     yourEmail: '',
-          //     date: '',
-          //     idCard: '',
-          //     eSig: '',
-          //     newAgentName: '',
-          //     newAgentCompany: '',
-          //     newAgentEmail: '',
-          //     newNumber: '',
-          //   })
-          // )
+    // const templateParams = {
+    //   currentIns,
+    //   currentNumber,
+    //   currentInsEmail,
+    //   yourEmail,
+    //   date,
+    //   idCard,
+    //   eSig,
+    //   newAgentName,
+    //   newAgentCompany,
+    //   newAgentEmail,
+    //   newNumber,
+    // }
 
-          // window.location.href = '/?sent=true'
-        },
-        (error) => {
-          setResponse(error.text)
-        }
-      )
+    // emailjs
+    //   .send(
+    //     process.env.NEXT_PUBLIC_SERVICE_ID,
+    //     process.env.NEXT_PUBLIC_CANCEL_TEMPLATE_ID,
+    //     templateParams,
+    //     process.env.NEXT_PUBLIC_EMAIL_KEY
+    //   )
+    //   .then(
+    //     async (result) => {
+    //       console.log(result.text)
+
+    //     },
+    //     (error) => {
+    //       setResponse(error.text)
+    //     }
+    //   )
   }
 
   return (
@@ -149,6 +153,10 @@ export default function Send() {
                   Current Insurance Agent Email:{' '}
                 </Link>
                 <p>{insuralinkState.currentInsEmail}</p>
+              </div>
+              <div className={styles.switch__items__item}>
+                <Link href='/start-your-switch/your-email'>Your Name: </Link>
+                <p>{insuralinkState.yourName}</p>
               </div>
               <div className={styles.switch__items__item}>
                 <Link href='/start-your-switch/your-email'>Your Email: </Link>

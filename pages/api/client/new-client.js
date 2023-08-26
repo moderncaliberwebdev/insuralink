@@ -21,6 +21,7 @@ router.post(async (req, res) => {
       currentNumber,
       currentInsEmail,
       yourEmail,
+      yourName,
       date,
       idCard,
       eSig,
@@ -36,10 +37,11 @@ router.post(async (req, res) => {
       {
         $push: {
           clients: {
-            currentIns,
+            currentIns: currentIns[0],
             currentNumber,
             currentInsEmail,
             yourEmail,
+            yourName,
             date,
             idCard,
             eSig,

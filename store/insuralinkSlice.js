@@ -9,6 +9,7 @@ const initialState = {
     currentNumber: '',
     currentInsEmail: '',
     yourEmail: '',
+    yourName: '',
     date: '',
     idCard: '',
     eSig: '',

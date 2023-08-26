@@ -16,10 +16,14 @@ export default function YourEmail() {
   const insuralinkState = useSelector(selectInsuralinkState)
 
   const [input, setInput] = useState(insuralinkState.yourEmail)
+  const [nameInput, setNameInput] = useState(insuralinkState.yourName)
 
   useEffect(() => {
     dispatch(updateInsuralink({ yourEmail: input }))
   }, [input])
+  useEffect(() => {
+    dispatch(updateInsuralink({ yourName: nameInput }))
+  }, [nameInput])
 
   useEffect(() => {
     if (insuralinkState.code.length == 0) {
@@ -45,7 +49,7 @@ export default function YourEmail() {
             </p>
             <div className={styles.switch__main}>
               <div className={styles.switch__main__question}>
-                <h1>What is your email?</h1>
+                <h1>What is your name & email?</h1>
                 <p>
                   This is necessary so you can receive confirmation of your
                   insurance policy being cancelled.
@@ -53,11 +57,21 @@ export default function YourEmail() {
               </div>
               <div className={styles.switch__main__answer}>
                 <div className={styles.switch__main__answer__item}>
+                  <label>Name:</label>
+                  <input
+                    type='text'
+                    onChange={(e) => setNameInput(e.target.value)}
+                    value={nameInput}
+                    id='nameInput'
+                  />
+                </div>
+                <div className={styles.switch__main__answer__item}>
                   <label>Email:</label>
                   <input
                     type='text'
                     onChange={(e) => setInput(e.target.value)}
                     value={input}
+                    id='emailInput'
                   />
                 </div>
               </div>
