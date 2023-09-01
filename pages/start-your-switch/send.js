@@ -63,55 +63,24 @@ export default function Send() {
       currentDate: new Date().getTime(),
     })
 
-    dispatch(
-      updateInsuralink({
-        currentIns: [],
-        currentNumber: '',
-        currentInsEmail: '',
-        yourEmail: '',
-        yourName: '',
-        date: '',
-        idCard: '',
-        eSig: '',
-        newAgentName: '',
-        newAgentCompany: '',
-        newAgentEmail: '',
-        newNumber: '',
-      })
-    )
+    // dispatch(
+    //   updateInsuralink({
+    //     currentIns: [],
+    //     currentNumber: '',
+    //     currentInsEmail: '',
+    //     yourEmail: '',
+    //     yourName: '',
+    //     date: '',
+    //     idCard: '',
+    //     eSig: '',
+    //     newAgentName: '',
+    //     newAgentCompany: '',
+    //     newAgentEmail: '',
+    //     newNumber: '',
+    //   })
+    // )
 
     window.location.href = '/?sent=true'
-
-    // const templateParams = {
-    //   currentIns,
-    //   currentNumber,
-    //   currentInsEmail,
-    //   yourEmail,
-    //   date,
-    //   idCard,
-    //   eSig,
-    //   newAgentName,
-    //   newAgentCompany,
-    //   newAgentEmail,
-    //   newNumber,
-    // }
-
-    // emailjs
-    //   .send(
-    //     process.env.NEXT_PUBLIC_SERVICE_ID,
-    //     process.env.NEXT_PUBLIC_CANCEL_TEMPLATE_ID,
-    //     templateParams,
-    //     process.env.NEXT_PUBLIC_EMAIL_KEY
-    //   )
-    //   .then(
-    //     async (result) => {
-    //       console.log(result.text)
-
-    //     },
-    //     (error) => {
-    //       setResponse(error.text)
-    //     }
-    //   )
   }
 
   return (

@@ -8,6 +8,7 @@ import {
   updateInsuralink,
 } from '../../store/insuralinkSlice'
 import axios from 'axios'
+import Popup from '../../Components/Popup'
 
 export default function StartYourSwitch() {
   const dispatch = useDispatch()
@@ -16,21 +17,55 @@ export default function StartYourSwitch() {
 
   const [input, setInput] = useState(insuralinkState.code)
   const [clientExists, setClientExists] = useState(false)
+  const [maxClientsReached, setMaxClientsReached] = useState(false)
 
   useEffect(() => {
     const checkCode = async () => {
       //returns the code if it finds a match in the database
       const codeMatch = await axios.get(`/api/code-match?code=${input}`)
-      if (codeMatch.data.user) {
-        setClientExists(true)
-        dispatch(updateInsuralink({ code: input }))
+
+      const company = codeMatch.data.user || null
+
+      if (company && company.code) {
+        //check to see if the company has reached their max clients for their plan
+        const maxClients =
+          company.priceID == process.env.NEXT_PUBLIC_STARTER_PLAN
+            ? 100
+            : company.priceID == process.env.NEXT_PUBLIC_PRO_PLAN
+            ? 500
+            : 0
+        if (company.clients.length == maxClients) {
+          setMaxClientsReached(true)
+        } else {
+          setClientExists(true)
+          dispatch(updateInsuralink({ code: input }))
+        }
       } else setClientExists(false)
     }
     checkCode()
   }, [input])
 
+  const closePopup = () => {
+    setMaxClientsReached(false)
+    setInput('')
+    dispatch(
+      updateInsuralink({
+        code: '',
+      })
+    )
+  }
+
   return (
     <Layout>
+      <Popup
+        question='Your insurance company has reached the maximum amount of clients for their plan. Let them know so you can start your insurance switch.'
+        desc=''
+        no='Close'
+        cancel={closePopup}
+        openPopup={maxClientsReached}
+        color='blue'
+        renew={true}
+      />
       <main className={styles.switch}>
         <p className={styles.switch__number}>
           <span>01</span> of 10
