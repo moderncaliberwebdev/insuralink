@@ -1,9 +1,9 @@
 // /api/client/new-client
 
-import sgMail from '@sendgrid/mail'
 import { createRouter } from 'next-connect'
 import cors from 'cors'
 import clientPromise from '../../../utils/db'
+import sgMail from '@sendgrid/mail'
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
@@ -35,7 +35,7 @@ router.post(async (req, res) => {
       currentDate,
     } = req.body
 
-    const user = await users.updateOne(
+    const user = await users.findOneAndUpdate(
       { code },
       {
         $push: {
@@ -58,19 +58,17 @@ router.post(async (req, res) => {
       }
     )
 
-    const company = await users.findOne({ code })
-
     if (user) {
       //notification to new insurance company
       const msg = {
-        to: company.email,
+        to: user.email,
         from: {
           name: 'PolicySwitch',
           email: 'support@policyswitch.co',
         },
         templateId: 'd-5f51b25ff2c9470abbe9c8daa95cdde5',
         dynamic_template_data: {
-          name: company.name,
+          name: user.name,
           clientName: yourName,
           currentIns: currentIns[0],
           currentInsEmail,
@@ -132,16 +130,16 @@ router.post(async (req, res) => {
 
       //send max customers email if the company hits 90% capacity
       const maxClients =
-        company.priceID == process.env.STARTER_PLAN
+        user.priceID == process.env.STARTER_PLAN
           ? 100
-          : company.priceID == process.env.PRO_PLAN
+          : user.priceID == process.env.PRO_PLAN
           ? 500
           : 0
       console.log('max clients >>> ', maxClients)
 
-      if (maxClients > 0 && company.clients.length >= maxClients * 0.9) {
+      if (maxClients > 0 && user.clients.length >= maxClients * 0.9) {
         const maxMsg = {
-          to: company.email,
+          to: user.email,
           from: {
             name: 'PolicySwitch',
             email: 'support@policyswitch.co',

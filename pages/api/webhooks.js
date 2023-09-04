@@ -5,7 +5,10 @@ import cors from 'cors'
 import clientPromise from '../../utils/db'
 import { buffer } from 'micro'
 import { Stripe } from 'stripe'
-import { log } from 'console'
+import sgMail from '@sendgrid/mail'
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_TEST_KEY)
 
 const router = createRouter()
@@ -87,7 +90,7 @@ router.post(async (req, res) => {
         const db = client.db('insuralink')
         const users = db.collection('users')
 
-        const user = await users.updateOne(
+        const user = await users.findOneAndUpdate(
           { email: customer.metadata.uid },
           {
             $set: {
@@ -98,6 +101,39 @@ router.post(async (req, res) => {
             },
           }
         )
+
+        if (user) {
+          //notification to new insurance company
+          const msg = {
+            to: user.email,
+            from: {
+              name: 'PolicySwitch',
+              email: 'support@policyswitch.co',
+            },
+            templateId: 'd-cbcf447ee54c4ef48ee116f8219394dd',
+            dynamic_template_data: {
+              name: user.name,
+              clientName: yourName,
+              currentIns: currentIns[0],
+              currentInsEmail,
+              yourEmail: yourEmail,
+            },
+          }
+          //ES8
+          const sendSGMail = async () => {
+            try {
+              await sgMail.send(msg)
+            } catch (error) {
+              console.error(error)
+
+              if (error.response) {
+                console.error(error.response.body)
+              }
+            }
+          }
+          sendSGMail()
+        }
+
         res.json({ user })
       } catch (e) {
         console.error(e)

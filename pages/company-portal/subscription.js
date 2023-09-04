@@ -148,6 +148,13 @@ export default function Subscription() {
       headers: { Authorization: `Bearer ${currentUser.accessToken}` },
     }
 
+    const unsubEmail = await axios.post(
+      `/api/client/unsub-email=${user.email}`,
+      config
+    )
+
+    console.log(unsubEmail)
+
     window.location.href = '/company-portal/subscription?upgrade=true'
   }
 

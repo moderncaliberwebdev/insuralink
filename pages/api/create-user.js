@@ -3,6 +3,9 @@
 import { createRouter } from 'next-connect'
 import cors from 'cors'
 import clientPromise from '../../utils/db'
+import sgMail from '@sendgrid/mail'
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const router = createRouter()
 
@@ -16,6 +19,35 @@ router.post(async (req, res) => {
     const users = db.collection('users')
 
     const newUser = await users.insertOne(req.body)
+
+    // welcome email
+    if (newUser) {
+      const msg = {
+        to: req.body.email,
+        from: {
+          name: 'PolicySwitch',
+          email: 'support@policyswitch.co',
+        },
+        templateId: 'd-3832c4ac6fa1415d8be2e4cbfdd0c6cd',
+        dynamic_template_data: {
+          code: req.body.code,
+        },
+      }
+      //ES8
+      const sendSGMail = async () => {
+        try {
+          await sgMail.send(msg)
+        } catch (error) {
+          console.error(error)
+
+          if (error.response) {
+            console.error(error.response.body)
+          }
+        }
+      }
+      sendSGMail()
+    }
+
     res.json(newUser)
   } catch (e) {
     console.error(e)
