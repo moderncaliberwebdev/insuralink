@@ -103,20 +103,21 @@ router.post(async (req, res) => {
         )
 
         if (user) {
-          //notification to new insurance company
+          //cancellation email
+          const todaysDate = new Date()
+
           const msg = {
-            to: user.email,
+            to: user.value.email,
             from: {
               name: 'PolicySwitch',
               email: 'support@policyswitch.co',
             },
             templateId: 'd-cbcf447ee54c4ef48ee116f8219394dd',
             dynamic_template_data: {
-              name: user.name,
-              clientName: yourName,
-              currentIns: currentIns[0],
-              currentInsEmail,
-              yourEmail: yourEmail,
+              name: user.value.name,
+              date: `${todaysDate.toLocaleString('en-US', {
+                month: 'long',
+              })} ${todaysDate.getDate()}, ${todaysDate.getFullYear()} `,
             },
           }
           //ES8
@@ -146,9 +147,6 @@ router.post(async (req, res) => {
     default:
       console.log(`Unhandled event type ${event.type}`)
   }
-
-  // Return a response to acknowledge receipt of the event
-  res.json({ received: true })
 })
 // this will run if none of the above matches
 router.all((req, res) => {

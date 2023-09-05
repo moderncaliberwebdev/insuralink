@@ -58,17 +58,19 @@ router.post(async (req, res) => {
       }
     )
 
+    console.log('user >>>> ', user)
+
     if (user) {
       //notification to new insurance company
       const msg = {
-        to: user.email,
+        to: user.value.email,
         from: {
           name: 'PolicySwitch',
           email: 'support@policyswitch.co',
         },
         templateId: 'd-5f51b25ff2c9470abbe9c8daa95cdde5',
         dynamic_template_data: {
-          name: user.name,
+          name: user.value.name,
           clientName: yourName,
           currentIns: currentIns[0],
           currentInsEmail,
@@ -130,16 +132,16 @@ router.post(async (req, res) => {
 
       //send max customers email if the company hits 90% capacity
       const maxClients =
-        user.priceID == process.env.STARTER_PLAN
+        user.value.priceID == process.env.NEXT_PUBLIC_STARTER_PLAN
           ? 100
-          : user.priceID == process.env.PRO_PLAN
+          : user.value.priceID == process.env.NEXT_PUBLIC_PRO_PLAN
           ? 500
           : 0
       console.log('max clients >>> ', maxClients)
 
-      if (maxClients > 0 && user.clients.length >= maxClients * 0.9) {
+      if (maxClients > 0 && user.value.clients.length >= maxClients * 0.9) {
         const maxMsg = {
-          to: user.email,
+          to: user.value.email,
           from: {
             name: 'PolicySwitch',
             email: 'support@policyswitch.co',
@@ -163,6 +165,34 @@ router.post(async (req, res) => {
         }
         maxSendSGMail()
       }
+
+      // schedule email on day the policy is supposed to be cancelled
+      // const confirmMsg = {
+      //   to: currentInsEmail,
+      //   from: {
+      //     name: 'PolicySwitch',
+      //     email: 'support@policyswitch.co',
+      //   },
+      //   templateId: 'd-7503b46589b64ff1b08fa94a2b4a7207',
+      //   dynamic_template_data: {
+      //     yourEmail,
+      //     yourName,
+      //   },
+      //   send_at: 1693921956,
+      // }
+
+      // const confirmSGMail = async () => {
+      //   try {
+      //     await sgMail.send(confirmMsg)
+      //   } catch (error) {
+      //     console.error(error)
+
+      //     if (error.response) {
+      //       console.error(error.response.body)
+      //     }
+      //   }
+      // }
+      // confirmSGMail()
     }
 
     console.log(user)
