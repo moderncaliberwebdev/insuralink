@@ -7,8 +7,9 @@ export default function WhoWeAre() {
   return (
     <Layout>
       <main className={styles.confirm}>
-        <h1>Confirm That Your Old Insurance Policy Was Cancelled</h1>
-        <button>It Was Cancelled</button>
+        <h1>
+          Thank you for confirming the status of your insurance policy with us!
+        </h1>
       </main>
     </Layout>
   )

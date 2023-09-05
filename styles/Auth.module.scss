@@ -1,0 +1,42 @@
+@import 'variables';
+@import 'mixins';
+
+.auth {
+  &__resetPassword {
+    display: block;
+    margin: 5rem auto;
+    padding: 4rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    width: 40rem;
+
+    h2 {
+      font-size: $font-big-text;
+    }
+    p {
+      font-size: $font-text;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: $font-small;
+      border-style: none;
+      border-bottom: 1px solid #b1b1b1;
+      margin: 1rem 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      background-color: $primary;
+      padding: 1rem 2rem;
+      color: #fff;
+      border-radius: 15px;
+      border-style: none;
+      font-size: $font-text;
+      cursor: pointer;
+    }
+  }
+}
