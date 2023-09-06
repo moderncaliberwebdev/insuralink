@@ -2,20 +2,30 @@
 @import 'mixins';
 
 .auth {
-  &__resetPassword {
+  &__item {
     display: block;
     margin: 5rem auto;
     padding: 4rem;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
-    width: 40rem;
+    max-width: 40rem;
+    width: 90%;
 
     h2 {
       font-size: $font-big-text;
     }
     p {
       font-size: $font-text;
+      margin: 0.5rem 0;
     }
+
+    span {
+      color: red;
+      font-size: $font-small;
+      display: block;
+      margin: 0.5rem 0;
+    }
+
     input {
       width: 100%;
       padding: 0.5rem;

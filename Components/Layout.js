@@ -23,7 +23,6 @@ export default function Layout({ children }) {
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid
         setCurrentUser(user)
-        // ...
       } else {
         // User is signed out
         // ...

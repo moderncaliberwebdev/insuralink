@@ -4,8 +4,10 @@ import { createRouter } from 'next-connect'
 import cors from 'cors'
 import clientPromise from '../../../utils/db'
 import sgMail from '@sendgrid/mail'
+import client from '@sendgrid/client'
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+client.setApiKey(process.env.SENDGRID_API_KEY)
 
 const router = createRouter()
 
@@ -167,32 +169,27 @@ router.post(async (req, res) => {
       }
 
       // schedule email on day the policy is supposed to be cancelled
-      // const confirmMsg = {
-      //   to: currentInsEmail,
-      //   from: {
-      //     name: 'PolicySwitch',
-      //     email: 'support@policyswitch.co',
-      //   },
-      //   templateId: 'd-7503b46589b64ff1b08fa94a2b4a7207',
-      //   dynamic_template_data: {
-      //     yourEmail,
-      //     yourName,
-      //   },
-      //   send_at: 1693921956,
+
+      // const campaign_id = 4900
+      // const data = {
+      //   send_at: 1489771528,
       // }
 
-      // const confirmSGMail = async () => {
-      //   try {
-      //     await sgMail.send(confirmMsg)
-      //   } catch (error) {
+      // const request = {
+      //   url: `/v3/campaigns/${campaign_id}/schedules`,
+      //   method: 'POST',
+      //   body: data,
+      // }
+
+      // client
+      //   .request(request)
+      //   .then(([response, body]) => {
+      //     console.log(response.statusCode)
+      //     console.log(response.body)
+      //   })
+      //   .catch((error) => {
       //     console.error(error)
-
-      //     if (error.response) {
-      //       console.error(error.response.body)
-      //     }
-      //   }
-      // }
-      // confirmSGMail()
+      //   })
     }
 
     console.log(user)
