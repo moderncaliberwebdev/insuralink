@@ -4,10 +4,10 @@ import { createRouter } from 'next-connect'
 import cors from 'cors'
 import clientPromise from '../../../utils/db'
 import sgMail from '@sendgrid/mail'
-import client from '@sendgrid/client'
+import sendgridClient from '@sendgrid/client'
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-client.setApiKey(process.env.SENDGRID_API_KEY)
+sendgridClient.setApiKey(process.env.SENDGRID_API_KEY)
 
 const router = createRouter()
 
@@ -59,8 +59,6 @@ router.post(async (req, res) => {
         },
       }
     )
-
-    console.log('user >>>> ', user)
 
     if (user) {
       //notification to new insurance company
@@ -139,7 +137,6 @@ router.post(async (req, res) => {
           : user.value.priceID == process.env.NEXT_PUBLIC_PRO_PLAN
           ? 500
           : 0
-      console.log('max clients >>> ', maxClients)
 
       if (maxClients > 0 && user.value.clients.length >= maxClients * 0.9) {
         const maxMsg = {
@@ -170,29 +167,80 @@ router.post(async (req, res) => {
 
       // schedule email on day the policy is supposed to be cancelled
 
-      // const campaign_id = 4900
+      // //create list
+      // const listData = {
+      //   name: yourName.split(' ')[0] + yourName.split(' ')[1] + currentNumber,
+      // }
+
+      // const listRequest = {
+      //   url: `/v3/marketing/lists`,
+      //   method: 'POST',
+      //   body: listData,
+      // }
+      // const listResponse = await sendgridClient.request(listRequest)
+
+      // console.log('list response >>> ', listResponse[0].body)
+
+      // const listId = listResponse[0].body.id
+      // console.log(' list id >>> ', listResponse[0].body.id)
+
+      // //create contact and add to list
+      // const contactData = {
+      //   contacts: [
+      //     {
+      //       email: yourEmail,
+      //     },
+      //   ],
+      //   list_ids: [listId],
+      // }
+
+      // const contactRequest = {
+      //   url: `/v3/marketing/contacts`,
+      //   method: 'PUT',
+      //   body: contactData,
+      // }
+      // const contactResponse = await sendgridClient.request(contactRequest)
+
+      // console.log('contact response >>>> ', contactResponse[0].body)
+
+      // //duplicate single send
+
+      // const duplicateData = {
+      //   name: `${yourName} ${currentNumber}`,
+      // }
+
+      // const duplicateRequest = {
+      //   url: `/v3/marketing/singlesends/d158297e-519c-11ee-aa44-56282a5000f6`,
+      //   method: 'POST',
+      //   body: duplicateData,
+      // }
+
+      // const duplicateResponse = await sendgridClient.request(duplicateRequest)
+
+      // console.log(
+      //   ' duplicate send response >>>> ',
+      //   duplicateResponse[0].body.id
+      // )
+
+      // const newSingleSendId = duplicateResponse[0].body.id
+
+      // //schedule send
       // const data = {
-      //   send_at: 1489771528,
+      //   send_at: 'now',
+      //   send_to: { list_ids: [listId] },
       // }
 
       // const request = {
-      //   url: `/v3/campaigns/${campaign_id}/schedules`,
-      //   method: 'POST',
+      //   url: `/v3/marketing/singlesends/${newSingleSendId}/schedule`,
+      //   method: 'PUT',
       //   body: data,
       // }
 
-      // client
-      //   .request(request)
-      //   .then(([response, body]) => {
-      //     console.log(response.statusCode)
-      //     console.log(response.body)
-      //   })
-      //   .catch((error) => {
-      //     console.error(error)
-      //   })
+      // const singleSendResponse = await sendgridClient.request(request)
+
+      // console.log('single send response >>>>', singleSendResponse[0].body)
     }
 
-    console.log(user)
     res.json({ user })
   } catch (e) {
     console.error(e)
