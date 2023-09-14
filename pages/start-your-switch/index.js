@@ -84,6 +84,11 @@ export default function StartYourSwitch() {
               <input
                 type='text'
                 onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (clientExists && e.key === 'Enter')
+                    window.location.href =
+                      '/start-your-switch/current-insurance'
+                }}
                 value={input}
               />
             </div>

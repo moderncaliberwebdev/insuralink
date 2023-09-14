@@ -109,6 +109,14 @@ export default function CurrentInsurance() {
                   <input
                     type='text'
                     onChange={(e) => onInputChange(e)}
+                    onKeyDown={(e) => {
+                      if (
+                        input.length > 0 ||
+                        (currentIns.length > 0 && e.key === 'Enter')
+                      )
+                        window.location.href =
+                          '/start-your-switch/current-number'
+                    }}
                     value={input}
                   />
                 </div>

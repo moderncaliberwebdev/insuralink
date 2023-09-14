@@ -66,6 +66,15 @@ export default function NewInsurance() {
                   <input
                     type='text'
                     onChange={(e) => setAgentName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (
+                        agentName.length > 0 &&
+                        agentCompany.length > 0 &&
+                        agentEmail.length > 0 &&
+                        e.key === 'Enter'
+                      )
+                        window.location.href = '/start-your-switch/new-number'
+                    }}
                     value={agentName}
                     id='agentName'
                   />
@@ -75,6 +84,15 @@ export default function NewInsurance() {
                   <input
                     type='text'
                     onChange={(e) => setAgentCompany(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (
+                        agentName.length > 0 &&
+                        agentCompany.length > 0 &&
+                        agentEmail.length > 0 &&
+                        e.key === 'Enter'
+                      )
+                        window.location.href = '/start-your-switch/new-number'
+                    }}
                     value={agentCompany}
                     id='agentCompany'
                   />
@@ -84,6 +102,15 @@ export default function NewInsurance() {
                   <input
                     type='text'
                     onChange={(e) => setAgentEmail(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (
+                        agentName.length > 0 &&
+                        agentCompany.length > 0 &&
+                        agentEmail.length > 0 &&
+                        e.key === 'Enter'
+                      )
+                        window.location.href = '/start-your-switch/new-number'
+                    }}
                     value={agentEmail}
                     id='agentEmail'
                   />

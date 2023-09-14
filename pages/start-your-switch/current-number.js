@@ -57,6 +57,11 @@ export default function CurrentNumber() {
                   <input
                     type='text'
                     onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (input.length > 0 && e.key === 'Enter')
+                        window.location.href =
+                          '/start-your-switch/current-insurance-email'
+                    }}
                     value={input}
                   />
                 </div>

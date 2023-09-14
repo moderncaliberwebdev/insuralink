@@ -58,6 +58,10 @@ export default function NewNumber() {
                   <input
                     type='text'
                     onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (input.length > 0 && e.key === 'Enter')
+                        window.location.href = '/start-your-switch/send'
+                    }}
                     value={input}
                   />
                 </div>

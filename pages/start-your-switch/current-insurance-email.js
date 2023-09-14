@@ -57,6 +57,10 @@ export default function CurrentEmail() {
                   <input
                     type='text'
                     onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (input.length > 0 && e.key === 'Enter')
+                        window.location.href = '/start-your-switch/your-email'
+                    }}
                     value={input}
                   />
                 </div>

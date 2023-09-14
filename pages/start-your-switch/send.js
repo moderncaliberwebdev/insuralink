@@ -63,24 +63,24 @@ export default function Send() {
       currentDate: new Date().getTime(),
     })
 
-    dispatch(
-      updateInsuralink({
-        currentIns: [],
-        currentNumber: '',
-        currentInsEmail: '',
-        yourEmail: '',
-        yourName: '',
-        date: '',
-        idCard: '',
-        eSig: '',
-        newAgentName: '',
-        newAgentCompany: '',
-        newAgentEmail: '',
-        newNumber: '',
-      })
-    )
+    // dispatch(
+    //   updateInsuralink({
+    //     currentIns: [],
+    //     currentNumber: '',
+    //     currentInsEmail: '',
+    //     yourEmail: '',
+    //     yourName: '',
+    //     date: '',
+    //     idCard: '',
+    //     eSig: '',
+    //     newAgentName: '',
+    //     newAgentCompany: '',
+    //     newAgentEmail: '',
+    //     newNumber: '',
+    //   })
+    // )
 
-    window.location.href = '/?sent=true'
+    // window.location.href = '/?sent=true'
   }
 
   return (

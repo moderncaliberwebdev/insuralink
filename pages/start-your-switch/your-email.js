@@ -61,6 +61,14 @@ export default function YourEmail() {
                   <input
                     type='text'
                     onChange={(e) => setNameInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (
+                        input.length > 0 &&
+                        nameInput.length > 0 &&
+                        e.key === 'Enter'
+                      )
+                        window.location.href = '/start-your-switch/date'
+                    }}
                     value={nameInput}
                     id='nameInput'
                   />
@@ -70,13 +78,21 @@ export default function YourEmail() {
                   <input
                     type='text'
                     onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (
+                        input.length > 0 &&
+                        nameInput.length > 0 &&
+                        e.key === 'Enter'
+                      )
+                        window.location.href = '/start-your-switch/date'
+                    }}
                     value={input}
                     id='emailInput'
                   />
                 </div>
               </div>
             </div>
-            {input.length > 0 && (
+            {input.length > 0 && nameInput.length > 0 && (
               <Link href='/start-your-switch/date'>Next</Link>
             )}
           </main>
