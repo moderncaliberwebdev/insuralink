@@ -24,6 +24,7 @@ export default function Subscription() {
 
   const [currentUser, setCurrentUser] = useState()
   const [userFromDB, setUserFromDB] = useState()
+  const [clientsThisMonth, setClientsThisMonth] = useState(0)
   const [loading, setLoading] = useState(true)
   const [subscriptionInfo, setSubscriptionInfo] = useState()
   const [productInfo, setProductInfo] = useState()
@@ -99,6 +100,22 @@ export default function Subscription() {
       }
     })
   }, [auth, router.isReady])
+
+  useEffect(() => {
+    //calculate max clients allowed
+    let clientsCount = 0
+    const thisMonth = new Date().getMonth() + 1
+
+    userFromDB &&
+      userFromDB.clients.forEach((client) => {
+        const clientMonth = new Date(client.currentDate).getMonth() + 1
+
+        if (clientMonth == thisMonth) {
+          clientsCount += 1
+        }
+      })
+    setClientsThisMonth(clientsCount)
+  }, [userFromDB])
 
   const closePopup = () => {
     setOpenPopup(false)
@@ -269,7 +286,7 @@ export default function Subscription() {
                     <div>
                       <p>Current Clients</p>
                       <p>
-                        {userFromDB.clients.length}/
+                        {clientsThisMonth}/
                         {subscriptionInfo.items.data[0].price.nickname ==
                         'Premium Plan'
                           ? '500+'
@@ -280,7 +297,7 @@ export default function Subscription() {
                       </p>
                     </div>
                     <ProgressBar
-                      completed={userFromDB.clients.length}
+                      completed={clientsThisMonth}
                       maxCompleted={
                         subscriptionInfo.items.data[0].price.nickname ==
                         'Premium Plan'

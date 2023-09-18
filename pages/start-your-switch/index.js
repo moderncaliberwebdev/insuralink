@@ -34,7 +34,19 @@ export default function StartYourSwitch() {
             : company.priceID == process.env.NEXT_PUBLIC_PRO_PLAN
             ? 500
             : 0
-        if (company.clients.length == maxClients) {
+
+        //calculate max clients allowed
+        let clientsThisMonth = 0
+        const thisMonth = new Date().getMonth() + 1
+
+        company.clients.forEach((client) => {
+          const clientMonth = new Date(client.currentDate).getMonth() + 1
+
+          if (clientMonth == thisMonth) {
+            clientsThisMonth += 1
+          }
+        })
+        if (clientsThisMonth >= maxClients) {
           setMaxClientsReached(true)
         } else {
           setClientExists(true)

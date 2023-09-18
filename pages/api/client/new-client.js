@@ -72,7 +72,7 @@ router.post(async (req, res) => {
     )
 
     if (user) {
-      //notification to new insurance company
+      // notification to new insurance company
       const msg = {
         to: user.value.email,
         from: {
@@ -140,7 +140,7 @@ router.post(async (req, res) => {
 
           try {
             const data = await s3.send(new DeleteObjectCommand(bucketParams))
-            console.log('Success. Object deleted.', data)
+
             return data // For unit tests.
           } catch (err) {
             console.log('Error', err)
@@ -163,7 +163,18 @@ router.post(async (req, res) => {
           ? 500
           : 0
 
-      if (maxClients > 0 && user.value.clients.length >= maxClients * 0.9) {
+      let clientsThisMonth = 0
+      const thisMonth = new Date().getMonth() + 1
+
+      user.value.clients.forEach((client) => {
+        const clientMonth = new Date(client.currentDate).getMonth() + 1
+
+        if (clientMonth == thisMonth) {
+          clientsThisMonth += 1
+        }
+      })
+
+      if (maxClients > 0 && clientsThisMonth >= maxClients * 0.9) {
         const maxMsg = {
           to: user.value.email,
           from: {
@@ -172,7 +183,7 @@ router.post(async (req, res) => {
           },
           templateId: 'd-65f9c1d33fc848cf9e82297d778f5997',
           dynamic_template_data: {
-            name: company.name,
+            name: user.value.name,
           },
         }
 
@@ -204,10 +215,7 @@ router.post(async (req, res) => {
       }
       const listResponse = await sendgridClient.request(listRequest)
 
-      console.log('list response >>> ', listResponse[0].body)
-
       const listId = listResponse[0].body.id
-      console.log(' list id >>> ', listResponse[0].body.id)
 
       //create contact and add to list
       const contactData = {
@@ -226,8 +234,6 @@ router.post(async (req, res) => {
       }
       const contactResponse = await sendgridClient.request(contactRequest)
 
-      console.log('contact response >>>> ', contactResponse[0].body)
-
       //duplicate single send
 
       const duplicateData = {
@@ -242,28 +248,30 @@ router.post(async (req, res) => {
 
       const duplicateResponse = await sendgridClient.request(duplicateRequest)
 
-      console.log(
-        ' duplicate send response >>>> ',
-        duplicateResponse[0].body.id
-      )
-
       const newSingleSendId = duplicateResponse[0].body.id
 
-      //schedule send
+      //update send with info
       const data = {
-        send_at: 'now',
+        name: duplicateData.name,
+        send_at: date,
         send_to: { list_ids: [listId] },
       }
 
       const request = {
-        url: `/v3/marketing/singlesends/${newSingleSendId}/schedule`,
-        method: 'PUT',
+        url: `/v3/marketing/singlesends/${newSingleSendId}`,
+        method: 'PATCH',
         body: data,
       }
 
-      const singleSendResponse = await sendgridClient.request(request)
+      const updateResponse = await sendgridClient.request(request)
 
-      console.log('single send response >>>>', singleSendResponse[0].body)
+      const scheduleRequest = {
+        url: `/v3/marketing/singlesends/${updateResponse[0].body.id}/schedule`,
+        method: 'PUT',
+        body: { send_at: date },
+      }
+
+      const scheduleResponse = await sendgridClient.request(scheduleRequest)
     }
 
     res.json({ user })
