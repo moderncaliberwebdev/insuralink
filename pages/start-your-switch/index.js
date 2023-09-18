@@ -46,6 +46,7 @@ export default function StartYourSwitch() {
             clientsThisMonth += 1
           }
         })
+
         if (clientsThisMonth >= maxClients) {
           setMaxClientsReached(true)
         } else {

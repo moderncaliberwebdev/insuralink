@@ -284,7 +284,7 @@ export default function Subscription() {
                     className={styles.subscription__right__info__plan__bottom}
                   >
                     <div>
-                      <p>Current Clients</p>
+                      <p>Clients This Month</p>
                       <p>
                         {clientsThisMonth}/
                         {subscriptionInfo.items.data[0].price.nickname ==
