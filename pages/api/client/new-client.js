@@ -39,7 +39,7 @@ router.post(async (req, res) => {
       yourEmail,
       yourName,
       date,
-      idCard,
+      // idCard,
       eSig,
       newAgentName,
       newAgentCompany,
@@ -59,7 +59,7 @@ router.post(async (req, res) => {
             yourEmail,
             yourName,
             date,
-            idCard,
+            // idCard,
             eSig,
             newAgentName,
             newAgentCompany,
@@ -118,7 +118,7 @@ router.post(async (req, res) => {
           yourEmail,
           yourName,
           date,
-          idCard,
+          // idCard,
           eSig,
           newAgentName,
           newAgentCompany,
@@ -133,18 +133,18 @@ router.post(async (req, res) => {
           await sgMail.send(requestMsg)
 
           //remove id card from S3 for security
-          const bucketParams = {
-            Bucket: 'insuralink',
-            Key: idCard.split('amazonaws.com/')[1],
-          }
+          // const bucketParams = {
+          //   Bucket: 'insuralink',
+          //   Key: idCard.split('amazonaws.com/')[1],
+          // }
 
-          try {
-            const data = await s3.send(new DeleteObjectCommand(bucketParams))
+          // try {
+          //   const data = await s3.send(new DeleteObjectCommand(bucketParams))
 
-            return data // For unit tests.
-          } catch (err) {
-            console.log('Error', err)
-          }
+          //   return data // For unit tests.
+          // } catch (err) {
+          //   console.log('Error', err)
+          // }
         } catch (error) {
           console.error(error)
 

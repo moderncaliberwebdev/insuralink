@@ -42,7 +42,7 @@ export default function NewNumber() {
           </Link>
           <main className={styles.switch}>
             <p className={styles.switch__number}>
-              <span>10</span> of 10
+              <span>09</span> of 09
             </p>
             <div className={styles.switch__main}>
               <div className={styles.switch__main__question}>

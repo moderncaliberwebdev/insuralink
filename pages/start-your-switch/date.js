@@ -55,7 +55,7 @@ export default function SwitchDate() {
           </Link>
           <main className={styles.switch}>
             <p className={styles.switch__number}>
-              <span>06</span> of 10
+              <span>06</span> of 09
             </p>
             <div className={styles.switch__main}>
               <div className={styles.switch__main__question}>
@@ -86,7 +86,9 @@ export default function SwitchDate() {
                 </div>
               </div>
             </div>
-            {selected && <Link href='/start-your-switch/id-card'>Next</Link>}
+            {selected && (
+              <Link href='/start-your-switch/e-signature'>Next</Link>
+            )}
           </main>
         </>
       ) : (

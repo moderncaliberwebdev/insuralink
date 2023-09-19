@@ -38,7 +38,7 @@ export default function Send() {
       yourEmail,
       yourName,
       date,
-      idCard,
+      // idCard,
       eSig,
       newAgentName,
       newAgentCompany,
@@ -54,7 +54,7 @@ export default function Send() {
       yourEmail,
       yourName,
       date,
-      idCard: `https://insuralink.s3.amazonaws.com/${idCard}`,
+      // idCard: `https://insuralink.s3.amazonaws.com/${idCard}`,
       eSig,
       newAgentName,
       newAgentCompany,
@@ -144,14 +144,14 @@ export default function Send() {
                   )}
                 </p>
               </div>
-              <div className={styles.switch__items__item}>
+              {/* <div className={styles.switch__items__item}>
                 <Link href='/start-your-switch/id-card'>Identification: </Link>
                 <img
                   src={`https://insuralink.s3.amazonaws.com/${insuralinkState.idCard}`}
                   alt='preview '
                   id='awsImg'
                 />
-              </div>
+              </div> */}
               <div className={styles.switch__items__item}>
                 <Link href='/start-your-switch/e-signature'>E-Signature: </Link>
                 <img src={insuralinkState.eSig} />
