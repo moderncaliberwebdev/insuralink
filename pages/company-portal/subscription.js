@@ -79,11 +79,11 @@ export default function Subscription() {
           })
           setInvoices(invoices.data)
 
-          const upcomingInvoice = subscription.cancel_at
-            ? {}
-            : await stripe.invoices.retrieveUpcoming({
-                customer: subscription.customer,
-              })
+          const upcomingInvoice = await stripe.invoices.retrieveUpcoming({
+            customer: subscription.customer,
+          })
+
+          console.log(upcomingInvoice)
 
           setUpcomingInvoiceDetails(upcomingInvoice)
 
@@ -323,11 +323,9 @@ export default function Subscription() {
                       <p>{subscriptionInfo.items.data[0].price.nickname}</p>
                       <span>
                         $
-                        {cancelled
-                          ? 0
-                          : (upcomingInvoiceDetails.amount_due / 100)
-                              .toString()
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        {(upcomingInvoiceDetails.amount_due / 100)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       </span>
                     </div>
                   </section>
@@ -338,11 +336,9 @@ export default function Subscription() {
                       <p>Estimated Total</p>
                       <p>
                         $
-                        {cancelled
-                          ? 0
-                          : (upcomingInvoiceDetails.amount_due / 100)
-                              .toString()
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        {(upcomingInvoiceDetails.amount_due / 100)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       </p>
                     </div>
                     <span>
