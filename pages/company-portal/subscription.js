@@ -79,9 +79,11 @@ export default function Subscription() {
           })
           setInvoices(invoices.data)
 
-          const upcomingInvoice = await stripe.invoices.retrieveUpcoming({
-            customer: subscription.customer,
-          })
+          const upcomingInvoice = subscription.cancel_at
+            ? {}
+            : await stripe.invoices.retrieveUpcoming({
+                customer: subscription.customer,
+              })
 
           setUpcomingInvoiceDetails(upcomingInvoice)
 
@@ -164,13 +166,6 @@ export default function Subscription() {
     const config = {
       headers: { Authorization: `Bearer ${currentUser.accessToken}` },
     }
-
-    const unsubEmail = await axios.post(
-      `/api/client/unsub-email=${user.email}`,
-      config
-    )
-
-    console.log(unsubEmail)
 
     window.location.href = '/company-portal/subscription?upgrade=true'
   }
