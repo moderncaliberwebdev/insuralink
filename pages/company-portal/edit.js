@@ -40,6 +40,7 @@ export default function Settings() {
   const [password, setPassword] = useState('')
   const [requirePassword, setRequirePassword] = useState(false)
   const [saveButtonText, setSaveButtonText] = useState('Save Changes')
+  const [firebaseError, setFirebaseError] = useState('')
 
   useEffect(() => {
     if (router.isReady) {
@@ -100,6 +101,7 @@ export default function Settings() {
   const saveProfile = () => {
     const oldEmail = currentUser.email
     setSaveButtonText('Loading...')
+    setFirebaseError('')
 
     //function to update profile after email has been updated
     const updateInfo = () => {
@@ -128,6 +130,7 @@ export default function Settings() {
         })
         .catch((error) => {
           console.error(error)
+
           setSaveButtonText('Save Changes')
         })
     }
@@ -149,6 +152,8 @@ export default function Settings() {
               setSaveButtonText('Save Changes')
               console.log('email error')
               console.log(error)
+              setFirebaseError(error.toString().split('Firebase: Error')[1])
+              setRequirePassword(false)
             })
         })
         .catch((error) => {
@@ -224,6 +229,11 @@ export default function Settings() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
+                {firebaseError && (
+                  <div className={styles.edit__right__settings__item}>
+                    <label>{firebaseError}</label>
+                  </div>
+                )}
                 {requirePassword && (
                   <div className={styles.edit__right__settings__item}>
                     <label>
