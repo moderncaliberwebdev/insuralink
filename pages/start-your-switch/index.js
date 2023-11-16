@@ -26,7 +26,7 @@ export default function StartYourSwitch() {
 
       const company = codeMatch.data.user || null
 
-      if (company && company.code) {
+      if (company && company.code && company.subscribed == true) {
         //check to see if the company has reached their max clients for their plan
         const maxClients =
           company.priceID == process.env.NEXT_PUBLIC_STARTER_PLAN
@@ -47,10 +47,8 @@ export default function StartYourSwitch() {
           }
         })
 
-        if (clientsThisMonth >= maxClients) {
-          // setMaxClientsReached(true)
-          setClientExists(true)
-          dispatch(updateInsuralink({ code: input }))
+        if (maxClients != 0 && clientsThisMonth >= maxClients) {
+          setMaxClientsReached(true)
         } else {
           setClientExists(true)
           dispatch(updateInsuralink({ code: input }))
