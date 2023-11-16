@@ -48,10 +48,10 @@ export default function StartYourSwitch() {
         })
 
         if (clientsThisMonth >= maxClients) {
-          setMaxClientsReached(true)
-        } else {
+          // setMaxClientsReached(true)
           setClientExists(true)
           dispatch(updateInsuralink({ code: input }))
+        } else {
         }
       } else setClientExists(false)
     }
