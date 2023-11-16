@@ -52,6 +52,8 @@ export default function StartYourSwitch() {
           setClientExists(true)
           dispatch(updateInsuralink({ code: input }))
         } else {
+          setClientExists(true)
+          dispatch(updateInsuralink({ code: input }))
         }
       } else setClientExists(false)
     }
