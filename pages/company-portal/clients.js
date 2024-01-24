@@ -37,6 +37,12 @@ export default function Clients() {
         setUserFromDB(clientData.data.user)
 
         if (clientData.data.user.subscribed) {
+          // reversing client array so the most recent ones show first
+          const reversedClients = clientData.data.user.clients.slice().reverse()
+          setUserFromDB((prevState) => ({
+            ...prevState,
+            clients: reversedClients,
+          }))
         } else window.location.href = '/company-portal/plans'
       } else {
         window.location.href = '/'
@@ -129,7 +135,12 @@ export default function Clients() {
                   const unixTime = new Date(client.date).getTime()
                   const today = new Date().getTime()
                   return (
-                    <p key={client.date}>{unixTime < today ? 'Yes' : 'No'}</p>
+                    <p
+                      key={client.date}
+                      style={{ color: unixTime < today ? '#72a59c' : '#000' }}
+                    >
+                      {unixTime < today ? 'Yes' : 'No'}
+                    </p>
                   )
                 })
               ) : (
